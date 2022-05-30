@@ -15,11 +15,22 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone_number')->unique();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+
+            // User Type [
+            // 1 - Employer,
+            // 2 - Employee => ( Kawader )
+            // ]
+            // If User Type IS Employer Will Fetch Data From Employers Table
+            // If User Type IS Employee Will Fetch Data From Employees Table
+            $table->enum('user_type', ['Employer', 'Employee'])->default('Employee');
+
             $table->timestamps();
         });
     }

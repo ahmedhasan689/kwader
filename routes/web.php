@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Employer\EmployerController;
+use App\Http\Controllers\Employee\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,40 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Home.index');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+
+Route::namespace('/Employer')
+        ->prefix('/employer')
+        ->middleware(['auth'])
+        ->group(function() {
+            Route::group([
+                'prefix' => 'dashboard',
+                'as' => 'dashboard.',
+            ], function() {
+                Route::get('/', [EmployerController::class, 'index'])->name('index');
+            });
+        });
+
+Route::namespace('/Employee')
+    ->prefix('/employee')
+    ->middleware(['auth'])
+    ->group(function() {
+
+        // Start Employee Dashboard Route
+        Route::group([
+            'prefix' => 'dashboard',
+            'as' => 'dashboard.',
+        ], function() {
+            Route::get('/', [EmployeeController::class, 'index'])->name('index');
+        });
+        // End Employee Dashboard Route
+    });
+
