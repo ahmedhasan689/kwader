@@ -25,7 +25,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-
 Route::namespace('/Employer')
         ->prefix('/employer')
         ->middleware(['auth'])
@@ -35,6 +34,8 @@ Route::namespace('/Employer')
                 'as' => 'dashboard.',
             ], function() {
                 Route::get('/', [EmployerController::class, 'index'])->name('index');
+                Route::get('/account/{type}', [EmployerController::class, 'accountType'])->name('account_type');
+//                Route::get('/account/{type}', [EmployerController::class, 'accountType'])->name('account_type');
             });
         });
 

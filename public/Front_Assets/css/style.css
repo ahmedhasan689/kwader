@@ -38,7 +38,6 @@ nav .login-button{
 }
 nav .login-button:hover{
         color: #fff;
-
 }
 nav .sign-button{
     background-color: #00B398;
@@ -112,9 +111,7 @@ margin-top: 10px;
 .modal form div{
     width: 100%;
 }
-.modal form input{
-    /* width: 100%; */
-}
+
 .modal .social .google{
       border-radius: 5px;
       border: none;
@@ -257,10 +254,10 @@ h2{
     justify-content:space-between ;
 }
 .more .morebut{
-    margin:0px 0px 0px 40px; 
-    height: 40px; 
-    padding: 0px 30px; 
-    border: solid 2px #00B398; 
+    margin:0px 0px 0px 40px;
+    height: 40px;
+    padding: 0px 30px;
+    border: solid 2px #00B398;
     color: #00B398;
     background-color: transparent;
 }
@@ -317,7 +314,7 @@ width: 100px;
 }
 .how .cc-content .row{
     margin: 20px 0px;
- 
+
 }
 .how .cc-content p{
     width: 80%;
@@ -348,7 +345,7 @@ border-radius: 5px;
 width: 250px;
 padding: 0;
 margin: 0 auto;
-  
+
 }
 .brief-content .brief-content-Op li {
     text-align: center;
@@ -356,9 +353,9 @@ margin: 0 auto;
     padding: 0;
     margin: 0 auto;
     border-radius: 5px;
-    
 
-} 
+
+}
 .brief-content .brief-content-Op li .staff{
 background-color: #00B398;
 color: #fff;
@@ -535,9 +532,5 @@ color: #fff;
 margin-top: 50px;
     border-radius: 5px;
 
-}
-/* policy */
-.policy{
-    /* background-color: #898EA3; */
 }
 
