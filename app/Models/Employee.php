@@ -47,4 +47,18 @@ class Employee extends Model
     {
         return $this->belongsTo(Language::class);
     }
+
+    // Accessors For avatar
+    public function getImageAttribute()
+    {
+        if (!$this->avatar) {
+            return asset('Front_Assets/img/default_avatar.jpg');
+        }
+
+        if (stripos($this->avatar, 'http') === 0) {
+            return $this->avatar;
+        }
+
+        return asset('uploads' . '/' . $this->avatar);
+    }
 }

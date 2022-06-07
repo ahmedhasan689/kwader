@@ -18,6 +18,7 @@ class Country extends Model
      * Relation
      * With Employer ( One To Many 1-m )
      * With User ( One To Many 1-m )
+     * With Company
      */
 
     // With Employer
@@ -30,5 +31,11 @@ class Country extends Model
     public function user()
     {
         return $this->hasOne(User::class);
+    }
+
+    // With Company
+    public function company()
+    {
+        return $this->hasOne(Company::class);
     }
 }

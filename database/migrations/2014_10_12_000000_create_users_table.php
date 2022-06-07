@@ -19,9 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('phone_number')->unique();
+            $table->string('phone_number')->unique()->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
+            $table->string('oauth_id')->nullable();
+            $table->string('oauth_type')->nullable();
 
             // User Type [
             // 1 - Employer,
@@ -29,7 +31,7 @@ class CreateUsersTable extends Migration
             // ]
             // If User Type IS Employer Will Fetch Data From Employers Table
             // If User Type IS Employee Will Fetch Data From Employees Table
-            $table->enum('user_type', ['Employer', 'Employee'])->default('Employee');
+            $table->enum('user_type', ['Employer', 'Employee', 'Admin', 'Super-admin'])->default('Employee');
 
             $table->timestamps();
         });

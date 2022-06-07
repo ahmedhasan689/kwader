@@ -49,6 +49,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'visual_identity' => [
+            'driver' => 'local',
+            'root' => public_path('/visual_identity'),
+            'url' => env('APP_URL').'/visual_identity',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -59,6 +66,8 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
+
+
 
     ],
 

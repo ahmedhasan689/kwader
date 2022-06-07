@@ -5,7 +5,13 @@
 
 <body>
 
-    <x-navbar />
+    @guest
+        <x-navbar />
+    @endguest
+
+    @auth
+        <x-auth-nav />
+    @endauth
 
     @yield('content')
 

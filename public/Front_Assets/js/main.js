@@ -1,10 +1,10 @@
 
-/*$(document).ready(function(){
-        $(".click").click(function(){
-            $("#staticBackdropSign").modal('hide');
-
+$(document).ready(function(){
+        $(".accountType").click(function(){
+            $("#staticBackdropOption").modal('hide');
         });
-});*/
+});
+
 $(document).ready(function(){
         $(".loss").click(function(){
             $("#staticBackdropLogin").modal('hide');
@@ -87,14 +87,14 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(data) {
-                var user_type = data.auth.user_type;
+                var user_type = data.data.user_type;
 
                 if ( user_type == 'Employer' ) {
                     window.location.href = "/employer/dashboard";
                 }else if( user_type == 'Employee' ){
                     window.location.href = "/employee/dashboard";
                 }else{
-                    window.location.href = "/dashboard";
+                    window.location.href = "/admin/dashboard";
                 }
             },
             error: function (data) {
@@ -108,6 +108,59 @@ $(document).ready(function() {
 
     })
 })
+$(document).ready(function() {
+    $(".owner").click(function(e) {
+        e.preventDefault();
+
+        var type = $(".owner").val();
+
+        $.ajax({
+            type: 'GET',
+            url: $('.accountType').attr('href'),
+            data: {
+                type: type,
+            },
+            success: function(data) {
+                console.log(data.name);
+                $(".owner").click(function(){
+                    $("#staticBackdropOption").modal('hide');
+                });
+            },
+            error: function(data){
+                console.log(data)
+            }
+
+        })
+    });
+
+    $(".staff").click(function(e) {
+        e.preventDefault();
+
+        var user = $(".staff").val();
+
+
+        $.ajax({
+            type: 'GET',
+            url: $('#employee').attr('href'),
+            data: {
+                type: user,
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data.name);
+                $("#employee").click(function(){
+                    $("#staticBackdropOption").modal('hide');
+                    $("#staticBackdropSign").modal('show');
+                });
+            },
+            error: function(data){
+                console.log(data)
+            }
+
+        })
+    });
+})
+
 
 
 // Ajax Register Request
@@ -145,14 +198,40 @@ $(document).ready(function() {
                             $('#error_msg_register').show();
                             $('#error_msg_register').append('<p>'+value+'</p>');
                         });
-                    }else if(data.success){
-                        alert('Ok');
                     }
+
+                    if ( data.user.user_type == 'Employer' ) {
+
+                        window.location.href = '/employer/dashboard'
+                    }else if( data.user.user_type == 'Employee' ) {
+
+                        window.location.href = '/employee/dashboard'
+                    }else {
+                        window.location.href = '/employer/dashboard'
+                    }
+                    // alert(data.success)
                 },
+                error: function(data) {
+                    console.log(data);
+                }
             });
         } else {
             alert('Password');
         }
     });
 });
+
+// Send Visual Identity To Hidden Input In The Form
+$('#uploadImage').change(function() {
+    $('#image').val( $(this).val() );
+});
+
+$('.fc-datepicker').datepicker({
+    showOtherMonths: true,
+    selectOtherMonths: true
+});
+
+
+
+
 

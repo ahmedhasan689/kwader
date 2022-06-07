@@ -1,13 +1,13 @@
 @jquery
 @toastr_js
 @toastr_render
+<script src="https://kit.fontawesome.com/5427831588.js" crossorigin="anonymous"></script>
 <script src="{{ asset('Front_Assets/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://kit.fontawesome.com/5427831588.js" crossorigin="anonymous"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"
-    integrity="sha512-YSdqvJoZr83hj76AIVdOcvLWYMWzy6sJyIMic2aQz5kh2bPTd9dzY3NtdeEAzPp/PhgZqr4aJObB3ym/vsItMg=="
-    crossorigin="anonymous"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"--}}
+{{--    integrity="sha512-YSdqvJoZr83hj76AIVdOcvLWYMWzy6sJyIMic2aQz5kh2bPTd9dzY3NtdeEAzPp/PhgZqr4aJObB3ym/vsItMg=="--}}
+{{--    crossorigin="anonymous"></script>--}}
 <!-- Optional JavaScript; choose one of the two! -->
 
 <!-- Option 1: Bootstrap Bundle with Popper -->

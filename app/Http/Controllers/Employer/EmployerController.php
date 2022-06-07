@@ -7,20 +7,21 @@ use App\Models\Employee;
 use App\Models\Employer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class EmployerController extends Controller
 {
-    /**
-     * @var \App\Models\User;
-     */
-    protected $user;
+
+    /*protected $user;
 
     public function __construct(User $user)
     {
         $user = User::latest('id')->first();
         $this->user = $user;
-    }
+    }*/
 
     public function index()
     {
@@ -29,26 +30,17 @@ class EmployerController extends Controller
 
     public function accountType($type)
     {
+        if ( Cookie::get('user_type') ) {
+            Cookie::forget('user_type', '', -60);
 
-        if ($type == 'Employer') {
-            $this->user->update([
-                'user_type' => 'Employer',
-            ]);
-            Employer::create([
-                'user_id' => $this->user->id,
-            ]);
-
-            toastr()->success('تم إنشاء الحساب بنجاح');
-
-            return redirect()->back();
-
+            Cookie::queue('user_type', $type, 10);
         }else{
-            Employee::create([
-                'user_id' => $this->user->id,
-            ]);
+            Cookie::queue('user_type', $type, 10);
+        };
+        return response()->json([
+            'name' => Cookie::get('user_type'),
+        ]);
 
-            toastr()->success('تم إنشاء الحساب بنجاح');
-        }
 
     }
 }

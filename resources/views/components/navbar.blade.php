@@ -18,7 +18,9 @@
                     <a class="nav-link" href="howWork.html">كيف يعمل؟</a>
                 </li>
             </ul>
-            < <form class="d-flex">
+            <form class="d-flex">
+
+
                 <!-- Button trigger modal -->
                 <i style="color:#fff ;" class="fas fa-search white"></i>
 
@@ -26,8 +28,7 @@
                     data-bs-target="#staticBackdropLogin">
                     دخول
                 </button>
-                <button type="button" class="btn sign-button" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdropSign">
+                <button type="button" class="btn sign-button" data-bs-toggle="modal" data-bs-target="#staticBackdropOption">
                     تسجيل
                 </button>
                 <span>
@@ -56,14 +57,16 @@
                     </span>
                     <div class="modal-body">
                         <div class="social">
-                            <button class="facebook">
+                            <button class="btn facebook">
+                                <i class="fa-brands fa-facebook-square"></i>
                                 <a href="">
                                     الدخول عن طريق فيسبوك
                                 </a>
                             </button>
 
-                            <button class="google">
-                                <a href="">
+                            <button class="btn btn-ligth google">
+                                <img src="{{ asset('Front_Assets/img/google.svg') }}">
+                                <a href="{{ route('google.redirect') }}">
                                     الدخول عن طريق جوجل
                                 </a>
                             </button>
@@ -142,16 +145,16 @@
                     <div class="modal-body">
                         <div class="social">
                             <button class="facebook">
-                                <a href="">
-                                    <i class="fab fa-facebook-square"></i>
-                                    الدخول عن طريق فيسبوك
+                                <a href="{{ route('facebook.redirect') }}">
+                                    <i class="fa-brands fa-facebook-square"></i>
+                                    التسجيل عن طريق فيسبوك
                                 </a>
                             </button>
 
                             <button class="google">
-                                <a href="">
-                                    <i class="fab fa-google"></i>
-                                    الدخول عن طريق جوجل
+                                <a href="{{ route('google.redirect') }}" target="_blank">
+                                    <img src="{{ asset('Front_Assets/img/google.svg') }}">
+                                    التسجيل عن طريق جوجل
                                 </a>
                             </button>
                         </div>
@@ -197,10 +200,12 @@
                                 </label>
                             </div>
 
+                            <div>
+                                <input type="hidden" value="{{ session()->get('type') }}"/>
+                            </div>
+
                             {{-- Submit --}}
-                            <button type="submit" class="btn click" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdropOption" onclick="hidden" id="register"
-                                disabled="disabled">
+                            <button type="submit" class="btn click" onclick="hidden" id="register" disabled="disabled">
                                 سجل الان
                             </button>
                         </form>
@@ -217,29 +222,33 @@
                 <div class="modal-content text-center">
 
                     <button type="button" class="btn-close close " data-bs-dismiss="modal" aria-label="Close"></button>
-                    <img class="mt-5" style="width:70px; height: 70px; margin: 0 auto;"
-                        src="{{ asset('Front_Assets/img//Group 404.png') }}" alt="">
+                    <img class="mt-5" style="width:70px; height: 70px; margin: 0 auto;" src="{{ asset('Front_Assets/img//Group 404.png') }}" alt="">
                     <h5 class="modal-title" id="staticBackdropLabel">
                         اختر نوع الحساب
                     </h5>
-                    <div class="modal-body">
-                        <button class="owner">
-                            <a href="{{ route('dashboard.account_type', ['type' => 'Employer']) }}">
-                                صاحب عمل (أبحث عن كوادر لتوظيفها)
+                    <div class="modal-body" id="type">
+
+                        <button class="owner" value="Employer">
+                            <a href="{{ route('dashboard.account_type', ['type' => 'Employer']) }}" class="accountType" data-bs-toggle="modal" data-bs-target="#staticBackdropSign">
+                                صاحب عمل ( أبحث عن كوادر لتوظيفها )
                             </a>
                         </button>
+
+                        <input type="hidden" value="">
+
                         <br>
-                        <button class="staff">
-                            <a href="{{ route('dashboard.account_type', ['type' => 'Employee']) }}">
-                                كادر (أبحث عن عروض توظيف)
+                        <button class="staff" value="Employee">
+                            <a href="{{ route('dashboard.account_type', ['type' => 'Employee']) }}" id="employee" class="accountType_two" data-bs-toggle="modal" data-bs-target="#staticBackdropSign">
+                                كادر ( أبحث عن عروض توظيف )
                             </a>
                         </button>
+
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Reset Password Modal -->
         <div class="modal fade" id="return" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">

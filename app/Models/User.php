@@ -25,7 +25,9 @@ class User extends Authenticatable
         'phone_number',
         'phone_verified_at',
         'password',
-        'user_type'
+        'user_type',
+        'oauth_id',
+        'oauth_type',
     ];
 
     /**
@@ -63,5 +65,11 @@ class User extends Authenticatable
     public function language()
     {
         return $this->belongsTo(Language::class);
+    }
+
+    // With User
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
     }
 }

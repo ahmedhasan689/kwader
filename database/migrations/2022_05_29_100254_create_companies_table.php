@@ -19,9 +19,13 @@ class CreateCompaniesTable extends Migration
             $table->enum('legal_status', ['registered', 'unregistered'])->default('registered');
             $table->string('visual_identity')->nullable();
             $table->string('registration_number');
-            $table->string('website', 255)->nullable();
-            $table->string('address', 255);
-            $table->string('postal', 255);
+            $table->string('postal', 255)->nullable();
+            $table->string('address', 255)->nullable();
+
+
+            // Foreign Key
+            $table->foreignId('employer_id')->constrained('employers')->nullOnDelete();
+            $table->foreignId('country_id')->constrained('countries')->nullOnDelete();
             $table->timestamps();
         });
     }
