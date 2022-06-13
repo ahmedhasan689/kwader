@@ -23,14 +23,16 @@ class CreateEmployeesTable extends Migration
             $table->string('years_of_experience')->nullable();
             $table->json('skills')->nullable();
             $table->text('bio')->nullable();
-            $table->date('date_of_birth')->nullable();
+            $table->string('date_of_birth')->nullable();
             $table->string('salary')->nullable();
             $table->enum('gender', ['Male', 'Female'])->default('Male');
+            $table->json('specialization')->nullable();
             $table->rememberToken();
 
             // Foreign Keys
             $table->foreignId('country_id')->constrained('countries')->nullOnDelete();
             $table->foreignId('language_id')->constrained('languages')->nullOnDelete();
+            $table->foreignId('field_id')->nullable()->constrained('fields')->nullOnDelete();
 
             $table->timestamps();
         });

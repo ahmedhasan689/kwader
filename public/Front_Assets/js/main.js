@@ -108,6 +108,7 @@ $(document).ready(function() {
 
     })
 })
+
 $(document).ready(function() {
     $(".owner").click(function(e) {
         e.preventDefault();
@@ -201,15 +202,13 @@ $(document).ready(function() {
                     }
 
                     if ( data.user.user_type == 'Employer' ) {
-
                         window.location.href = '/employer/dashboard'
                     }else if( data.user.user_type == 'Employee' ) {
-
-                        window.location.href = '/employee/dashboard'
+                        window.location.href = '/employee/profile/specialization'
                     }else {
                         window.location.href = '/employer/dashboard'
                     }
-                    // alert(data.success)
+
                 },
                 error: function(data) {
                     console.log(data);
@@ -221,15 +220,91 @@ $(document).ready(function() {
     });
 });
 
+// Choice Field & Specialization
+$(document).ready(function() {
+
+    const list = [];
+
+    $('input[type="checkbox"]').change(function () {
+
+        if( $(this).prop("checked") == true ) {
+            var name = $(this).val();
+
+            list.push(name);
+
+            console.log(list);
+
+            document.cookie = "field=" + list;
+            // sessionStorage.setItem('field', list);
+
+            if(name) {
+
+
+                $.ajax({
+                    type: "get",
+                    url: '/employee/profile/getSpecialization/' + name,
+                    data: {
+                        name: name
+                    },
+                    dataType: "json",
+                    success: function(data){
+                        console.log(data.field)
+                        $('.leftOp').append(`
+                                <div class="dropdown" style="margin-top: 25px;">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        ` + name + `
+                                    </a>
+
+                                    <ul class="dropdown-menu ssb" aria-labelledby="dropdownMenuLink">
+
+                                    </ul>
+                                </div>
+                            `);
+                        for (var i = 0; i < data.type.length; i++){
+                            $('.ssb').append(`
+                                <li>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="` + data.type[i].specialization_name + `" value="` + data.type[i].specialization_name + `" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            ` + data.type[i].specialization_name + `
+                                        </label>
+                                    </div>
+                                </li>
+                            `)
+                        }
+                    },
+                    error: function(data){
+                        console.log(data)
+                    },
+                });
+
+            }
+
+        }else if($(this).prop("checked") == false) {
+            list.pop(name);
+            $('.leftOp').empty()
+            $(this).attr("checked", false)
+        }
+    })
+
+
+
+
+})
+
 // Send Visual Identity To Hidden Input In The Form
 $('#uploadImage').change(function() {
     $('#image').val( $(this).val() );
 });
 
+
+
 $('.fc-datepicker').datepicker({
     showOtherMonths: true,
     selectOtherMonths: true
 });
+
 
 
 

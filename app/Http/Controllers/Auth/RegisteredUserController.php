@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         if ($validator->passes()) {
+
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -54,11 +55,11 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            if (Cookie::get('name') == 'Employer'){
+            if (Cookie::get('user_type') == 'Employer'){
                 Employer::create([
                     'user_id' => User::latest()->first()->id,
                 ]);
-            }elseif(Cookie::get('name') == 'Employee'){
+            }elseif(Cookie::get('user_type') == 'Employee'){
                 Employee::create([
                     'user_id' => User::latest()->first()->id,
                 ]);
@@ -68,7 +69,9 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return response()->json([ 'user' => Auth::user()]);
+            return response()->json([
+                'user' => Auth::user()
+            ]);
         }
 
 

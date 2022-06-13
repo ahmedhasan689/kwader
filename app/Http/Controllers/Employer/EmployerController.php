@@ -30,13 +30,20 @@ class EmployerController extends Controller
 
     public function accountType($type)
     {
+        /*if (Session::has('user_type')) {
+            Session::forget('user_type', $type, 10);
+            Session::put('user_type');
+        }else{
+            Session::put('user_type');
+        }*/
         if ( Cookie::get('user_type') ) {
-            Cookie::forget('user_type', '', -60);
+            Cookie::queue('user_type', '', -60);
 
             Cookie::queue('user_type', $type, 10);
         }else{
             Cookie::queue('user_type', $type, 10);
         };
+
         return response()->json([
             'name' => Cookie::get('user_type'),
         ]);

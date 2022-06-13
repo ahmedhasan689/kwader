@@ -74,10 +74,10 @@
                             @foreach( $users as $user )
                                 <tr>
                                     <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="{{ $user->employee->image }}">
+                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="{{ asset('user_avatar') . '/' . $user->employee->avatar }}">
                                     </td>
                                     <td>
-                                        {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                                        {{ $user->first_name }} {{ $user->last_name }}
                                     </td>
                                     <td>
                                         {{ $user->created_at->diffForHumans() }}
@@ -113,7 +113,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-info">
+                                        <a href="{{ route('admin.employee.edit', ['id' => $user->id]) }}" class="btn btn-sm btn-info">
                                             <i class="las la-pen"></i>
                                         </a>
                                         <a href="#" class="btn btn-sm btn-danger">

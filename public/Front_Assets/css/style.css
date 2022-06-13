@@ -851,28 +851,208 @@ color: #fff;
     border-radius: 5px;
 }
 
+.staffProfile .cardRight2  img{
+    width: 30px;
+}
+.staffProfile .card1 ul li{
+    list-style: none;
+    margin: 10px 0px;
+    font-size: large;
+}
+
+/* staffOption */
+.staffOption .container .row{
+    width:90%;
+    margin: 0 auto;
+}
+.staffOption .row .row img{
+    width: 70px;
+    margin-bottom: 40px;
+}
+.staffOption .row .row .job{
+    border: solid 1px #E7EAF6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.staffOption .row .sub{
+    display: flex;
+    justify-content: end;
+
+}
+.staffOption .row .sub button{
+    background-color: #00B398;
+    border: none;
+    color: #fff;
+    padding: 5px 30px;
+    border-radius: 5px;
+}
+.staffOption .row .sub .back{
+    background-color: transparent;
+    color: #CBCFE9;
+    border: solid 1px #CBCFE9;
+}
+
 .staffOption  .leftOp{
     background-color: #E7EAF6;
+    padding-top: 50px;
+    min-height: 100vh;
+    position: relative;
+}
+.staffOption  .leftOp .form-check-input:focus{
+    color: #00B398;
+    background-color: #00B398;
+    box-shadow: none;
 }
 .staffOption  .leftOp .dropdown{
     border: solid 1px gray;
+    width: 50%;
+    border-radius: 5px;
+    margin-right: 50px;
 }
 .staffOption  .leftOp .dropdown a{
     border: none;
+
+}
+.staffOption  .leftOp .dropdown a:focus{
+    box-shadow: none;
 }
 .staffOption  .leftOp .dropdown .dropdown-menu{
-    left: 0;
-    margin-left: -200px;
+    margin-left: -155px!important;
     position: relative;
-    width: 50%;
+    width: 100%;
+    padding-right: 10px;
+    background-color: transparent;
+}
+.staffOption  .leftOp .dropdown .ssb{
+    margin-left: -180px!important;
+
 }
 .staffOption  .leftOp .dropdown .dropdown-toggle{
     background-color: transparent;
     color: #000;
     border: none;
 }
+.staffOption  .leftOp .dropdown button{
+    color: #00B398;
+    border: solid 1px #00B398;
+    background-color: transparent;
+    border-radius: 5px;
+    position: relative;
+    left: 60%;
+    margin-top: 10px;
+}
 .staffOption  .leftOp img{
     width: 70%;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 50px;
+}
+.staffOption .row .row  .one,
+.staffOption .row .row  .two,
+.staffOption .row .row  .three,
+.staffOption .row .row  .four,
+.staffOption .row .row  .five,
+.staffOption .row .row  .six,
+.staffOption .row .row  .seven{
+    border: solid 1px #898EA3;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.staffOption .row .row input:focus{
+    outline: none;
+}
+.staffOption .row .row  .one span {
+    background-color: #E7EAF6;
+    padding: 5px 10px;
+    border-radius: 16px;
+}
+.staffOption .row .row h5{
+    /* font-size: 23px; */
+}
+.oneinter {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.oneinter div .group{
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.staffOption .row .row  .two input{
+    width: 90%;
+    padding:5px 10px;
+}
+.staffOption .row .row  .three .fa-location-dot{
+    background-color: #002C7F;
+    color: #00B398;
+    padding: 5px 15px;
+}
+.staffOption .row .row  .three input{
+    width: 100%;
+    padding:5px 10px;
+    border: none;
+}
+.staffOption .row .row  .three input:focus{
+    border: none;
+    outline: none;
+}
+.staffOption .row .row  .three div{
+    width: 90%;
+    border: solid 1px #898EA3;
+    display: flex;
+    align-items: center;
+    background-color: #002C7F;
+}
+
+.staffOption .row .row  .four span {
+    background-color: #E7EAF6;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+.staffOption .row .row  .five div{
+    width: 90%;
+    padding: 5px 10px;
+    border: solid 1px #898EA3;
+}
+.staffOption .row .row  .five div span {
+    background-color: #E7EAF6;
+    padding: 5px 10px;
+    border-radius: 16px;
+}
+.staffOption .row .row  .six .fa-dollar-sign{
+    background-color: #002C7F;
+    color: #00B398;
+    padding: 5px 15px;
+}
+.staffOption .row .row  .six input{
+    width: 100%;
+    padding:5px 10px;
+    border: none;
+}
+.staffOption .row .row  .six input:focus{
+    border: none;
+    outline: none;
+}
+.staffOption .row .row  .six div{
+    width: 40%;
+    border: solid 1px #898EA3;
+    display: flex;
+    align-items: center;
+    background-color: #002C7F;
 }
 /* information */
 .information{
@@ -1020,3 +1200,136 @@ color: #fff;
     width: .4em;
 }
 
+/* contract */
+.contract {
+    background-color: #E7EAF6;
+    padding-top: 50px;
+    min-height: 90vh;
+}
+.contract .container{
+    background-color: #fff;
+    padding: 30px 0px;
+    border-radius: 5px;
+
+}
+.contractTop {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.contractTop div {
+    background-color: #002C7F;
+    padding: 0;
+    height: 40px;
+    border-radius: 5px;
+    /* border: solid 1px #898EA3; */
+}
+.contractTop div input{
+    height: 100%;
+    padding-right: 10px;
+}
+.contractTop div input:focus{
+    outline: none;
+
+}
+.contractTop div .fa-magnifying-glass{
+    color: #fff;
+
+    /* background-color: #002C7F; */
+    padding: 10px 20px;
+}
+.contract .nav{
+    border: solid 2px  #898EA3;
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 0;
+    border-radius: 5px;
+    height: 40px;
+    /* margin-right: 100px; */
+
+}
+.contract .nav .one{
+    background-color: #002C7F;
+
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contract .nav .two{
+    /* background-color: #002C7F; */
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contract .nav .one a{
+    color: #fff;
+}
+.contract .nav .two a{
+    color: #898EA3;
+
+}
+.contract table{
+    width: 90%;
+    margin: 30px auto 0;
+    border-radius: 5px;
+    border: solid 1px #898EA3;
+    min-height: 300px;
+
+    margin-bottom:20px;
+    /* background-color: red; */
+}
+.contract .tableTwo{
+    display: none;
+}
+.contract table .title{
+    background-color: #CBCFE9;
+    padding: 10px;
+}
+.contract table tr {
+    display: flex;
+    justify-content: space-around;
+
+}
+.contract table .image{
+    display: flex;
+    justify-content: center;
+}
+
+.option_item {
+    display: block;
+    position: relative;
+}
+
+.option_item .checkbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0;
+}
+
+.option_item .option_inner {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 5px;
+    text-align: center;
+    padding: 58px 40px;
+    cursor: pointer;
+    color: #585c68;
+    display: block;
+    border: 5px solid transparent;
+    position: relative;
+}
+
+.option_item .checkbox:checked~.option_inner.job {
+    border-color: #00B398;
+    border-width: 2px;
+    color: #3b5999;
+}

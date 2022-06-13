@@ -1,3 +1,4 @@
+
 <!-- Back-to-top -->
 <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
 {{-- Font Awesome --}}
@@ -27,9 +28,14 @@
 <script src="{{ asset('Dashboard_Assets/plugins/sidebar/sidebar-custom.js')}}"></script>
 <!-- Eva-icons js -->
 <script src="{{ asset('Dashboard_Assets/js/eva-icons.min.js')}}"></script>
+{{-- Toastr Alert --}}
+@jquery
+@toastr_js
+@toastr_render
 @yield('js')
 <!-- Sticky js -->
 <script src="{{ asset('Dashboard_Assets/js/sticky.js')}}"></script>
 <!-- custom js -->
 <script src="{{ asset('Dashboard_Assets/js/custom.js')}}"></script><!-- Left-menu js-->
 <script src="{{ asset('Dashboard_Assets/plugins/side-menu/sidemenu.js')}}"></script>
+

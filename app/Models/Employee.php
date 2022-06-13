@@ -21,6 +21,13 @@ class Employee extends Model
         'gender',
         'country_id',
         'language_id',
+        'specialization',
+        'field_id',
+    ];
+
+    protected $casts = [
+        'skills' => 'json',
+        'specialization' => 'json',
     ];
 
     /**
@@ -59,6 +66,6 @@ class Employee extends Model
             return $this->avatar;
         }
 
-        return asset('uploads' . '/' . $this->avatar);
+        return asset('user_avatar' . '/' . $this->avatar);
     }
 }

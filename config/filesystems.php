@@ -56,6 +56,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'user_avatar' => [
+            'driver' => 'local',
+            'root' => public_path('/user_avatar'),
+            'url' => env('APP_URL').'/user_avatar',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

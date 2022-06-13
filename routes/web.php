@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\EmployeeDashboardController;
+use App\Http\Controllers\Dashboard\EmployerDashboardController;
 use App\Http\Controllers\Employer\CompanyController;
 use App\Http\Controllers\Employer\ContactController;
 use App\Http\Controllers\Employer\EmployerController;
@@ -49,7 +50,7 @@ Route::namespace('/Dashboard')
         // Start Employee Pages
         Route::group([
             'prefix' => 'employee',
-            'as' => 'employee.'
+            'as' => 'admin.employee.'
         ], function() {
             Route::get('/', [EmployeeDashboardController::class, 'index'])->name('index');
             Route::get('/create', [EmployeeDashboardController::class, 'create'])->name('create');
@@ -59,6 +60,20 @@ Route::namespace('/Dashboard')
             Route::delete('/{id}', [EmployeeDashboardController::class, 'destroy'])->name('delete');
         });
         // End Employee Pages
+
+        // Start Employer Pages
+            Route::group([
+                'prefix' => 'employer',
+                'as' => 'admin.employer.'
+            ], function() {
+                Route::get('/', [EmployerDashboardController::class, 'index'])->name('index');
+                Route::get('/create', [EmployerDashboardController::class, 'create'])->name('create');
+                Route::post('/', [EmployerDashboardController::class, 'store'])->name('store');
+                Route::get('/{id}/edit', [EmployerDashboardController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [EmployerDashboardController::class, 'update'])->name('update');
+                Route::delete('/{id}', [EmployerDashboardController::class, 'destroy'])->name('delete');
+            });
+        // End Employer Pages
     });
 
 // End Dashboard Controller
@@ -87,6 +102,7 @@ Route::namespace('/Social_Media')
         // End Facebook Auth
     });
 // End Social Media Route ( Login & Register )
+
 
 // Register Choice Account Type
 Route::namespace('/Employer')
@@ -141,6 +157,18 @@ Route::namespace('/Employee')
     ->prefix('/employee')
     ->middleware(['auth'])
     ->group(function() {
+
+
+        // Start Employee Dashboard Route
+        Route::group([
+            'prefix' => 'profile',
+            'as' => 'profile.',
+        ], function() {
+            Route::get('/specialization', [EmployeeController::class, 'specialization'])->name('specialization');
+            Route::get('/getSpecialization/{name}', [EmployeeController::class, 'getSpecialization'])->name('getSpecialization');
+            Route::post('/save', [EmployeeController::class, 'save'])->name('save');
+        });
+        // End Employee Dashboard Route
 
         // Start Employee Dashboard Route
         Route::group([

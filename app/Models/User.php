@@ -28,6 +28,7 @@ class User extends Authenticatable
         'user_type',
         'oauth_id',
         'oauth_type',
+        'last_seen',
     ];
 
     /**
@@ -67,9 +68,15 @@ class User extends Authenticatable
         return $this->belongsTo(Language::class);
     }
 
-    // With User
+    // With Employee
     public function employee()
     {
         return $this->hasOne(Employee::class);
+    }
+
+    // With Employer
+    public function employer()
+    {
+        return $this->hasOne(Employer::class);
     }
 }

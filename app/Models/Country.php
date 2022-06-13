@@ -27,6 +27,12 @@ class Country extends Model
         return $this->hasOne(Employer::class);
     }
 
+    // With Employee
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
     // With User
     public function user()
     {

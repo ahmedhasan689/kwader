@@ -52,8 +52,8 @@ class GoogleController extends Controller
 
                 return redirect()->intended(RouteServiceProvider::EMPLOYEE);
             }
-        }catch (\Exception $e) {
+       }catch (\Exception $e) {
             dd($e);
-        }
+       }
     }
 }
