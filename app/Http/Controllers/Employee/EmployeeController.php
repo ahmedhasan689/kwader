@@ -33,14 +33,18 @@ class EmployeeController extends Controller
         return $this->employee->getSpecialization($name);
     }
 
-    public function save(Request $request)
+    public function updateField(Request $request)
     {
-        $field = [];
+        return $this->employee->updateField($request);
+    }
 
-        foreach ($request->except('field', '_token') as $key => $value) {
-            $field[] = $value;
-        }
+    public function profileInfo()
+    {
+        return $this->employee->profileInfo();
+    }
 
-        return $field;
+    public function getFlag($id)
+    {
+        return $this->employee->getFlag($id);
     }
 }

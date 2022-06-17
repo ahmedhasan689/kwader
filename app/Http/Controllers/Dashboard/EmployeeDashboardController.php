@@ -8,8 +8,10 @@ use App\Models\Employee;
 use App\Models\Language;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeDashboardController extends Controller
 {
@@ -21,7 +23,7 @@ class EmployeeDashboardController extends Controller
     public function index()
     {
         // Users Type Is => ( Employee )
-        $users = User::with('employee')->where('user_type', 'Employee')->get();
+        $users = User::with('employee')->where('user_type', 'Employee')->paginate(2);
 
         return view('Dashboard.employee.index', compact('users'));
     }
@@ -214,10 +216,100 @@ class EmployeeDashboardController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'remaining_days' => '30',
+        ]);
+
+        if ($user) {
+            $user->update([
+                'remaining_days' => '30',
+            ]);
+
+            Storage::disk('user_avatar')->delete($user->employee->avatar);
+//            unlink(public_path('user_avatar/' . $user->employee->avatar));
+
+            $user->delete();
+        }
+
+        toastr()->error('تم حذف المستخدم بنجاح');
+
+        return redirect()->back();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function trash()
+    {
+        $users = User::where('user_type', 'Employee')->onlyTrashed()->paginate(5);
+
+        return view('Dashboard.employee.trash', compact('users', ));
+    }
+
+    /**
+     * Restore Employee
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore(Request $request, $id = null)
+    {
+        if($id) {
+            $employee = User::onlyTrashed()->findOrFail($id);
+
+            $employee->restore();
+
+            $employee->update([
+               'remaining_days' => null
+            ]);
+
+            toastr()->success('تم إستعادة الكادر بنجاح');
+
+            return redirect()->route('admin.employee.index');
+        }
+
+        $employees = User::where('user_type', 'Employee')->onlyTrashed()->get();
+        foreach ($employees as $employee) {
+            $employee->restore();
+            $employee->update([
+                'remaining_days' => null
+            ]);
+        }
+
+
+        toastr()->success('تم إستعادة كافة الكوادر بنجاح');
+
+        return redirect()->route('admin.employee.index');
+    }
+
+    public function forceDelete($id = null)
+    {
+        if($id) {
+            $user = User::onlyTrashed()->findOrFail($id);
+
+            $employee = Employee::where('user_id', $user->id)->delete();
+
+            $user->forceDelete();
+
+            toastr()->success('تم حذف الكادر بنجاح');
+
+            return redirect()->route('admin.employee.index');
+        }
+
+        $users = User::where('user_type', 'Employee')->onlyTrashed()->get();
+        foreach ($users as $user) {
+            $employee = Employee::where('user_id', $user->id)->forceDelete();
+            $user->forceDelete();
+        }
+
+        toastr()->success('تم حذف كافة الكوادر بنجاح');
+
+        return redirect()->route('admin.employee.index');
     }
 }

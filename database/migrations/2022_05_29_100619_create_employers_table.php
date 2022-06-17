@@ -18,16 +18,16 @@ class CreateEmployersTable extends Migration
             // Foreign Key For User Model
             $table->foreignId('user_id')->constrained('users')->nullOnDelete();
 
-            $table->string('avatar');
-            $table->date('date_of_birth');
+            $table->string('avatar')->nullable();
+            $table->string('date_of_birth')->nullable();
             $table->text('bio');
             $table->enum('gender', ['Male', 'Female'])->default('Male');
             $table->rememberToken();
 
             // Foreign Keys
             $table->foreignId('company_id')->nullable()->constrained('companies')->nullOnDelete();
-            $table->foreignId('country_id')->constrained('countries')->nullOnDelete();
-            $table->foreignId('language_id')->constrained('languages')->nullOnDelete();
+            $table->foreignId('country_id')->nullable()->constrained('countries')->nullOnDelete();
+            $table->foreignId('language_id')->nullable()->constrained('languages')->nullOnDelete();
 
             $table->timestamps();
         });

@@ -25,10 +25,15 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mg-b-0">USERS TABLE</h4>
+                        <h4 class="card-title mg-b-0">قائمة الكوادر</h4>
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
-                    <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
+                    <p class="tx-14 tx-gray-500 mb-2">
+                          هنا تجد كافة الكوادر في الموقع، يمكنك التعديل والحذف من هنا
+                    </p>
+                    <div class="col-sm-6 col-md-3 mg-t-10" style="margin-right: -12px">
+                        <a href="{{ route('admin.employer.trash') }}" class="btn btn-outline-danger">قائمة المحذوفات</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive border-top userlist-table">
@@ -74,7 +79,7 @@
                             @foreach( $users as $user )
                                 <tr>
                                     <td>
-                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="{{ asset('user_avatar') . '/' . $user->employee->avatar }}">
+                                        <img alt="avatar" class="rounded-circle avatar-md mr-2" src="{{ $user->employee->image }}">
                                     </td>
                                     <td>
                                         {{ $user->first_name }} {{ $user->last_name }}
@@ -116,33 +121,53 @@
                                         <a href="{{ route('admin.employee.edit', ['id' => $user->id]) }}" class="btn btn-sm btn-info">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-danger">
-                                            <i class="las la-trash"></i>
+                                        <a href="#" data-target="#delete-{{ $user->id }}" data-toggle="modal" class="btn btn-sm btn-danger">
+                                            <i class="las la-trash" style="margin-right: 1px"></i>
                                         </a>
                                     </td>
 
                                 </tr>
+
+                                {{-- Delete Modal --}}
+                                <div class="modal" id="delete-{{ $user->id }}">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content tx-size-sm">
+                                            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                                                <h4 class="tx-danger mg-b-20">
+                                                    إنتباه : أنت تقوم بحذف كادر
+                                                </h4>
+                                                <p class="mg-b-20 mg-x-20">
+                                                    سيتم جدولة الحذف للكادر خلال 30 يوماً ، ثم يتم الحذف التلقائي ، يمكنك أن تجد الكادر من خلال قائمة المحذوفات
+                                                </p>
+                                                <form action="{{ route( 'admin.employee.delete', ['id' => $user->id] ) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn ripple btn-danger pd-x-25">
+                                                        متأكد
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <ul class="pagination mt-4 mb-0 float-left">
-                        <li class="page-item page-prev disabled">
-                            <a class="page-link" href="#" tabindex="-1">Prev</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item page-next">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
+                    <div class="pagination mt-4 mb-0 float-left">
+                        {{ $users->links() }}
+                    </div>
+
                 </div>
             </div>
         </div><!-- COL END -->
     </div>
+
+
 
 @endsection
 @section('js')

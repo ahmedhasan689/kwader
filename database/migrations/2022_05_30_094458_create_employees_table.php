@@ -30,8 +30,8 @@ class CreateEmployeesTable extends Migration
             $table->rememberToken();
 
             // Foreign Keys
-            $table->foreignId('country_id')->constrained('countries')->nullOnDelete();
-            $table->foreignId('language_id')->constrained('languages')->nullOnDelete();
+            $table->foreignId('country_id')->nullable()->constrained('countries')->nullOnDelete();
+            $table->foreignId('language_id')->nullable()->constrained('languages')->nullOnDelete();
             $table->foreignId('field_id')->nullable()->constrained('fields')->nullOnDelete();
 
             $table->timestamps();

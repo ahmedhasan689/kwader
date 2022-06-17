@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class EmployerDashboardController extends Controller
 {
@@ -218,6 +219,95 @@ class EmployerDashboardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'remaining_days' => '30',
+        ]);
+
+        if ($user) {
+            $user->update([
+                'remaining_days' => '30',
+            ]);
+
+            Storage::disk('user_avatar')->delete($user->employer->avatar);
+
+            $user->delete();
+        }
+
+        toastr()->error('تم حذف المستخدم بنجاح');
+
+        return redirect()->back();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function trash()
+    {
+        $users = User::where('user_type', 'Employer')->onlyTrashed()->paginate(5);;
+
+        return view('Dashboard.employer.trash', compact('users'));
+    }
+
+    /**
+     * Restore Employee
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore(Request $request, $id = null)
+    {
+        if($id) {
+            $employer = User::onlyTrashed()->findOrFail($id);
+
+            $employer->restore();
+
+            $employer->update([
+                'remaining_days' => null
+            ]);
+
+            toastr()->success('تم إستعادة صاحب العمل بنجاح');
+
+            return redirect()->route('admin.employer.index');
+        }
+
+        $employers = User::where('user_type', 'Employer')->onlyTrashed()->get();
+        foreach ($employers as $employer) {
+            $employer->restore();
+            $employer->update([
+                'remaining_days' => null
+            ]);
+        }
+
+
+        toastr()->success('تم إستعادة كافة أصحاب العمل بنجاح');
+
+        return redirect()->route('admin.employer.index');
+    }
+
+    public function forceDelete($id = null)
+    {
+        if($id) {
+            $user = User::onlyTrashed()->findOrFail($id);
+
+            $employer = Employer::where('user_id', $user->id)->delete();
+
+            $user->forceDelete();
+
+            toastr()->success('تم حذف صاحب العمل بنجاح');
+
+            return redirect()->route('admin.employee.index');
+        }
+
+        $users = User::where('user_type', 'Employer')->onlyTrashed()->get();
+        foreach ($users as $user) {
+            $employer = Employer::where('user_id', $user->id)->forceDelete();
+            $user->forceDelete();
+        }
+
+        toastr()->success('تم حذف كافة أصحاب العمل بنجاح');
+
+        return redirect()->route('admin.employer.index');
     }
 }

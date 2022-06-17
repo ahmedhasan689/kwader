@@ -821,8 +821,19 @@ color: #fff;
 
 /* staffOption */
 .staffOption .row .row img{
-    width: 70px;
-    margin-bottom: 40px;
+    width: 20px;
+    height: 15px;
+    margin-bottom: 4px;
+    margin-left: 10px;
+    margin-right: 10px;;
+}
+#flag img {
+    width: 20px;
+    height: 15px;
+    margin-bottom: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+
 }
 .staffOption .row .row .job{
     border: solid 1px #E7EAF6;

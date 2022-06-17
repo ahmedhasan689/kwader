@@ -37,5 +37,16 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'user_type' => 'Employee',
         ]);
+
+        User::create([
+            'first_name' => 'admin',
+            'last_name' => 'Ahmed',
+            'email' => 'admin@test.com',
+            'email_verified_at' => Carbon::now(),
+            'phone_number' => '0587474740',
+            'phone_verified_at' => Carbon::now(),
+            'password' => Hash::make('12345678'),
+            'user_type' => 'Admin',
+        ]);
     }
 }

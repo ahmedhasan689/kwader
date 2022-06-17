@@ -52,12 +52,20 @@ Route::namespace('/Dashboard')
             'prefix' => 'employee',
             'as' => 'admin.employee.'
         ], function() {
+            // For Soft Delete
+            Route::get('/trash', [EmployeeDashboardController::class, 'trash'])->name('trash');
+            Route::put('/restore/{id?}', [EmployeeDashboardController::class, 'restore'])->name('restore');
+            Route::delete('/force_delete/{id?}', [EmployeeDashboardController::class, 'forceDelete'])->name('force-delete');
+
+            // Normal Function
             Route::get('/', [EmployeeDashboardController::class, 'index'])->name('index');
             Route::get('/create', [EmployeeDashboardController::class, 'create'])->name('create');
             Route::post('/', [EmployeeDashboardController::class, 'store'])->name('store');
             Route::get('/{id}/edit', [EmployeeDashboardController::class, 'edit'])->name('edit');
             Route::put('/{id}', [EmployeeDashboardController::class, 'update'])->name('update');
             Route::delete('/{id}', [EmployeeDashboardController::class, 'destroy'])->name('delete');
+
+
         });
         // End Employee Pages
 
@@ -72,6 +80,11 @@ Route::namespace('/Dashboard')
                 Route::get('/{id}/edit', [EmployerDashboardController::class, 'edit'])->name('edit');
                 Route::put('/{id}', [EmployerDashboardController::class, 'update'])->name('update');
                 Route::delete('/{id}', [EmployerDashboardController::class, 'destroy'])->name('delete');
+
+                // For Soft Delete
+                Route::get('/trash', [EmployerDashboardController::class, 'trash'])->name('trash');
+                Route::put('/restore/{id?}', [EmployerDashboardController::class, 'restore'])->name('restore');
+                Route::delete('/force_delete/{id?}', [EmployerDashboardController::class, 'forceDelete'])->name('force-delete');
             });
         // End Employer Pages
     });
@@ -159,16 +172,18 @@ Route::namespace('/Employee')
     ->group(function() {
 
 
-        // Start Employee Dashboard Route
+        // Start Employee Profile_Create Route [ Two Steps before dashboard => EmployeeRepository ]
         Route::group([
             'prefix' => 'profile',
             'as' => 'profile.',
         ], function() {
             Route::get('/specialization', [EmployeeController::class, 'specialization'])->name('specialization');
             Route::get('/getSpecialization/{name}', [EmployeeController::class, 'getSpecialization'])->name('getSpecialization');
-            Route::post('/save', [EmployeeController::class, 'save'])->name('save');
+            Route::post('/updateField', [EmployeeController::class, 'updateField'])->name('updateField');
+            Route::get('/profile_information', [EmployeeController::class, 'profileInfo'])->name('profileInfo');
+            Route::get('/getFlag/{id}', [EmployeeController::class, 'getFlag'])->name('getFlag');
         });
-        // End Employee Dashboard Route
+        // End Employee Profile_Create Route [ Two Steps before dashboard => EmployeeRepository ]
 
         // Start Employee Dashboard Route
         Route::group([

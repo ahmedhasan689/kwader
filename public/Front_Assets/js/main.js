@@ -223,19 +223,11 @@ $(document).ready(function() {
 // Choice Field & Specialization
 $(document).ready(function() {
 
-    const list = [];
 
-    $('input[type="checkbox"]').change(function () {
+    $('input[name="field_name"]').change(function () {
 
         if( $(this).prop("checked") == true ) {
             var name = $(this).val();
-
-            list.push(name);
-
-            console.log(list);
-
-            document.cookie = "field=" + list;
-            // sessionStorage.setItem('field', list);
 
             if(name) {
 
@@ -282,16 +274,44 @@ $(document).ready(function() {
             }
 
         }else if($(this).prop("checked") == false) {
-            list.pop(name);
             $('.leftOp').empty()
-            $(this).attr("checked", false)
+            $(this).prop("checked", false)
         }
     })
 
-
-
-
 })
+
+// Flags
+$(document).ready(function() {
+    $('select[name="country"]').on('change', function() {
+        var country = $(this).val();
+
+        console.log(country);
+        if (country) {
+            $.ajax({
+                url: '/employee/profile/getFlag/' + country,
+                type: "GET",
+                dataType: "json",
+
+                success: function(data) {
+                    $('#flag').empty();
+                    $.each(data, function(key, value) {
+                        var url = value + '.png';
+                        $('#flag').append(
+                            '<img src="http://127.0.0.1:8000/flags/' + url + ' " alt="flags">',
+                        )
+                    });
+                },
+                error: function(data){
+                    console.log(data)
+                }
+            });
+        } else {
+            console.log('AJAX load did not work');
+        }
+    });
+});
+
 
 // Send Visual Identity To Hidden Input In The Form
 $('#uploadImage').change(function() {
