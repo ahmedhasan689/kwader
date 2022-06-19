@@ -27,9 +27,6 @@ class ContactController extends Controller
     {
         $company = Company::where('employer_id', Auth::user()->id)->first();
 
-
-
-
         if ($company) {
 
             $request->validate([
@@ -40,6 +37,7 @@ class ContactController extends Controller
             ]);
 
             $contact = Contact::where('company_id', $company->id)->first();
+
 
             $contact->update([
                 'company_email' => $request->company_email,

@@ -240,7 +240,6 @@ $(document).ready(function() {
                     },
                     dataType: "json",
                     success: function(data){
-                        console.log(data.field)
                         $('.leftOp').append(`
                                 <div class="dropdown" style="margin-top: 25px;">
                                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -312,20 +311,55 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function () {
+    $('input[name="job_field"]').change(function () {
+        var job_field = $(this).val();
+
+        $.ajax({
+            url: '/employee/profile/getSpecialization/' + job_field,
+            type: "Get",
+            dataType: "json",
+            success: function (data){
+                $('.special').empty()
+                for (var i = 0; i < data.type.length; i++){
+                    $('.special').append(`
+                        <div class="form-check">
+                            <input class="form-check-input" style="margin-right: 4px" name="special[]" type="checkbox" value="` + data.type[i].specialization_name + `" id=" ` + data.type[i].id +  ` ">
+                            <label class="form-check-label" for="flexCheckChecked">
+                                ` + data.type[i].specialization_name + `
+                            </label>
+                        </div>
+                    `)
+                }
+            },
+            error: function (data){
+                console.log(data)
+            }
+
+        })
+
+
+    });
+});
 
 // Send Visual Identity To Hidden Input In The Form
 $('#uploadImage').change(function() {
     $('#image').val( $(this).val() );
 });
 
+$(document).ready(function() {
+   $('#skills').chosen();
+});
+
+$(document).ready(function() {
+    $('#languages').chosen();
+});
 
 
 $('.fc-datepicker').datepicker({
     showOtherMonths: true,
     selectOtherMonths: true
 });
-
-
 
 
 

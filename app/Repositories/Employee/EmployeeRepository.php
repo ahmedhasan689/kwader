@@ -5,7 +5,9 @@ namespace App\Repositories\Employee;
 use App\Models\Country;
 use App\Models\Employee;
 use App\Models\Field;
+use App\Models\Skill;
 use App\Models\Specialization;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -70,7 +72,9 @@ class EmployeeRepository implements EmployeeInterface
 
         $countries = Country::all();
 
-        return view('employee.profile.profile_info', compact('employee', 'countries'));
+        $skills = Skill::all();
+
+        return view('employee.profile.profile_info', compact('employee', 'countries', 'skills'));
     }
 
     /**
@@ -81,5 +85,36 @@ class EmployeeRepository implements EmployeeInterface
     {
         $flags= Country::where('id', $id)->pluck('code', 'id');
         return $flags;
+    }
+
+    public function setInformation(Request $request)
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $employee = Employee::where('user_id', Auth::user()->id)->first();
+
+        $request->validate([
+            "job_title" => 'required',
+            "country" => 'required',
+            "years_of_experience" => 'required',
+            "skills" => 'required',
+            "salary" => 'required|numeric',
+            "phone_number" => 'nullable|numeric',
+        ]);
+
+        $employee->update([
+            "job_title" => $request->job_title,
+            "country_id" => $request->country,
+            "years_of_experience" => $request->years_of_experience,
+            "skills" => $request->skills,
+            "salary" => $request->salary,
+        ]);
+
+        $user->update([
+            'phone_number' => $request->phone_number,
+        ]);
+        toastr()->success('تم حفظ بياناتك بنجاح');
+
+        return redirect()->route('employee.dashboard.index');
+
     }
 }

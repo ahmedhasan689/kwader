@@ -53,7 +53,7 @@
                                 </label>
                                 <input class="form-control @error('first_name') is-invalid @enderror" name="first_name" placeholder="أدخل الأسم الأول" type="text">
                                 @error('first_name')
-                                <span class="invalid-feedback">{{ $message }}</span>
+                                    <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>

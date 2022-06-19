@@ -21,6 +21,9 @@ interface EmployeeInterface {
     // Get Country Flag
     public function getFlag($id);
 
+    // Set Information For Employee
+    public function setInformation(Request $request);
+
 
 
 

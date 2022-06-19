@@ -7,6 +7,7 @@ use App\Http\Controllers\Employer\CompanyController;
 use App\Http\Controllers\Employer\ContactController;
 use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Social_Media\FacebookController;
 use App\Http\Controllers\Social_Media\GoogleController;
 use Illuminate\Support\Facades\Route;
@@ -164,6 +165,17 @@ Route::namespace('/Employer')
                 Route::put('/', [ContactController::class, 'update'])->name('update');
             });
             // End Contact Route
+
+            //Start Job Route
+            Route::group([
+                'prefix' => 'job',
+                'as' => 'job.',
+            ], function() {
+                Route::get('/create/{step}', [JobController::class, 'create'])->name('create');
+                Route::post('/store/{step}', [JobController::class, 'store'])->name('store');
+//                Route::post('/{step}', [JobController::class, 'store'])->name('store');
+            });
+            //Start Job Route
         });
 
 Route::namespace('/Employee')
@@ -182,13 +194,14 @@ Route::namespace('/Employee')
             Route::post('/updateField', [EmployeeController::class, 'updateField'])->name('updateField');
             Route::get('/profile_information', [EmployeeController::class, 'profileInfo'])->name('profileInfo');
             Route::get('/getFlag/{id}', [EmployeeController::class, 'getFlag'])->name('getFlag');
+            Route::post('/setInformation', [EmployeeController::class, 'setInformation'])->name('set-information');
         });
         // End Employee Profile_Create Route [ Two Steps before dashboard => EmployeeRepository ]
 
         // Start Employee Dashboard Route
         Route::group([
             'prefix' => 'dashboard',
-            'as' => 'dashboard.',
+            'as' => 'employee.dashboard.',
         ], function() {
             Route::get('/', [EmployeeController::class, 'index'])->name('index');
         });

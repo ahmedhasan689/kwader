@@ -122,7 +122,7 @@
                                     <div class="option_inner job facebook ">
                                         <div class="tickmark"></div>
                                         <img src="{{ asset('Front_Assets/img/Group 266.png') }}" alt="">
-                                        <h5>
+                                        <h5 style="margin-top: -20px;">
                                             تكنولوجيا المعلومات
                                         </h5>
                                     </div>
@@ -157,8 +157,5 @@
                 </div>
             </div>
         </form>
-        {{ Cookie::get('field') }}
-{{--        @dd(Cookie::get('field'))--}}
-
     </div>
 @endsection
