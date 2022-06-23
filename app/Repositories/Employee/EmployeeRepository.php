@@ -26,16 +26,27 @@ class EmployeeRepository implements EmployeeInterface
      * @param $name
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getSpecialization($name)
+    public function getSpecializationByName($name)
     {
         $field = Field::where('field_name', $name)->first()->id;
         $specializations = Specialization::where('field_id', $field)->get();
         return response()->json([
             'type' => $specializations,
         ]);
-
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSpecializationById($id)
+    {
+        $field = Field::where('id', $id)->first();
+        $specializations = Specialization::where('field_id', $field->id)->get();
+        return response()->json([
+            'type' => $specializations,
+        ]);
+    }
     /**
      * @param $request
      * @return \Illuminate\Http\RedirectResponse

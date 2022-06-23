@@ -1,38 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Employer;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Models\Employer;
 use App\Models\Job;
-use App\Models\Language;
-use App\Repositories\Job\JobInterface;
+use App\Models\User;
+use App\Notifications\JobAcceptNotification;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class JobController extends Controller
+class JobDashboardController extends Controller
 {
-
-    /**
-     * @var JobInterface
-     */
-    protected $job;
-
-    public function __construct(JobInterface $job)
-    {
-        $this->job = $job;
-    }
-
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index($status)
     {
-        $jobs = Job::all();
+        $jobs = Job::where('status', $status)->paginate(2);
 
-        return view('employer.job.jobs', compact('jobs'));
+        return view('Dashboard.job.index', compact('jobs', 'status'));
     }
 
     /**
@@ -40,9 +33,9 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($step)
+    public function create()
     {
-        return $this->job->create($step);
+        //
     }
 
     /**
@@ -51,9 +44,9 @@ class JobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $step)
+    public function store(Request $request)
     {
-        return $this->job->store($request, $step);
+        //
     }
 
     /**
@@ -99,5 +92,26 @@ class JobController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function accept($id)
+    {
+        $job = Job::findOrFail($id);
+
+        $job->update([
+            'status' => 'Paying-Off',
+        ]);
+
+        $employer = Employer::where('id', $job->employer_id)->first();
+
+        $user = User::where('id', $employer->user_id)->first();
+
+
+//        dd($user);
+        $user->notify( new JobAcceptNotification($job)  );
+
+        toastr()->success('تم قبول الوظيفة');
+
+        return redirect()->back();
     }
 }

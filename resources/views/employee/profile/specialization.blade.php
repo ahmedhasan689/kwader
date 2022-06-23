@@ -23,7 +23,7 @@
 
                             <div class="col-lg-4">
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox" name="field_name" value="برمجة وتطوير">
+                                    <input type="radio" class="checkbox" name="field_name" value="برمجة وتطوير">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
                                         <img src="{{ asset('Front_Assets/img/Group 256.png') }}" alt="">
@@ -36,7 +36,7 @@
                             <div class="col-lg-4">
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox" name="field_name" value="هندسة وعلوم">
+                                    <input type="radio" class="checkbox" name="field_name" value="هندسة وعلوم">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
 
@@ -51,7 +51,7 @@
                             <div class="col-lg-4">
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox field_value" name="field_name" value="تسويق ومبيعات">
+                                    <input type="radio" class="checkbox field_value" name="field_name" value="تسويق ومبيعات">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
 
@@ -63,7 +63,7 @@
                             <div class="col-lg-4">
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox field_value" name="field_name" value="كتابة وترجمة">
+                                    <input type="radio" class="checkbox field_value" name="field_name" value="كتابة وترجمة">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
 
@@ -77,7 +77,7 @@
                             <div class="col-lg-4">
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox field_value" name="field_name" value="دعم فني">
+                                    <input type="radio" class="checkbox field_value" name="field_name" value="دعم فني">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
                                         <img src="{{ asset('Front_Assets/img/Group 251.png') }}" alt="">
@@ -90,7 +90,7 @@
                             <div class="col-lg-4">
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox field_value" name="field_name" value="محاسبة ومالية">
+                                    <input type="radio" class="checkbox field_value" name="field_name" value="محاسبة ومالية">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
                                         <img src="{{ asset('Front_Assets/img/Group 259.png') }}" alt="">
@@ -104,7 +104,7 @@
 
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox field_value" name="field_name" value="فن وتصميم">
+                                    <input type="radio" class="checkbox field_value" name="field_name" value="فن وتصميم">
                                     <div class="option_inner job facebook">
                                         <div class="tickmark"></div>
                                         <img src="{{ asset('Front_Assets/img/Group 262.png') }}" alt="">
@@ -118,7 +118,7 @@
                             <div class="col-lg-4">
 
                                 <label class="option_item">
-                                    <input type="checkbox" class="checkbox field_value" name="field_name" value="تكنولوجيا المعلومات">
+                                    <input type="radio" class="checkbox field_value" name="field_name" value="تكنولوجيا المعلومات">
                                     <div class="option_inner job facebook ">
                                         <div class="tickmark"></div>
                                         <img src="{{ asset('Front_Assets/img/Group 266.png') }}" alt="">

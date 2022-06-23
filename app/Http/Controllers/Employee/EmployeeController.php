@@ -41,9 +41,14 @@ class EmployeeController extends Controller
      * @param $name
      * @return mixed
      */
-    public  function getSpecialization($name)
+    public  function getSpecializationByName($name)
     {
-        return $this->employee->getSpecialization($name);
+        return $this->employee->getSpecializationByName($name);
+    }
+
+    public  function getSpecializationById($id)
+    {
+        return $this->employee->getSpecializationById($id);
     }
 
     /**

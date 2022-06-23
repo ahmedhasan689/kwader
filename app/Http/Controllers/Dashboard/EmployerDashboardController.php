@@ -245,7 +245,7 @@ class EmployerDashboardController extends Controller
      */
     public function trash()
     {
-        $users = User::where('user_type', 'Employer')->onlyTrashed()->paginate(5);;
+        $users = User::where('user_type', 'Employer')->onlyTrashed()->paginate(5);
 
         return view('Dashboard.employer.trash', compact('users'));
     }

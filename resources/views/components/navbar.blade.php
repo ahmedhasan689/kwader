@@ -152,7 +152,7 @@
                             </button>
 
                             <button class="google">
-                                <a href="{{ route('google.redirect') }}" target="_blank">
+                                <a href="{{ route('google.redirect') }}">
                                     <img src="{{ asset('Front_Assets/img/google.svg') }}">
                                     التسجيل عن طريق جوجل
                                 </a>
@@ -229,16 +229,14 @@
                     <div class="modal-body" id="type">
 
                         <button class="owner" value="Employer">
-                            <a href="{{ route('dashboard.account_type', ['type' => 'Employer']) }}" class="accountType" data-bs-toggle="modal" data-bs-target="#staticBackdropSign">
+                            <a href="{{ route('dashboard.account_type', ['type' => 'Employer']) }}" class="accountType">
                                 صاحب عمل ( أبحث عن كوادر لتوظيفها )
                             </a>
                         </button>
 
-                        <input type="hidden" value="">
-
                         <br>
                         <button class="staff" value="Employee">
-                            <a href="{{ route('dashboard.account_type', ['type' => 'Employee']) }}" id="employee" class="accountType_two" data-bs-toggle="modal" data-bs-target="#staticBackdropSign">
+                            <a href="{{ route('dashboard.account_type', ['type' => 'Employee']) }}" id="employee" class="accountType_two">
                                 كادر ( أبحث عن عروض توظيف )
                             </a>
                         </button>
@@ -257,14 +255,18 @@
                     <button type="button" class="btn-close close " data-bs-dismiss="modal" aria-label="Close"></button>
 
                     <div class="modal-body mt-5">
-                        <h3>إعادة تعيين كلمة المرور الخاصة بك</h3>
-                        <p>أدخل عنوان البريد الإلكتروني المرتبط بحسابك ، وسنرسل لك عبر البريد الإلكتروني
+                        <h3>
+                            إعادة تعيين كلمة المرور الخاصة بك
+                        </h3>
+                        <p>
+                            أدخل عنوان البريد الإلكتروني المرتبط بحسابك ، وسنرسل لك عبر البريد الإلكتروني
                             رابطًا
-                            لإعادة تعيين كلمة المرور الخاصة بك</p>
+                            لإعادة تعيين كلمة المرور الخاصة بك
+                        </p>
                         <input type="text" placeholder="البريد الالكتروني">
-                        <button type="button" class="btn click" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdropOption" onclick="hidden">
-                            سجل الان </button>
+                        <button type="button" class="btn click" data-bs-toggle="modal" data-bs-target="#staticBackdropOption" onclick="hidden">
+                            سجل الان
+                        </button>
 
 
 

@@ -8,6 +8,7 @@ use App\Models\Employer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -30,14 +31,8 @@ class EmployerController extends Controller
 
     public function accountType($type)
     {
-        /*if (Session::has('user_type')) {
-            Session::forget('user_type', $type, 10);
-            Session::put('user_type');
-        }else{
-            Session::put('user_type');
-        }*/
         if ( Cookie::get('user_type') ) {
-            Cookie::queue('user_type', '', -60);
+            Cookie::queue('user_type', ' ', -60);
 
             Cookie::queue('user_type', $type, 10);
         }else{
@@ -47,7 +42,5 @@ class EmployerController extends Controller
         return response()->json([
             'name' => Cookie::get('user_type'),
         ]);
-
-
     }
 }

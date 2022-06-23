@@ -10,4 +10,7 @@ interface JobInterface
     // Store Job In DB - Step = 2
     public function store($request, $step);
 
+    // Store Job In DB - Step = 3
+    public function payingOff($step);
+
 }

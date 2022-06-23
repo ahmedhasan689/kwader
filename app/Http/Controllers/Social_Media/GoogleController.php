@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
@@ -43,7 +44,7 @@ class GoogleController extends Controller
                     'last_name' => $names[1],
                     'email' => $user->getEmail(),
                     'password' => Hash::make('12345678'),
-                    'user_type' => Cookie::get('user_type'),
+                    'user_type' =>  Session::get('user_type'),
                     'oauth_id' => $user->getId(),
                     'oauth_type' => static::GOOGLE_TYPE,
                 ]);

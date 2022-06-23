@@ -234,7 +234,7 @@ $(document).ready(function() {
 
                 $.ajax({
                     type: "get",
-                    url: '/employee/profile/getSpecialization/' + name,
+                    url: '/employee/profile/getSpecializationByName/' + name,
                     data: {
                         name: name
                     },
@@ -257,6 +257,56 @@ $(document).ready(function() {
                                 <li>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="` + data.type[i].specialization_name + `" value="` + data.type[i].specialization_name + `" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            ` + data.type[i].specialization_name + `
+                                        </label>
+                                    </div>
+                                </li>
+                            `)
+                        }
+                    },
+                    error: function(data){
+                        console.log(data)
+                    },
+                });
+
+            }
+
+        }else if($(this).prop("checked") == false) {
+            $('.leftOp').empty()
+            $(this).prop("checked", false)
+        }
+    })
+
+})
+
+// By Id
+$(document).ready(function() {
+
+
+    $('input[name="job_field"]').change(function () {
+
+        if( $(this).prop("checked") == true ) {
+            var name = $(this).val();
+
+
+            if(name) {
+
+                $.ajax({
+                    type: "get",
+                    url: '/employee/profile/getSpecializationById/' + name,
+                    data: {
+                        name: name
+                    },
+                    dataType: "json",
+                    success: function(data){
+
+                            $('.special').empty();
+                        for (var i = 0; i < data.type.length; i++){
+                            $('.special').append(`
+                                <li style="list-style: none">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" style="margin-right: -23px" name="special[]" value="` + data.type[i].specialization_name + `" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             ` + data.type[i].specialization_name + `
                                         </label>

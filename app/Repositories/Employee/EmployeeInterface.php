@@ -9,8 +9,11 @@ interface EmployeeInterface {
     // Choice Specialization After Register
     public function choiceSpecialization();
 
-    // Get Specialization
-    public function getSpecialization($name);
+    // Get Specialization By Name
+    public function getSpecializationByName($name);
+
+    // Get Specialization By Id
+    public function getSpecializationById($id);
 
     // Update Field And Specialization
     public function updateField(Request $request);
