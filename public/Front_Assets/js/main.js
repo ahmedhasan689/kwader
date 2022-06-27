@@ -17,26 +17,47 @@ function editPersonalInfo() {
     document.getElementById("personal_info").style.display="none";
     document.getElementById("edit_personal_info").style.display="block";
   }
-  function editSalaryInfo() {
-    document.getElementById("personal_info").style.display="none";
-    document.getElementById("edit_salary_info").style.display="block";
-  }
-  function editAvailability() {
-    document.getElementById("availability").style.display="none";
-    document.getElementById("edit_availability").style.display="block";
-  }
+function editSalaryInfo() {
+document.getElementById("personal_info").style.display="none";
+document.getElementById("edit_salary_info").style.display="block";
+}
+function editAvailability() {
+document.getElementById("availability").style.display="none";
+document.getElementById("edit_availability").style.display="block";
+}
 
-  $(document).ready(function() {
-      $('#personal_info_cancel').click(function(e) {
-          e.preventDefault();
-          document.getElementById("edit_personal_info").style.display="none";
-          document.getElementById("personal_info").style.display="block";
-      })
+$(document).ready(function() {
+  $('#personal_info_cancel').click(function(e) {
+      e.preventDefault();
+      document.getElementById("edit_personal_info").style.display="none";
+      document.getElementById("personal_info").style.display="block";
   })
+})
+$(document).ready(function() {
+    $('#edit_salary_cancel').click(function(e) {
+        e.preventDefault();
+        document.getElementById("edit_salary_info").style.display="none";
+        document.getElementById("personal_info").style.display="block";
+    })
+})
+$(document).ready(function() {
+    $('#edit_availability_cancel').click(function(e) {
+        e.preventDefault();
+        document.getElementById("edit_availability").style.display="none";
+        document.getElementById("availability").style.display="block";
+    })
+})
+$(document).ready(function() {
+    $('#bio_cancel').click(function(e) {
+        e.preventDefault();
+        document.getElementById("edit_about_me").style.display="none";
+        document.getElementById("about_me").style.display="block";
+    })
+})
 
 
   /* Hover Dropdown */
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     if (window.innerWidth > 992) {
       document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
         everyitem.addEventListener('mouseover', function (e) {

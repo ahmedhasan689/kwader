@@ -95,9 +95,38 @@ class EmployeeController extends Controller
         return $this->employee->edit($id);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function editInfo(Request $request, $id)
     {
         return $this->employee->editInfo($request, $id);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function editSalary(Request $request, $id)
+    {
+        return $this->employee->editSalary($request, $id);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function editAvailability(Request $request, $id)
+    {
+        return $this->employee->editAvailability($request, $id);
+    }
+
+    public function editBio(Request $request, $id)
+    {
+        return $this->employee->editBio($request, $id);
+    }
 }

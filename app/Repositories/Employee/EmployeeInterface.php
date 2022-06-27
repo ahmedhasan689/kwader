@@ -31,6 +31,14 @@ interface EmployeeInterface {
     public function edit($id);
 
     // Edit Personal Info
-    public function editInfo(Request $request,$id);
+    public function editInfo(Request $request, $id);
 
+    // Edit Salary
+    public function editSalary(Request $request, $id);
+
+    // Edit Availability
+    public function editAvailability(Request $request, $id);
+
+    // Edit Bio
+    public function editBio(Request $request, $id);
 }

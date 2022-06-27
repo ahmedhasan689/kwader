@@ -173,4 +173,63 @@ class EmployeeRepository implements EmployeeInterface
         return redirect()->back();
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function editSalary(Request $request, $id)
+    {
+        $employee = Employee::where('id', $id)->findOrFail($id);
+
+        $request->validate([
+            'salary' => 'required',
+            'years_of_experience' => 'required',
+        ]);
+
+        $employee->update([
+            'salary' => $request->salary,
+            'years_of_experience' => $request->years_of_experience,
+        ]);
+
+        toastr()->success('تم تعديل بياناتك بنجاح');
+
+        return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function editAvailability(Request $request, $id)
+    {
+        $employee = Employee::where('id', $id)->findOrFail($id);
+
+        $employee->update([
+            'job_type' => $request->job_type,
+            'availability' => $request->availability,
+        ]);
+
+        toastr()->success('تم تعديل بياناتك بنجاح');
+
+        return redirect()->back();
+    }
+
+    public function editBio(Request $request, $id)
+    {
+        $employee = Employee::where('id', $id)->findOrFail($id);
+
+        $request->validate([
+            'bio' => 'required|min:15|max:500',
+        ]);
+
+        $employee->update([
+            'bio' => $request->bio,
+        ]);
+
+        toastr()->success('تم تعديل بياناتك بنجاح');
+
+        return redirect()->back();
+    }
 }

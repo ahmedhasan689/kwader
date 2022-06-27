@@ -17,5 +17,5 @@
     <title>
         @yield('page_title')
     </title>
-{{--    @toastr_css--}}
+    @toastr_css
 </head>

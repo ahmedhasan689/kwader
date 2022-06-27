@@ -24,6 +24,8 @@ class Employee extends Model
         'language_id',
         'specialization',
         'field_id',
+        'job_type',
+        'availability',
     ];
 
     protected $casts = [

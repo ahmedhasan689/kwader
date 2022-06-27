@@ -62,6 +62,8 @@
                             </button>
                         </div>
                     </div>
+
+                    {{-- Edit Personal Info --}}
                     <div id="edit_personal_info" class="py-4 px-3" style="display: none;">
                         <form action="{{ route('employee.dashboard.editInfo', ['id' => $employee->id]) }}" method="POST">
                             @csrf
@@ -125,39 +127,51 @@
                             </div>
                         </form>
                     </div>
+                    {{-- End Edit Personal Info --}}
+
+                    {{-- Edit Salary --}}
                     <div id="edit_salary_info" class="py-4 px-3" style="display: none;">
-                        <form>
+                        <form action="{{ route('employee.dashboard.editSalary', ['id' => $employee->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
                             <div class="row">
                                 <label for="monthly-salary" class="col-sm-3 col-form-label">الراتب الشهري</label>
                                 <div class="col-sm-4 mb-3">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="333">
+                                        <input type="text" class="form-control @error('salary') is-invalid @enderror" name="salary" value="{{ $employee->salary }}">
                                         <span class="input-group-text" id="basic-addon1">$</span>
+                                        @error('salary')
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="exper-years" class="col-sm-3 col-form-label">سنوات الخبرة</label>
                                 <div class="col-sm-8">
-                                    <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+                                    <input type="radio" class="btn-check" value="0-2 سنوات" name="years_of_experience" id="option1" autocomplete="off" @if($employee->years_of_experience == '2-0 سنوات') checked @endif>
                                     <label class="btn btn-outline-secondary" for="option1">0 - 2 سنوات</label>
 
-                                    <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                    <input type="radio" class="btn-check" value="2-5 سنوات" name="years_of_experience" id="option2" autocomplete="off" @if($employee->years_of_experience == '5-2 سنوات') checked @endif>
                                     <label class="btn btn-outline-secondary" for="option2">2 -5 سنوات</label>
 
-                                    <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                                    <input type="radio" class="btn-check" value="5-10 سنوات" name="years_of_experience" id="option3" autocomplete="off" @if($employee->years_of_experience == '10-5 سنوات') checked @endif>
                                     <label class="btn btn-outline-secondary" for="option3">5 -10 سنوات</label>
 
-                                    <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
+                                    <input type="radio" class="btn-check" value="+10 سنوات" name="years_of_experience" id="option4" autocomplete="off" @if($employee->years_of_experience == '+10 سنوات') checked @endif>
                                     <label class="btn btn-outline-secondary" for="option4">+10 سنوات</label>
                                 </div>
                             </div>
                             <div class="col-sm-11 d-flex gap-2 justify-content-end">
-                                <button type="submit" class="btn btn-secondary px-3">الغاء</button>
+                                <button type="reset" class="btn btn-secondary px-3" id="edit_salary_cancel">الغاء</button>
                                 <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                             </div>
                         </form>
                     </div>
+                    {{-- End Edit Salary --}}
+
                     <div class="mt-4 mt-md-0 mx-auto mx-md-0">
                         <div id="availability">
                             <div class="edit-hover p-4">
@@ -175,31 +189,36 @@
                                 </button>
                             </div>
                         </div>
-                        <div id="edit_availability" class="py-4 px-3" style="display: none;">
-                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                <label class="btn btn-outline-primary" for="btnradio1" style="border-bottom-right-radius: 20px;
-                                border-top-right-radius: 20px;">متاح</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btnradio2" style="border-bottom-left-radius: 20px;
-                                border-top-left-radius: 20px;">غير متاح</label>
-                            </div>
-                            <div class="mt-4">
-                                <h4>نظام العمل</h4>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1">دوام كامل</label>
+                        <div id="edit_availability" class="py-4 px-3" style="display: none;">
+                            <form action="{{ route('employee.dashboard.editAvailability', ['id' => $employee->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" value="Available" name="availability" id="btnradio1" autocomplete="off" @if($employee->availability == 'Available') checked @endif>
+                                    <label class="btn btn-outline-primary" for="btnradio1" style="border-bottom-right-radius: 20px;
+                                    border-top-right-radius: 20px;">متاح</label>
+
+                                    <input type="radio" class="btn-check" value="Unavailable" name="availability" id="btnradio2" autocomplete="off" @if($employee->availability == 'Unavailable') checked @endif>
+                                    <label class="btn btn-outline-primary" for="btnradio2" style="border-bottom-left-radius: 20px;
+                                    border-top-left-radius: 20px;">غير متاح</label>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                                    <label class="form-check-label" for="inlineCheckbox2">دوام جزئي</label>
+                                <div class="mt-4">
+                                    <h4>نظام العمل</h4>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="job_type" id="inlineCheckbox1" value="دوام كامل" @if($employee->job_type == 'دوام كامل') checked @endif>
+                                        <label class="form-check-label" for="inlineCheckbox1">دوام كامل</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="job_type" id="inlineCheckbox2" value="دوام جزئي" @if($employee->job_type == 'دوام جزئي') checked @endif>
+                                        <label class="form-check-label" for="inlineCheckbox2">دوام جزئي</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-11 d-flex gap-2 mt-4">
-                                <button type="submit" class="btn btn-secondary flex-fill">الغاء</button>
-                                <button type="submit" class="btn main-btn-2 flex-fill">حفظ</button>
-                            </div>
+                                <div class="col-sm-11 d-flex gap-2 mt-4">
+                                    <button type="reset" class="btn btn-secondary flex-fill" id="edit_availability_cancel">الغاء</button>
+                                    <button type="submit" class="btn main-btn-2 flex-fill">حفظ</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -251,29 +270,31 @@
                     <div id="about_me" class="ms-4 mt-4">
                         <div class="edit-hover pe-0 pe-md-5 py-0 py-md-3">
                             <p class="tab-content">
-                                لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم
-                                في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس
-                                عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب
-                                بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا النص، بل انه حتى
-                                صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير في ستينيّات هذا
-                                القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي مقاطع من هذا النص، وعاد لينتشر
-                                مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر" (Aldus PageMaker)
-                                والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.
+                                {{ $employee->bio }}
                             </p>
                             <button onclick="editAboutMe()" class="btn btn-edit">
-                                <i class="bi bi-pencil-square"></i>
+                                <i class="fa-regular fa-pen-to-square"></i>
                             </button>
                         </div>
                     </div>
                     <div id="edit_about_me" class="p-4" style="display: none; background-color: #e7eaf680;">
-                        <form>
+                        <form action="{{ route('employee.dashboard.editBio', ['id' => $employee->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
                             <div class="row mb-4">
                                 <div class="col-sm-11">
-                                    <textarea class="form-control" rows="5"></textarea>
+                                    <textarea class="form-control @error('bio') is-invalid @enderror" name="bio" rows="5">
+                                        {{ $employee->bio }}
+                                    </textarea>
+                                    @error('bio')
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-sm-11 d-flex gap-2 justify-content-end">
-                                <button type="submit" class="btn btn-secondary px-3">الغاء</button>
+                                <button type="reset" class="btn btn-secondary px-3" id="bio_cancel">الغاء</button>
                                 <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                             </div>
                         </form>
