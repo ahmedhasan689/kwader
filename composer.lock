@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5249a95d7b49cd08d3696deab85c8668",
+    "content-hash": "6c5be78df35238c8cabec8d9cf2ffe66",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2273,6 +2273,100 @@
                 "source": "https://github.com/opis/closure/tree/3.6.3"
             },
             "time": "2022-01-27T09:35:39+00:00"
+        },
+        {
+            "name": "paypal/paypal-payouts-sdk",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/Payouts-PHP-SDK.git",
+                "reference": "3bdafe3d79b08bb4c3467f911adc1601300b7149"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/Payouts-PHP-SDK/zipball/3bdafe3d79b08bb4c3467f911adc1601300b7149",
+                "reference": "3bdafe3d79b08bb4c3467f911adc1601300b7149",
+                "shasum": ""
+            },
+            "require": {
+                "paypal/paypalhttp": "~1.0.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sample\\": "samples/",
+                    "PaypalPayoutsSDK\\": "lib/PaypalPayoutsSDK"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/PAYOUTS-PHP-SDK/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for Payouts REST APIs",
+            "homepage": "http://github.com/paypal/PAYOUTS-PHP-SDK/",
+            "keywords": [
+                "payouts",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/paypal/Payouts-PHP-SDK/issues",
+                "source": "https://github.com/paypal/Payouts-PHP-SDK/tree/1.0.1"
+            },
+            "time": "2021-09-28T16:40:36+00:00"
+        },
+        {
+            "name": "paypal/paypalhttp",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/paypalhttp_php.git",
+                "reference": "7b09c89c80828e842c79230e7f156b61fbb68d25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/paypalhttp_php/zipball/7b09c89c80828e842c79230e7f156b61fbb68d25",
+                "reference": "7b09c89c80828e842c79230e7f156b61fbb68d25",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "wiremock-php/wiremock-php": "1.43.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PayPalHttp\\": "lib/PayPalHttp"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/paypalhttp_php/contributors"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/paypal/paypalhttp_php/issues",
+                "source": "https://github.com/paypal/paypalhttp_php/tree/1.0.1"
+            },
+            "time": "2021-09-14T21:35:26+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8616,7 +8710,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3|^8.0",
+        "ext-mongodb": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

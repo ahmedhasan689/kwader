@@ -8,6 +8,10 @@ use App\Models\Field;
 use App\Models\Skill;
 use App\Models\Specialization;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -15,7 +19,7 @@ use Illuminate\Support\Facades\Cookie;
 class EmployeeRepository implements EmployeeInterface
 {
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function choiceSpecialization()
     {
@@ -49,7 +53,7 @@ class EmployeeRepository implements EmployeeInterface
     }
     /**
      * @param $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function updateField($request)
     {
@@ -75,7 +79,7 @@ class EmployeeRepository implements EmployeeInterface
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function profileInfo()
     {
@@ -128,4 +132,45 @@ class EmployeeRepository implements EmployeeInterface
         return redirect()->route('employee.dashboard.index');
 
     }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function edit($id)
+    {
+        $employee = Employee::where('user_id', Auth::user()->id)->first();
+        $countries = Country::all();
+        return view('employee.edit', compact('employee', 'countries'));
+    }
+
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function editInfo($request, $id)
+    {
+        $employee = Employee::where('id', $id)->findOrFail($id);
+        $user = User::where('id', $employee->user_id)->first();
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'job_title' => 'required',
+            'country_id' => 'required',
+        ]);
+
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+        ]);
+        $employee->update([
+            'job_title' => $request->job_title,
+            'country_id' => $request->country_id
+        ]);
+
+        toastr()->success('تم تعديل بياناتك بنجاح');
+
+        return redirect()->back();
+    }
+
 }

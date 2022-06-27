@@ -30,9 +30,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::all();
-
-        return view('employer.job.jobs', compact('jobs'));
+        return $this->job->allJobs();
     }
 
     /**
@@ -99,5 +97,10 @@ class JobController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        return $this->job->search($request);
     }
 }

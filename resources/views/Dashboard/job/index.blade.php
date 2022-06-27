@@ -7,7 +7,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">
-                    الكادر
+                    الوظائف
                 </h4>
                 <span class="text-muted mt-1 tx-13 mr-2 mb-0">
                     / لوحة التحكم
@@ -25,11 +25,11 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mg-b-0">قائمة المحذوفات</h4>
+                        <h4 class="card-title mg-b-0">قائمة الوظائف</h4>
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
                     <p class="tx-14 tx-gray-500 mb-2">
-                        هنا كافة الكوادر الذين تم حذفهم ، يمكنك إستعادتهم أو حذفهم بشكل نهائي
+                        هنا قائمة الوظائف يمكنك الموافقة أو رؤية إستمرارية الوظيفة
                     </p>
                 </div>
                 <div class="card-body">

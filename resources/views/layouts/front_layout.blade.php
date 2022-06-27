@@ -3,21 +3,21 @@
 
     <x-head />
 
-<body>
+    <body>
 
-    @guest
-        <x-navbar />
-    @endguest
+        @guest
+            <x-navbar />
+        @endguest
 
-    @auth
-        <x-auth-nav />
-    @endauth
+        @auth
+            <x-auth-nav />
+        @endauth
 
-    @yield('content')
+        @yield('content')
 
 
-    <x-footer-script />
+        <x-footer-script />
 
-</body>
+    </body>
 
 </html>

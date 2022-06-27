@@ -9,6 +9,7 @@ use App\Http\Controllers\Employer\ContactController;
 use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employer\JobController;
+use App\Http\Controllers\Financial\PaypalController;
 use App\Http\Controllers\Social_Media\FacebookController;
 use App\Http\Controllers\Social_Media\GoogleController;
 use Illuminate\Support\Facades\Route;
@@ -165,7 +166,8 @@ Route::namespace('/Employer')
                 'prefix' => 'dashboard',
                 'as' => 'employer.dashboard.',
             ], function() {
-                Route::get('/', [EmployerController::class, 'index'])->name('index');
+                Route::get('/{id?}', [EmployerController::class, 'index'])->name('index');
+                Route::get('/{id}', [EmployerController::class, 'index'])->name('show');
             });
             // End Employer Dashboard
 
@@ -198,6 +200,8 @@ Route::namespace('/Employer')
                 Route::get('/create/{step}', [JobController::class, 'create'])->name('create');
                 Route::post('/store/{step}', [JobController::class, 'store'])->name('store');
             });
+                // For Search In Job-Index Page
+                Route::post('/search/{salary?}/{years?}', [JobController::class, 'search'])->name('search');
             //Start Job Route
         });
 
@@ -227,8 +231,24 @@ Route::namespace('/Employee')
             'prefix' => 'dashboard',
             'as' => 'employee.dashboard.',
         ], function() {
-            Route::get('/', [EmployeeController::class, 'index'])->name('index');
+            Route::get('/{id?}', [EmployeeController::class, 'index'])->name('index');
+            Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('edit');
+            Route::put('/edit_info/{id}', [EmployeeController::class, 'editInfo'])->name('editInfo');
         });
         // End Employee Dashboard Route
     });
 
+Route::namespace('/Financial')
+    ->prefix('/financial')
+    ->middleware(['auth'])
+    ->group(function() {
+
+        // Start Financial Route
+        Route::group([
+            'as' => 'financial.',
+        ], function() {
+            Route::get('/payout', [PaypalController::class, 'CreatePayout'])->name('CreatePayout');
+        });
+        // End Financial Route
+
+    });

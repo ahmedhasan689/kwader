@@ -2106,6 +2106,7 @@ progress {
 
 .form-control {
     display: block;
+    text-align: right;
     width: 100%;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -4993,7 +4994,8 @@ textarea.form-control-lg {
 .pagination {
     display: flex;
     padding-right: 0;
-    list-style: none
+    list-style: none;
+    justify-content: center;
 }
 
 .page-link {
@@ -6880,7 +6882,6 @@ textarea.form-control-lg {
 }
 
 .fixed-top {
-    position: fixed;
     top: 0;
     left: 0;
     right: 0;

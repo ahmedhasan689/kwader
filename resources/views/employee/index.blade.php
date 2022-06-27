@@ -19,7 +19,9 @@
                             {{ $employee->job_title }}
                         </p>
                         <hr>
-                        <a href="">تعديل ملفي الشخصي</a>
+                        <a href="{{ route('employee.dashboard.edit', ['id' => $employee->id] ) }}">
+                            تعديل ملفي الشخصي
+                        </a>
 
                     </div>
                     <div class="cardRight2 mt-4">

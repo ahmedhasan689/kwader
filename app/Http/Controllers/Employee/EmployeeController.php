@@ -23,7 +23,7 @@ class EmployeeController extends Controller
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index($id = null)
     {
         $employee = Employee::where('user_id', Auth::user()->id)->first();
         return view('employee.index', compact('employee'));
@@ -85,4 +85,19 @@ class EmployeeController extends Controller
     {
         return $this->employee->setInformation($request);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function edit($id)
+    {
+        return $this->employee->edit($id);
+    }
+
+    public function editInfo(Request $request, $id)
+    {
+        return $this->employee->editInfo($request, $id);
+    }
+
 }

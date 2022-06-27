@@ -27,8 +27,10 @@ interface EmployeeInterface {
     // Set Information For Employee
     public function setInformation(Request $request);
 
+    // Edit Page
+    public function edit($id);
 
-
-
+    // Edit Personal Info
+    public function editInfo(Request $request,$id);
 
 }

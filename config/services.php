@@ -41,4 +41,10 @@ return [
         'client_secret' => env('FB_CLIENT_SECRET'),
         'redirect' => env('FB_REDIRECT'),
     ],
+
+    'paypal' => [
+        'mode' => 'sandbox',
+        'client_id' => env('PAYPAL_CLIENT_ID'),
+        'client_secret' => env('PAYPAL_CLIENT_SECRET'),
+    ]
 ];

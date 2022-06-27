@@ -17,6 +17,7 @@ class Job extends Model
         'job_system',
         'specialization',
         'languages',
+        'skills',
         'salary',
         'status',
         'employee_applicants',
@@ -30,6 +31,7 @@ class Job extends Model
         'specialization' => 'json',
         'languages' => 'json',
         'employee_applicants' => 'json',
+        'skills' => 'json',
     ];
 
     /**

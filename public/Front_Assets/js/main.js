@@ -1,7 +1,69 @@
+const search = document.querySelector('.search')
+const link = document.querySelector('.srch-link')
+const input = document.querySelector('.input')
+link.addEventListener('click', () => {
+    search.classList.toggle('active')
+    input.focus()
+})
+
+
+/* Edit Content */
+function editAboutMe() {
+    document.getElementById("about_me").style.display="none";
+    document.getElementById("edit_about_me").style.display="block";
+}
+
+function editPersonalInfo() {
+    document.getElementById("personal_info").style.display="none";
+    document.getElementById("edit_personal_info").style.display="block";
+  }
+  function editSalaryInfo() {
+    document.getElementById("personal_info").style.display="none";
+    document.getElementById("edit_salary_info").style.display="block";
+  }
+  function editAvailability() {
+    document.getElementById("availability").style.display="none";
+    document.getElementById("edit_availability").style.display="block";
+  }
+
+  $(document).ready(function() {
+      $('#personal_info_cancel').click(function(e) {
+          e.preventDefault();
+          document.getElementById("edit_personal_info").style.display="none";
+          document.getElementById("personal_info").style.display="block";
+      })
+  })
+
+
+  /* Hover Dropdown */
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.innerWidth > 992) {
+      document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
+        everyitem.addEventListener('mouseover', function (e) {
+          let el_link = this.querySelector('a[data-bs-toggle]');
+          if (el_link != null) {
+            let nextEl = el_link.nextElementSibling;
+            el_link.classList.add('show');
+            nextEl.classList.add('show');
+          }
+        });
+        everyitem.addEventListener('mouseleave', function (e) {
+          let el_link = this.querySelector('a[data-bs-toggle]');
+
+          if (el_link != null) {
+            let nextEl = el_link.nextElementSibling;
+            el_link.classList.remove('show');
+            nextEl.classList.remove('show');
+          }
+        })
+      });
+    }
+  });
 
 $(document).ready(function(){
         $(".accountType").click(function(){
             $("#staticBackdropOption").modal('hide');
+            $("#staticBackdropSign").modal('show');
         });
 });
 
@@ -289,7 +351,6 @@ $(document).ready(function() {
         if( $(this).prop("checked") == true ) {
             var name = $(this).val();
 
-
             if(name) {
 
                 $.ajax({
@@ -369,6 +430,7 @@ $(document).ready(function () {
             url: '/employee/profile/getSpecialization/' + job_field,
             type: "Get",
             dataType: "json",
+
             success: function (data){
                 $('.special').empty()
                 for (var i = 0; i < data.type.length; i++){
@@ -405,11 +467,415 @@ $(document).ready(function() {
     $('#languages').chosen();
 });
 
+$(document).ready(function() {
+    $('#job_skills').chosen();
+});
+
+$(document).ready(function() {
+    var salary = document.getElementById('myRange');
+    var output = document.getElementById('demo');
+
+    output.innerHTML = salary.value;
+
+    let options = {};
+
+    $('#years_one').change(function() {
+        if( $(this).prop("checked") == true ) {
+            var years = $(this).val();
+        }
+        if (Object.keys(options).length = 2) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/employer/search',
+                dataType: 'json',
+                data: {
+                    years: years,
+                },
+                success: function(data) {
+                    $('#all_jobs').empty();
+                    $('#all_jobs').append(`
+                        <div class="card">
+                            <div class="title">
+                                <img src="Front_Assets/img/ss.png" alt="">
+                                <h5>
+                                    `+ data.result.job_title +`
+                                </h5>
+
+                                <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                <h5 class="modal-title mb-2 text-center" id="exampleModalLabel">أضف هذا
+                                                    الاعلان الى
+                                                    مفضلتي
+                                                </h5>
+
+
+                                                    <div class="mb-3">
+                                                        <label for="listName" class="form-label">انقر على قائمة لإضافة
+                                                            الإعلان</label>
+                                                        <input type="text" value="اسم القائمة" class="form-control"
+                                                               id="listName" aria-describedby="listName" readonly>
+
+                                                    </div>
+                                                    <div class="mb-3">
+
+                                                        <input type="text" value="اسم القائمة" class="form-control"
+                                                               id="listName" aria-describedby="listName" readonly>
+
+                                                    </div>
+                                                    <div class="mb-3" id="ans">
+
+                                                        <!-- <input type="text" value="اسم القائمة" class="form-control"
+                                                                                id="listName" aria-describedby="listName" readonly> -->
+
+                                                    </div>
+
+                                                    <button type="button" class="btnAdd btn-primary"
+                                                            onclick="hideButton(this)"><span>+</span>انشاء
+                                                        قائمة
+                                                        جديدة</button>
+                                                    <div class="mb-3" id="div2">
+
+
+                                                    </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                {{ $job->description }}
+                            </p>
+                            <div class="group">
+                                @php
+                                    $array_one = array_slice( $job->skills, 0, 4 );
+                                    $full_array = $job->skills;
+                                    $remaining_array = array_diff($full_array, $array_one);
+                                @endphp
+
+                                @foreach($array_one as $skill)
+                                    <span title="{{ $skill }}">
+                                        {{ Str::limit($skill, 8) }}
+                                    </span>
+                                @endforeach
+                                <span title="{{ implode(', ',  $remaining_array) }}">+ {{ count($remaining_array) }}</span>
+                            </div>
+                            <hr />
+                            <div class="foot d-flex">
+                                <div>
+                                    <i class="fa-solid fa-clock"></i>
+                                    <span>
+                                        {{ $job->created_at->diffForHumans() }}
+                                    </span>
+                                </div>
+                                <div class="d-flex">
+                                    <h5>
+                                       $ {{ $job->salary }}
+                                    </h5> <span> / شهر</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    `);
+                },
+                error: function(data) {
+                    console.log(data)
+                }
+
+            })
+        };
+    });
+
+    salary.oninput = function() {
+        $('.gro').empty();
+        output.innerHTML = this.value;
+        options['salary'] = output.innerHTML;
+        $('.gro').append(`
+            <span>الحد الأدنى ` +  options['salary'] + ` <i class="fa-solid fa-circle-xmark"></i></span>
+        `);
+
+        if (Object.keys(options).length = 2) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/employer/search',
+                dataType: 'json',
+                data: {
+                    data: output.innerHTML,
+                },
+                success: function(data) {
+                    $('#all_jobs').empty();
+                    $('#all_jobs').append(`
+                        <div class="card">
+                            <div class="title">
+                                <img src="Front_Assets/img/ss.png" alt="">
+                                <h5>
+                                    `+ data.result.job_title +`
+                                </h5>
+
+                                <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                <h5 class="modal-title mb-2 text-center" id="exampleModalLabel">أضف هذا
+                                                    الاعلان الى
+                                                    مفضلتي
+                                                </h5>
+
+
+                                                    <div class="mb-3">
+                                                        <label for="listName" class="form-label">انقر على قائمة لإضافة
+                                                            الإعلان</label>
+                                                        <input type="text" value="اسم القائمة" class="form-control"
+                                                               id="listName" aria-describedby="listName" readonly>
+
+                                                    </div>
+                                                    <div class="mb-3">
+
+                                                        <input type="text" value="اسم القائمة" class="form-control"
+                                                               id="listName" aria-describedby="listName" readonly>
+
+                                                    </div>
+                                                    <div class="mb-3" id="ans">
+
+                                                        <!-- <input type="text" value="اسم القائمة" class="form-control"
+                                                                                id="listName" aria-describedby="listName" readonly> -->
+
+                                                    </div>
+
+                                                    <button type="button" class="btnAdd btn-primary"
+                                                            onclick="hideButton(this)"><span>+</span>انشاء
+                                                        قائمة
+                                                        جديدة</button>
+                                                    <div class="mb-3" id="div2">
+
+
+                                                    </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                {{ $job->description }}
+                            </p>
+                            <div class="group">
+                                @php
+                                    $array_one = array_slice( $job->skills, 0, 4 );
+                                    $full_array = $job->skills;
+                                    $remaining_array = array_diff($full_array, $array_one);
+                                @endphp
+
+                                @foreach($array_one as $skill)
+                                    <span title="{{ $skill }}">
+                                        {{ Str::limit($skill, 8) }}
+                                    </span>
+                                @endforeach
+                                <span title="{{ implode(', ',  $remaining_array) }}">+ {{ count($remaining_array) }}</span>
+                            </div>
+                            <hr />
+                            <div class="foot d-flex">
+                                <div>
+                                    <i class="fa-solid fa-clock"></i>
+                                    <span>
+                                        {{ $job->created_at->diffForHumans() }}
+                                    </span>
+                                </div>
+                                <div class="d-flex">
+                                    <h5>
+                                       $ {{ $job->salary }}
+                                    </h5> <span> / شهر</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    `);
+                },
+                error: function(data) {
+                    console.log(data)
+                }
+
+            })
+        };
+
+    }
+
+    $('input[name="years_one"]').change(function () {
+        if ($(this).attr('checked') === true) {
+            console.log('Ok');
+        }
+    })
+
+
+    //     $('#result').on('click', function(e) {
+    //         e.preventDefault();
+    //     // $.ajax({
+    //     //     type: 'POST',
+    //     //     url: '/employer/search/'+output.innerHTML,
+    //     //     data: {
+    //     //         salary: output.innerHTML,
+    //     //     },
+    //     //     dataType: 'json',
+    //     //     success: function(data) {
+    //     //         console.log(data.result.job_title)
+    //     //         // $('#all_jobs').empty();
+    //     //         // $('#all_jobs').append(`
+    //     //         //     <div class="card">
+    //     //         //         <div class="title">
+    //     //         //             <img src="Front_Assets/img/ss.png" alt="">
+    //     //         //             <h5>
+    //     //         //                 `+ data.result.job_title +`
+    //     //         //             </h5>
+    //     //         //
+    //     //         //             <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
+    //     //         //
+    //     //         //             <!-- Modal -->
+    //     //         //             <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    //     //         //                  aria-hidden="true">
+    //     //         //                 <div class="modal-dialog">
+    //     //         //                     <div class="modal-content">
+    //     //         //
+    //     //         //                         <div class="modal-body">
+    //     //         //                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+    //     //         //                                     aria-label="Close"></button>
+    //     //         //                             <h5 class="modal-title mb-2 text-center" id="exampleModalLabel">أضف هذا
+    //     //         //                                 الاعلان الى
+    //     //         //                                 مفضلتي
+    //     //         //                             </h5>
+    //     //         //
+    //     //         //
+    //     //         //                                 <div class="mb-3">
+    //     //         //                                     <label for="listName" class="form-label">انقر على قائمة لإضافة
+    //     //         //                                         الإعلان</label>
+    //     //         //                                     <input type="text" value="اسم القائمة" class="form-control"
+    //     //         //                                            id="listName" aria-describedby="listName" readonly>
+    //     //         //
+    //     //         //                                 </div>
+    //     //         //                                 <div class="mb-3">
+    //     //         //
+    //     //         //                                     <input type="text" value="اسم القائمة" class="form-control"
+    //     //         //                                            id="listName" aria-describedby="listName" readonly>
+    //     //         //
+    //     //         //                                 </div>
+    //     //         //                                 <div class="mb-3" id="ans">
+    //     //         //
+    //     //         //                                     <!-- <input type="text" value="اسم القائمة" class="form-control"
+    //     //         //                                                             id="listName" aria-describedby="listName" readonly> -->
+    //     //         //
+    //     //         //                                 </div>
+    //     //         //
+    //     //         //                                 <button type="button" class="btnAdd btn-primary"
+    //     //         //                                         onclick="hideButton(this)"><span>+</span>انشاء
+    //     //         //                                     قائمة
+    //     //         //                                     جديدة</button>
+    //     //         //                                 <div class="mb-3" id="div2">
+    //     //         //
+    //     //         //
+    //     //         //                                 </div>
+    //     //         //
+    //     //         //
+    //     //         //                         </div>
+    //     //         //
+    //     //         //
+    //     //         //
+    //     //         //                     </div>
+    //     //         //                 </div>
+    //     //         //             </div>
+    //     //         //         </div>
+    //     //         //
+    //     //         //         <p>
+    //     //         //             {{ $job->description }}
+    //     //         //         </p>
+    //     //         //         <div class="group">
+    //     //         //             @php
+    //     //         //                 $array_one = array_slice( $job->skills, 0, 4 );
+    //     //         //                 $full_array = $job->skills;
+    //     //         //                 $remaining_array = array_diff($full_array, $array_one);
+    //     //         //             @endphp
+    //     //         //
+    //     //         //             @foreach($array_one as $skill)
+    //     //         //                 <span title="{{ $skill }}">
+    //     //         //                     {{ Str::limit($skill, 8) }}
+    //     //         //                 </span>
+    //     //         //             @endforeach
+    //     //         //             <span title="{{ implode(', ',  $remaining_array) }}">+ {{ count($remaining_array) }}</span>
+    //     //         //         </div>
+    //     //         //         <hr />
+    //     //         //         <div class="foot d-flex">
+    //     //         //             <div>
+    //     //         //                 <i class="fa-solid fa-clock"></i>
+    //     //         //                 <span>
+    //     //         //                     {{ $job->created_at->diffForHumans() }}
+    //     //         //                 </span>
+    //     //         //             </div>
+    //     //         //             <div class="d-flex">
+    //     //         //                 <h5>
+    //     //         //                    $ {{ $job->salary }}
+    //     //         //                 </h5> <span> / شهر</span>
+    //     //         //             </div>
+    //     //         //         </div>
+    //     //         //     </div>
+    //     //         //
+    //     //         // `);
+    //     //     },
+    //     //     error: function (data) {
+    //     //         console.log(data)
+    //     //     }
+    //     //
+    //     // })
+    // })
+
+
+});
+
 
 $('.fc-datepicker').datepicker({
     showOtherMonths: true,
     selectOtherMonths: true
 });
+
 
 
 

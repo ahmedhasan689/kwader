@@ -1,371 +1,326 @@
 @extends('layouts.front_layout')
 
-@section('page_title', 'إضافة وظيفة')
+@section('page_title', 'الوظائف')
+@section('css')
+    <style>
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+    </style>
+@endsection
 
 @section('content')
-    <form action="{{ route('job.store', ['step' => 2]) }}" method="POST" id="add_job">
-        @csrf
-        <div class="addJob">
-            <h2>أضف وظيفة جديدة</h2>
-            <div class="steps container">
-                <ul class="d-flex">
-                    <li class="d-flex one-steps">
-                        @if( $step == 1)
-                            <div>1</div>
-                            <h5>ادخال البيانات</h5>
-                        @else
-                            <div style="background-color: #00B398; color: #fff; border-color: #00B398">1</div>
-                            <h5 style="color: #00B398">ادخال البيانات</h5>
-                        @endif
 
-                    </li>
-                    <li class="d-flex two-steps">
-                        <div>2</div>
-                        <h5>معاينة الوظيفة</h5>
-                    </li>
-                    <li class="d-flex three-steps">
-                        <div>3</div>
-                        <h5>دفع الرسوم</h5>
-                    </li>
-                </ul>
+    <div class="search">
+        <div class="container">
+            <div class="row">
 
-                {{-- Step One ( Job Information ) --}}
-                @if( $step == 1 )
-                <div class="first-step" style="display:block;">
-                @else
-                <div class="first-step" style="display:none;">
-                @endif
-                        <div class="row d-flex gap-2">
-                            <div class="col-lg-4" style="border: 1px solid #898EA3; border-radius:5px; padding-bottom: 30px;">
-                                <div class="mb-3 px-4 mt-4">
-                                    <label for="jobName" class="form-label">
-                                        المسمى الوظيفي
-                                    </label>
-                                    <input type="text" name="job_title" placeholder="مثال: مبرمج،مصمم جرافيك، مدير تسويقي" class="form-control @error('job_title') is-invalid @enderror" id="jobName" aria-describedby="company">
-                                    @error('job_title')
-                                        <span class="invalid-feedback">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3 px-4 mt-4">
-                                    <label for="field" class="form-label">
-                                        المجال
-                                    </label>
-                                    <input type="text" placeholder="ابحث عن المجال" class="form-control" id="field" aria-describedby="company">
-                                    <div class="over">
-                                        @foreach( $fields as $field )
-                                            <div class="form-check" style="margin-right: 4px">
-                                                <input class="form-check-input @error('job_field') is-invalid @enderror" type="radio" name="job_field" value="{{ $field->id }}" id="{{ $field->id }}">
-                                                <label class="form-check-label" for="{{ $field->id }}">
-                                                   {{ $field->field_name }}
-                                                </label>
-                                            </div>
-                                            @error('job_field')
-                                                <span class="invalid-feedback">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        @endforeach
-                                    </div>
+                <div class="col-3 right">
+                    <form>
+                        <h5>
+                            البحث
+                        </h5>
+                        <div class="gro">
 
-                                </div>
-                                <div class="specialize px-4 mt-4">
-                                    <label for="specialized" class="form-label">
-                                        الاختصاص
-                                    </label>
-                                    <input type="text" placeholder="ابحث عن الاختصاص" class="form-control" id="specialized" aria-describedby="company">
-                                    <div class="over special">
-                                        <span style="margin-right: 100px">
-                                            سيكون الأختصاص هنا !
-                                        </span>
+{{--                            <span>--}}
+{{--                                1-2سنوات--}}
+{{--                                <a href="#" class="search_value">--}}
+{{--                                    <i class="fa-solid fa-circle-xmark"></i>--}}
+{{--                                </a>--}}
+{{--                            </span>--}}
+                        </div>
+                        <hr>
 
-                                        @error('special')
-                                            <span class="invalid-feedback">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
+                        <h5>الراتب الشهري</h5>
 
-                                </div>
-                                <div class="years px-4 mt-4">
-                                    <h5>سنوات الخبرة</h5>
-                                    <div class="form-check" style="margin-right: 4px">
-                                        <input class="form-check-input job_field @error('years_of_experience') is-invalid @enderror" type="radio" name="years_of_experience" value="0-2 سنوات" id="exper1">
-                                        <label class="form-check-label" for="exper1">
-                                            0-2 سنوات
-                                        </label>
-                                    </div>
-                                    <div class="form-check" style="margin-right: 4px">
-                                        <input class="form-check-input job_field @error('years_of_experience') is-invalid @enderror" type="radio" name="years_of_experience" value="5-2 سنوات" id="exper2">
-                                        <label class="form-check-label" for="exper2">
-                                            5-2 سنوات
-                                        </label>
-                                    </div>
-                                    <div class="form-check" style="margin-right: 4px">
-                                        <input class="form-check-input job_field @error('years_of_experience') is-invalid @enderror" type="radio" name="years_of_experience" value="10-5 سنوات" id="exper3">
-                                        <label class="form-check-label" for="exper3">
-                                            10-5 سنوات
-                                        </label>
-                                    </div>
-                                    <div class="form-check" style="margin-right: 4px">
-                                        <input class="form-check-input job_field @error('years_of_experience') is-invalid @enderror" type="radio" name="years_of_experience" value="+10 سنوات" id="exper4">
-                                        <label class="form-check-label" for="exper4">
-                                            +10 سنوات
-                                        </label>
-                                    </div>
-                                </div>
-                                @error('years_of_experience')
-                                    <span class="invalid-feedback">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+
+                        <div class="slidecontainer">
+                            <input type="range" min="100" max="10000" name="salary" class="slider" id="myRange">
+                            <div class="d-flex " style="justify-content:space-between;">
+                                <span>100.00$</span>
+                                <span id="demo"></span>
                             </div>
-                            <div class="col-lg-8" style="border: 1px solid #898EA3; border-radius:5px;">
 
-                                <div class="d-flex gap-2  px-4 mt-4">
-                                    <div class="mb-3" style="width:50% ;">
-                                        <label for="sallary" class="form-label">الراتب الشهري</label>
-                                        <input style="width:100% ;" type="number" class="form-control @error('salary') is-invalid @enderror" name="salary" id="sallary">
-                                        @error('salary')
-                                        <span class="invalid-feedback">
-                                            {{ $message }}
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="location" class="form-label" style="display: block">نظام العمل</label>
+                        </div>
+                        <hr>
+                        <div class="country">
+                            <h5>الدولة</h5>
+                            <input type="text" placeholder="غير محدد">
+                        </div>
+                        <hr>
+                        <div class="years">
+                            <h5>سنوات الخبرة</h5>
+                            <input type="checkbox" id="years_one" name="years_one" value="0-2 سنوات">
+                            <label for="vehicle1">
+                                0-2سنوات
+                            </label>
+                            <br>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="five">
+                            <label for="vehicle2"> 2-5سنوات</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" value="ten">
+                            <label for="vehicle3"> 5-10سنوات</label> <br>
+                            <input type="checkbox" id="vehicle4" name="vehicle4" value="over">
+                            <label for="vehicle4"> +10سنوات</label>
+                        </div>
+                        <hr>
+                        <div class="field">
+                            <h5>المجال</h5>
+                            <input type="text" placeholder="ابحث عن مجالك">
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="تكنولوجيا المعلومات">
+                            <label for="vehicle1"> تكنولوجيا المعلومات
+                            </label><br>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="برمجة و تطوير">
+                            <label for="vehicle2"> برمجة و تطوير</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" value="هندسة و علوم">
+                            <label for="vehicle3"> هندسة و علوم</label>
+                            <br>
+                            <input type="checkbox" id="vehicle4" name="vehicle4" value="تسويق و مبيعات">
+                            <label for="vehicle4"> تسويق و مبيعات</label>
+                            <br>
+                            <input type="checkbox" id="vehicle5" name="vehicle5" value="فن و تصميم ">
+                            <label for="vehicle5"> فن و تصميم</label>
+                            <br>
+                            <input type="checkbox" id="vehicle6" name="vehicle6" value="كتابة و ترجمة  ">
+                            <label for="vehicle6"> كتابة و ترجمة</label>
+                            <br>
+                            <input type="checkbox" id="vehicle7" name="vehicle7" value="دعم فني ">
+                            <label for="vehicle7"> دعم فني</label>
+                            <br>
+                            <input type="checkbox" id="vehicle8" name="vehicle8" value="محاسبة و مالية ">
+                            <label for="vehicle8"> محاسبة و مالية</label>
+                        </div>
+                        <hr>
+                        <div class="specialize">
+                            <h5>الاختصاص</h5>
+                            <input type="text" placeholder="ابحث عن اختصاصك">
 
-                                        <div style="display:inline; margin-left: 25px;">
-                                            <input type="radio" id="system5" class="form-check-input @error('job_system') is-invalid @enderror" name="job_system" value="دوام كامل">
-                                            <label class="form-check-label" for="system5" style="">
-                                                دوام كامل
-                                            </label>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="special1">
+                            <label for="vehicle1">الاختصاص1</label><br>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="special2">
+                            <label for="vehicle2"> الاختصاص2</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" value="special3">
+                            <label for="vehicle3"> الاختصاص3</label> <br>
+                            <input type="checkbox" id="vehicle4" name="vehicle4" value="special4">
+                            <label for="vehicle4">الاختصاص4</label><br>
+                            <input type="checkbox" id="vehicle5" name="vehicle5" value="special5">
+                            <label for="vehicle5"> الاختصاص5</label><br>
+                            <input type="checkbox" id="vehicle6" name="vehicle6" value="special6">
+                            <label for="vehicle6"> الاختصاص6</label>
+
+                        </div>
+                        <hr>
+                        <div class="skills">
+                            <h5>المهارات</h5>
+                            <input type="text">
+                        </div>
+                        <hr>
+                        <div class="system ">
+                            <h5>نظام العمل</h5>
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="1">
+                            <label for="vehicle1"> دوام كامل
+                            </label><br>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="2">
+                            <label for="vehicle2"> دوام جزئي</label><br>
+                        </div>
+                        <hr>
+                        <div class="language">
+                            <h5>اللغات</h5>
+                            <input type="text" placeholder="ابحث عن اللغة">
+
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="arabic">
+                            <label for="vehicle1"> العربية</label><br>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="english">
+                            <label for="vehicle2"> الإنجليزية</label><br>
+                            <input type="checkbox" id="vehicle3" name="vehicle3" value="french">
+                            <label for="vehicle3"> الفرنسية</label> <br>
+                            <input type="checkbox" id="vehicle4" name="vehicle4" value="spanich">
+                            <label for="vehicle4"> الاسبانية</label><br>
+                            <input type="checkbox" id="vehicle5" name="vehicle5" value="turkey">
+                            <label for="vehicle5"> التركية</label><br>
+                            <input type="checkbox" id="vehicle6" name="vehicle6" value="alman">
+                            <label for="vehicle6">الالمانية</label>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-success" id="result">
+                            بحث
+                        </button>
+                    </form>
+
+
+                </div>
+                <div class="col-9 left d-flex mt-5 gap-2" id="all_jobs" style="">
+                    @foreach( $jobs as $job )
+                        <div class="card">
+                        <div class="title">
+                            <img src="{{ asset('Front_Assets/img/ss.png') }}" alt="">
+                            <h5>
+                                {{ $job->job_title }}
+                            </h5>
+
+                            <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-body">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            <h5 class="modal-title mb-2 text-center" id="exampleModalLabel">أضف هذا
+                                                الاعلان الى
+                                                مفضلتي
+                                            </h5>
+
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="listName" class="form-label">انقر على قائمة لإضافة
+                                                        الإعلان</label>
+                                                    <input type="text" value="اسم القائمة" class="form-control"
+                                                           id="listName" aria-describedby="listName" readonly>
+
+                                                </div>
+                                                <div class="mb-3">
+
+                                                    <input type="text" value="اسم القائمة" class="form-control"
+                                                           id="listName" aria-describedby="listName" readonly>
+
+                                                </div>
+                                                <div class="mb-3" id="ans">
+
+                                                    <!-- <input type="text" value="اسم القائمة" class="form-control"
+                                                                            id="listName" aria-describedby="listName" readonly> -->
+
+                                                </div>
+
+                                                <button type="button" class="btnAdd btn-primary"
+                                                        onclick="hideButton(this)"><span>+</span>انشاء
+                                                    قائمة
+                                                    جديدة</button>
+                                                <div class="mb-3" id="div2">
+
+
+                                                </div>
+                                            </form>
+
                                         </div>
-                                        <div style="display:inline;">
-                                            <input type="radio" id="system6" class="form-check-input @error('job_system') is-invalid @enderror" name="job_system" value="دوام جزئي">
-                                            <label class="form-check-label" for="system6">
-                                                دوام جزئي
-                                            </label>
-                                        </div>
-                                        @error('job_system')
-                                            <span class="invalid-feedback">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
 
-                                <div class="d-flex gap-2  px-4">
-                                    <div class="mb-3" style="width:50% ;">
-                                        <label for="country" class="form-label">الدولة</label>
-                                        <select class="form-select @error('country_id') is-invalid @enderror" aria-label="Default select example" name="country_id">
-                                            <option >الرجاء إختيار الدولة من هنا</option>
-                                            @foreach( $countries as $country )
-                                                <option value="{{ $country->id }}">
-                                                    {{ $country->country_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('country_id')
-                                            <span class="invalid-feedback">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
 
-                                    </div>
-                                    <div class="mb-3" style="width:50% ;">
-                                        <label for="language" class="form-label">اللغات</label>
-                                        <select id="languages" class="form-select @error('languages') is-invalid @enderror" aria-label="Default select example" multiple name="languages[]" style="height: 20px">
-                                            @foreach( $languages as $language )
-                                                <option value="{{ $language->language_name }}">
-                                                    {{ $language->language_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('languages')
-                                            <span class="invalid-feedback">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2  px-4 mt-4">
-                                    <div class="mb-3" style="width:100% ;">
-{{--                                            <label for="job_description" class="form-label">--}}
-{{--                                                وصف الوظيفة--}}
-{{--                                            </label>--}}
-                                        <br>
-                                        <div class="form-outline">
-                                            <label class="form-label" for="textAreaExample2">وصف الوطيفة</label>
-                                            <textarea class="form-control @error('job_description') is-invalid @enderror" name="job_description" id="textAreaExample2" rows="12"></textarea>
-                                            @error('job_description')
-                                                <span class="invalid-feedback">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                </div>
 
-                {{-- Step Two ( Administrator's approval ) --}}
-                @if ( $step == 2 )
-                <div class="job-preview" style="display:block;">
-                @else
-                <div class="job-preview" style="display:none;">
-                @endif
-                    <div>
-                        <img src="{{ asset('Front_Assets/img/Group 613.png') }}" alt="">
-                        <p id="threeStep">
-                            جاري معالجة طلبكم, ترقب ردَّنا قريبا
+                        <p>
+                            {{ $job->description }}
                         </p>
-                    </div>
-                </div>
+                        <div class="group">
+                            @php
+                                $array_one = array_slice( $job->skills, 0, 4 );
+                                $full_array = $job->skills;
+                                $remaining_array = array_diff($full_array, $array_one);
+                            @endphp
 
-                {{-- Step Three ( Job Posting Cost ) --}}
-                @if( $step == 3 )
-                <div class="payment-fees" style="display:block;">
-                @else
-                <div class="payment-fees" style="display:none;">
-                @endif
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="right">
-                                <div class="card">
-                                    <span>مجموع الدفع</span>
-                                    <h5>$46</h5>
-                                </div>
-                                <p>كيف تريد أن تدفع</p>
-
-                                    <div class="d-flex ss">
-                                        <div><input type="checkbox" name="" id=""> <span>بطاقة الائتمانية</span></div>
-                                        <div class="image d-flex">
-                                            <img src="{{ asset('Front_Assets/img/mastercard.png') }}" alt="">
-                                            <img src="{{ asset('Front_Assets/img/visa.png') }}'" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="d-flex ss">
-                                        <div><input type="checkbox" name="" id=""> <span>Paypal</span></div>
-                                        <div class="image d-flex ">
-                                            <img src="{{ asset('Front_Assets/img/paypal.png') }}" alt="">
-
-                                        </div>
-                                    </div>
-                                    <div class="d-flex ss">
-                                        <div>
-                                            <input type="checkbox" name="" id="">
-                                            <span>
-                                                بطاقة عضوية
-                                            </span>
-                                        </div>
-                                        <div class="image d-flex">
-                                            <img src="{{ asset('Front_Assets/img/Group 620.png') }}" alt="">
-                                        </div>
-                                    </div>
-
+                            @foreach($array_one as $skill)
+                                <span title="{{ $skill }}">
+                                    {{ Str::limit($skill, 8) }}
+                                </span>
+                            @endforeach
+                            <span title="{{ implode(', ',  $remaining_array) }}">+ {{ count($remaining_array) }}</span>
+                        </div>
+                        <hr />
+                        <div class="foot d-flex">
+                            <div>
+                                <i class="fa-solid fa-clock"></i>
+                                <span>
+                                    {{ $job->created_at->diffForHumans() }}
+                                </span>
                             </div>
-                        </div>
-                        <div class="col-lg-4 text-center center mt-4">
-                            <h5>تفاصيل الدفع الخاصة بك</h5>
-{{--                                <div class="mb-3 d-flex gap-2" style="flex-direction:column ;">--}}
-{{--                                    <label for="#name">اسمك كما في البطاقة الائتمانية</label>--}}
-{{--                                    <input type="text" class="form-control" id="name" aria-describedby="emailHelp">--}}
+                            <div class="d-flex">
+                                <h5>
+                                   $ {{ $job->salary }}
+                                </h5> <span> / شهر</span>
+                            </div>
 
-{{--                                </div>--}}
-{{--                                <div class="mb-3">--}}
-{{--                                    <label for="#numb">رقم البطاقة</label>--}}
-
-{{--                                    <input type="number" class="form-control" id="numb" aria-describedby="emailHelp">--}}
-
-{{--                                </div>--}}
-{{--                                <div class="mb-3 d-flex gap-2">--}}
-{{--                                    <div><label for="#date">تاريخ انتهاء الصلاحية </label>--}}
-
-{{--                                        <input type="date" placeholder="كلمة المرور" class="form-control" id="date">--}}
-{{--                                    </div>--}}
-{{--                                    <div>--}}
-{{--                                        <label for="#cvv">CVV</label>--}}
-
-{{--                                        <input type="number" placeholder="522" class="form-control" id="cvv">--}}
-{{--                                    </div>--}}
-
-{{--                                </div>--}}
-
-{{--                                <div class="mb-3 form-check ">--}}
-{{--                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">--}}
-{{--                                    <label class="form-check-label" for="exampleCheck1">احفظ البطاقة لتسهيل--}}
-{{--                                        الدفع في المستقبل</label>--}}
-{{--                                </div>--}}
-
-                                <button type="button" class="btn click">
-                                    ادفع الان
-                                </button>
-
-                        </div>
-                        <div class="col-lg-4 mt-5">
-                            <img src="{{ asset('Front_Assets/img/Group 734.png') }}" alt="">
                         </div>
                     </div>
-                </div>
-
-                {{-- Step Four ( Job Advertisement ) --}}
-                <div class="final" style="display:none;">
-                    <div>
-                        <img src="{{ asset('Front_Assets/img/Group 613.png') }}" alt="">
-                        <p id="threeStep">
-                            مبروك ، لقد تم إعلان الوظيفة
-                        </p>
-                    </div>
-                </div>
-
-                <div class="px-4 mt-4" style="float:left ; ">
-                    <button type="submit" style="background-color: #00B398; border: none; padding: 10px 20px; font-size: large;"  class="btn btn-primary">
-                        معاينة الوظيفة
-                    </button>
+                    @endforeach
                 </div>
             </div>
-        </div>
-    </form>
-    <br> <br> <br><br> <br> <br>
-    <script>
 
-        // $(".moved-step").on("click", function () {
-        //     $(this).css("display", "none");
-        //     $(".first-step").css("display", "none");
-        //     $(".one-steps div").css({ "background-color": "#00B398", "color": "#fff", "border-color": "#00B398" });
-        //     $(".one-steps h5").css({ "color": "#00B398" });
-        //     $(".two-steps div").css({ "color": "#3A3F50", "border-color": "#3A3F50" });
-        //     $(".two-steps h5").css({ "color": "#3A3F50" });
-        //     $(".job-preview").css("display", "block");
-        // });
-        // $("#threeStep").on("click", function () {
-        //     $(this).css("display", "none");
-        //
-        //     $(".one-steps div").css({ "background-color": "#00B398", "color": "#fff", "border-color": "#00B398" });
-        //     $(".one-steps h5").css({ "color": "#00B398" });
-        //     $(".two-steps div").css({ "background-color": "#00B398", "color": "#fff", "border-color": "#00B398" });
-        //     $(".two-steps h5").css({ "color": "#00B398" });
-        //     $(".three-steps div").css({ "color": "#3A3F50", "border-color": "#3A3F50" });
-        //     $(".three-steps h5").css({ "color": "#3A3F50" });
-        //     $(".job-preview").css("display", "none");
-        //     $(".payment-fees").css("display", "block");
-        //
-        // });
-        // $(".payment-fees .center button").on("click", function () {
-        //     $(this).css("display", "none");
-        //
-        //     $(".one-steps div").css({ "background-color": "#00B398", "color": "#fff", "border-color": "#00B398" });
-        //     $(".one-steps h5").css({ "color": "#00B398" });
-        //     $(".two-steps div").css({ "background-color": "#00B398", "color": "#fff", "border-color": "#00B398" });
-        //     $(".two-steps h5").css({ "color": "#00B398" });
-        //     $(".three-steps div").css({ "background-color": "#00B398", "color": "#fff", "border-color": "#00B398" });
-        //     $(".three-steps h5").css({ "color": "#00B398" });
-        //
-        //     $(".payment-fees").css("display", "none");
-        //     $(".final").css("display", "block");
-        // });
-    </script>
+            <nav aria-label="Page navigation example" class="navigation-search">
+                {{ $jobs->links() }}
+{{--                <ul class="pagination">--}}
+{{--                    <li class="page-item">--}}
+{{--                        <a class="page-link" href="#" aria-label="Previous">--}}
+{{--                            <span aria-hidden="true">&laquo;</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="page-item"><a class="page-link" href="#">1</a></li>--}}
+{{--                    <li class="page-item"><a class="page-link" href="#">2</a></li>--}}
+{{--                    <li class="page-item"><a class="page-link" href="#">3</a></li>--}}
+{{--                    <li class="page-item">--}}
+{{--                        <a class="page-link" href="#" aria-label="Next">--}}
+{{--                            <span aria-hidden="true">&raquo;</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+            </nav>
+            <br> <br>
+        </div>
+
+    </div>
+    </div>
+
+    @section('js')
+        <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value + ".00$";
+
+
+            slider.oninput = function () {
+                output.innerHTML = this.value + ".00$";;
+            }
+            slider.addEventListener("mousemove", function () {
+                var x = slider.value;
+                var color = 'red' + x + '%';
+                slider.style.background = color;
+            })
+        </script>
+    @endsection
 @endsection

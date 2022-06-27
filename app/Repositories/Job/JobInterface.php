@@ -2,8 +2,13 @@
 
 namespace App\Repositories\Job;
 
+use Illuminate\Http\Request;
+
 interface JobInterface
 {
+    // Jobs Page
+    public function allJobs();
+
     // Show Create Page - By Default Step = 1
     public function create($step);
 
@@ -12,5 +17,8 @@ interface JobInterface
 
     // Store Job In DB - Step = 3
     public function payingOff($step);
+
+    // Search
+    public function search(Request $request);
 
 }

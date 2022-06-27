@@ -21,8 +21,12 @@
             <form class="d-flex">
 
 
-                <!-- Button trigger modal -->
-                <i style="color:#fff ;" class="fas fa-search white"></i>
+                <div class="search">
+                    <input type="search" class="input" placeholder="ابحث...">
+                    <a class="link-light srch-link">
+                        <i style="color:#fff ;" class="fas fa-search white"></i>
+                    </a>
+                </div>
 
                 <button type="button" class="btn  login-button" data-bs-toggle="modal"
                     data-bs-target="#staticBackdropLogin">

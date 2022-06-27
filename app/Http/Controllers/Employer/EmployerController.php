@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Employer;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -24,11 +28,19 @@ class EmployerController extends Controller
         $this->user = $user;
     }*/
 
-    public function index()
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function index($id = null)
     {
         return view('employer.index');
     }
 
+    /**
+     * @param $type
+     * @return JsonResponse
+     */
     public function accountType($type)
     {
         if ( Cookie::get('user_type') ) {
