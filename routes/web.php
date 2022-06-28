@@ -237,6 +237,8 @@ Route::namespace('/Employee')
             Route::put('/edit_salary/{id}', [EmployeeController::class, 'editSalary'])->name('editSalary');
             Route::put('/edit_availability/{id}', [EmployeeController::class, 'editAvailability'])->name('editAvailability');
             Route::put('/edit_bio/{id}', [EmployeeController::class, 'editBio'])->name('editBio');
+            Route::put('/personal_tap/{id}', [EmployeeController::class, 'personalTap'])->name('personalTap');
+            Route::post('/practicalExperience', [EmployeeController::class, 'practicalExperience'])->name('practicalExperience');
         });
         // End Employee Dashboard Route
     });

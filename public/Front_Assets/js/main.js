@@ -54,6 +54,19 @@ $(document).ready(function() {
         document.getElementById("about_me").style.display="block";
     })
 })
+$(document).ready(function() {
+    $('#about-me').click(function(e) {
+        e.preventDefault();
+        document.getElementById("edit_about_me").style.display="none";
+        document.getElementById("about_me").style.display="block";
+    })
+})
+$(document).ready(function() {
+    $('#experModalButton').click(function(e) {
+        e.preventDefault();
+        document.getElementById("experModal").style.display="none";
+    })
+})
 
 
   /* Hover Dropdown */
@@ -245,7 +258,63 @@ $(document).ready(function() {
     });
 })
 
+$(document).ready(function() {
+    $('#personal-tap').submit(function(e) {
+        e.preventDefault();
+        var first_name = $('#tap-first').val();
+        var last_name = $('#tap-last').val();
+        var day = $('#day').val();
+        var month = $('#month').val();
+        var year = $('#year').val();
+        var nationality = $('#nationality').val();
+        var country = $('#country').val();
+        var marital_status = $('#marital_status').val();
 
+
+        var employee_id = $('#employee_id').val();
+
+        var gender;
+        if ($("#male-gender").is(":checked")) {
+            gender = $('#male-gender').val();
+        }else if ($("#female-gender").is(":checked")){
+            gender = $('#female-gender').val();;
+        }
+
+        $.ajax({
+            url: '/employee/dashboard/personal_tap/' + employee_id,
+            type: 'PUT',
+            data: {
+                first_name: first_name,
+                last_name: last_name,
+                day: day,
+                month: month,
+                year: year,
+                gender: gender,
+                nationality: nationality,
+                country: country,
+                marital_status: marital_status,
+            },
+            dataType: 'json',
+            success: function(data){
+                if (data.errors){
+                    $.each(data.errors, function(key, value){
+                        $('.tap-personal-errors').empty();
+                        $('.tap-personal-errors').append('<p class="alert alert-danger text-danger">' + value + '</p>');
+
+                    });
+
+                }else if (data.success){
+                    location.reload(true);
+                }
+
+            },
+            error: function(data){
+                console.log(data.errors);
+            },
+        })
+
+    });
+})
 
 // Ajax Register Request
 $(document).ready(function() {
@@ -280,7 +349,7 @@ $(document).ready(function() {
                     if (data.errors){
                         $.each(data.errors, function(key, value){
                             $('#error_msg_register').show();
-                            $('#error_msg_register').append('<p>'+value+'</p>');
+                            $('#error_msg_register').append('<p class="text-danger">'+value+'</p>');
                         });
                     }
 
@@ -489,8 +558,25 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+    $('#personal_special').chosen();
+});
+
+$(document).ready(function() {
     $('#job_skills').chosen();
 });
+
+$(document).ready(function() {
+    $('#still').change(function () {
+        if ($(this).is(":checked")) {
+            $('#end_date_month').prop('disabled', true);
+            $('#end_date_year').prop('disabled', true);
+        }else{
+            $('#end_date_month').prop('disabled', false);
+            $('#end_date_year').prop('disabled', false);
+        }
+    })
+});
+
 
 $(document).ready(function() {
     var salary = document.getElementById('myRange');

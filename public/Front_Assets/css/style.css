@@ -150,9 +150,9 @@ nav .sign-button:hover {
     width: 100%;
 }
 
-.modal form div {
-    width: 100%;
-}
+/*.modal form div {*/
+/*    width: 100%;*/
+/*}*/
 
 .modal .social .google {
     border-radius: 5px;
@@ -2034,7 +2034,6 @@ h2 {
     color: #002C7F;
 }
 
-/* Navbar*/
 .navbar{
     background-color: var(--main-color);
     color: var(--white-color);
@@ -2506,7 +2505,7 @@ span#basic-addon1 {
 
 .edit-hover:hover {
     position: relative;
-    background: #e7eaf680;
+    background: var(--bg-opacity-color);
     transition: .5s ease-in-out;
 }
 .btn-edit{
@@ -2523,22 +2522,6 @@ div#edit_availability .btn-group {
 }
 div#edit_availability .btn-group label.btn.btn-outline-primary{
     width: 50%;
-}
-div#edit_about_me textarea{
-    overflow-y: scroll;
-    resize: none;
-    scrollbar-width: thin;
-}
-div#edit_about_me textarea::-webkit-scrollbar {
-    width: 7px;
-}
-div#edit_about_me textarea::-webkit-scrollbar-track {
-    background: var(--bg-opacity-color);
-}
-div#edit_about_me textarea::-webkit-scrollbar-thumb {
-    background-color: rgb(166, 166, 166);
-    border-radius: 5px;
-    border: 1px solid var(--bg-opacity-color);
 }
 
 .form-check-inline label {
@@ -2581,4 +2564,14 @@ div#edit_about_me textarea::-webkit-scrollbar-thumb {
 }
 .btn-upload{
     border: 1px dotted var(--secondary-color);
+}
+
+.col-sm-8 .chosen-container .chosen-choices {
+    width: 438px;
+}
+
+.col-sm-8 .chosen-container .chosen-results {
+    width: 440px;
+    background-color: #fff;
+    margin-right: 2px;
 }

@@ -72,6 +72,10 @@ class RegisteredUserController extends Controller
             return response()->json([
                 'user' => Auth::user()
             ]);
+        }else{
+            return response()->json([
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
         }
 
 

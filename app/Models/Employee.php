@@ -24,8 +24,10 @@ class Employee extends Model
         'language_id',
         'specialization',
         'field_id',
+        'nationality_id',
         'job_type',
         'availability',
+        'marital_status',
     ];
 
     protected $casts = [
@@ -38,6 +40,7 @@ class Employee extends Model
      * With User ( One To One 1-1 )
      * With Country ( One To Many 1-m )
      * With Language ( One To Many 1-m )
+     * With Nationality ( One To Many 1-m )
      */
 
     // With User
@@ -62,6 +65,12 @@ class Employee extends Model
     public function field()
     {
         return $this->belongsTo(Field::class);
+    }
+
+    // With Nationality
+    public function nationality()
+    {
+        return $this->belongsTo(Nationality::class);
     }
 
     // Accessors For avatar

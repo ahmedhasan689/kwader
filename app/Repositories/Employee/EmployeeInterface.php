@@ -41,4 +41,11 @@ interface EmployeeInterface {
 
     // Edit Bio
     public function editBio(Request $request, $id);
+
+    // Edit Personal Info Tap
+    public function personalTap(Request $request, $id);
+
+    // Add Practical Experience For Employee
+    public function practicalExperience(Request $request);
+
 }

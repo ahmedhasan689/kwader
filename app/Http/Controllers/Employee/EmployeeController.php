@@ -125,8 +125,28 @@ class EmployeeController extends Controller
         return $this->employee->editAvailability($request, $id);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function editBio(Request $request, $id)
     {
         return $this->employee->editBio($request, $id);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function personalTap(Request $request, $id)
+    {
+        return $this->employee->personalTap($request, $id);
+    }
+
+    public function practicalExperience(Request $request)
+    {
+        return $this->employee->practicalExperience($request);
     }
 }

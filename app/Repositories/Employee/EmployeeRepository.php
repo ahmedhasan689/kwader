@@ -5,9 +5,12 @@ namespace App\Repositories\Employee;
 use App\Models\Country;
 use App\Models\Employee;
 use App\Models\Field;
+use App\Models\Nationality;
+use App\Models\Practical_Experience;
 use App\Models\Skill;
 use App\Models\Specialization;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeRepository implements EmployeeInterface
 {
@@ -51,6 +55,7 @@ class EmployeeRepository implements EmployeeInterface
             'type' => $specializations,
         ]);
     }
+
     /**
      * @param $request
      * @return RedirectResponse
@@ -61,7 +66,7 @@ class EmployeeRepository implements EmployeeInterface
 
         $specialization = [];
 
-        foreach ($request->except('field_name', '_token') as $key => $value){
+        foreach ($request->except('field_name', '_token') as $key => $value) {
             $specialization[] = $value;
         }
 
@@ -98,7 +103,7 @@ class EmployeeRepository implements EmployeeInterface
      */
     public function getFlag($id)
     {
-        $flags= Country::where('id', $id)->pluck('code', 'id');
+        $flags = Country::where('id', $id)->pluck('code', 'id');
         return $flags;
     }
 
@@ -141,7 +146,14 @@ class EmployeeRepository implements EmployeeInterface
     {
         $employee = Employee::where('user_id', Auth::user()->id)->first();
         $countries = Country::all();
-        return view('employee.edit', compact('employee', 'countries'));
+        $nationalities = Nationality::all();
+        $specializations = Specialization::all();
+        $practical_experiences = Practical_Experience::where('employee_id', $employee->id)->get();
+
+        $date_of_birth = $employee->date_of_birth;
+        $day = Carbon::createFromFormat('m/d/Y', $employee->date_of_birth);
+
+        return view('employee.edit', compact('employee', 'countries', 'nationalities', 'day', 'specializations', 'practical_experiences'));
     }
 
     /**
@@ -231,5 +243,77 @@ class EmployeeRepository implements EmployeeInterface
         toastr()->success('تم تعديل بياناتك بنجاح');
 
         return redirect()->back();
+    }
+
+    public function personalTap(Request $request, $id)
+    {
+        $employee = Employee::where('user_id', Auth::user()->id)->findOrFail($id);
+
+        $user = User::where('id', $employee->user_id)->first();
+        $validator = Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+        ]);
+
+        if ($validator->passes()) {
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]);
+            $employee->update([
+                'date_of_birth' => $request->month . '/' . $request->day . '/' . $request->year,
+                'nationality_id' => $request->nationality,
+                'gender' => $request->gender,
+                'country_id' => $request->country,
+                'marital_status' => $request->marital_status,
+            ]);
+            toastr()->success('تم التعديل');
+            return response()->json([
+                'success' => 'Done',
+            ]);
+        }elseif($validator->fails()){
+            return response()->json([
+                'errors' => $validator->getMessageBag()->toArray(),
+            ]);
+        }
+
+    }
+
+    public function practicalExperience(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'job_title' => ['required', 'string', 'max:255'],
+            'special' => ['required'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'country_id' => ['required', 'string', 'max:255'],
+            'start_month' => ['required'],
+            'start_year' => ['required'],
+            'end_month' => ['required'],
+            'end_year' => ['required'],
+            'description' => ['required', 'min:20', 'max:500'],
+        ]);
+
+        if ($validator->passes()) {
+            Practical_Experience::create([
+                'job_title' => $request->job_title,
+                'employee_id' => Employee::where('user_id', Auth::user()->id)->first()->id,
+                'country_id' => $request->country_id,
+                'company_name' => $request->company_name,
+                'specializations' => $request->special,
+                'start_date' => $request->start_month . '/' . $request->start_year,
+                'end_date' => $request->end_month . '/' . $request->end_year,
+                'description' => $request->description,
+            ]);
+
+            toastr()->success('تم التعديل');
+            return response()->json([
+                'success' => 'Done',
+            ]);
+        }elseif($validator->fails()){
+            return response()->json([
+                'errors' => $validator->getMessageBag()->toArray(),
+            ]);
+        }
+
     }
 }

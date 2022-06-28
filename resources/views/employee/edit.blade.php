@@ -228,38 +228,39 @@
         <div class="row d-flex flex-column flex-lg-row custom-border">
             <div class="col-lg-3 mb-lg-0 mb-5">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link active" id="v-pills-about-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-about" type="button" role="tab" aria-controls="v-pills-about"
-                            aria-selected="true">
-                        <i class="bi bi-person-fill"></i>نبذة عني</button>
-                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
-                            aria-selected="false">
-                        <i class="bi bi-person-workspace"></i>المعلومات الشخصية</button>
-                    <button class="nav-link" id="v-pills-experience-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-experience" type="button" role="tab" aria-controls="v-pills-experience"
-                            aria-selected="false">
-                        <i class="bi bi-briefcase-fill"></i>الخبرة العملية</button>
-                    <button class="nav-link" id="v-pills-education-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-education" type="button" role="tab" aria-controls="v-pills-education"
-                            aria-selected="false">
-                        <i class="bi bi-mortarboard-fill"></i>التعليم و الدبلومات</button>
-                    <button class="nav-link" id="v-pills-certificate-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-certificate" type="button" role="tab"
-                            aria-controls="v-pills-certificate" aria-selected="false">
-                        <i class="bi bi-file-text"></i>الشهادات</button>
-                    <button class="nav-link" id="v-pills-skills-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-skills" type="button" role="tab" aria-controls="v-pills-skills"
-                            aria-selected="false">
-                        <i class="bi bi-gear-fill"></i>التخصصات والمهارات</button>
+                    <button class="nav-link active" id="v-pills-about-tab" data-bs-toggle="pill" data-bs-target="#v-pills-about" type="button" role="tab" aria-controls="v-pills-about" aria-selected="true">
+                        <i class="fa-solid fa-circle-user"></i>
+                        نبذة عني
+                    </button>
+                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                        <i class="fa-solid fa-id-card"></i>
+                        المعلومات الشخصية
+                    </button>
+                    <button class="nav-link" id="v-pills-experience-tab" data-bs-toggle="pill" data-bs-target="#v-pills-experience" type="button" role="tab" aria-controls="v-pills-experience" aria-selected="false">
+                        <i class="fa-solid fa-briefcase"></i>
+                        الخبرة العملية
+                    </button>
+                    <button class="nav-link" id="v-pills-education-tab" data-bs-toggle="pill" data-bs-target="#v-pills-education" type="button" role="tab" aria-controls="v-pills-education" aria-selected="false">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        التعليم و الدبلومات
+                    </button>
+                    <button class="nav-link" id="v-pills-certificate-tab" data-bs-toggle="pill" data-bs-target="#v-pills-certificate" type="button" role="tab" aria-controls="v-pills-certificate" aria-selected="false">
+                        <i class="fa fa-file-text" aria-hidden="true"></i>
+                        الشهادات
+                    </button>
+                    <button class="nav-link" id="v-pills-skills-tab" data-bs-toggle="pill" data-bs-target="#v-pills-skills" type="button" role="tab" aria-controls="v-pills-skills" aria-selected="false">
+                        <i class="fa-solid fa-gear"></i>
+                        التخصصات والمهارات
+                    </button>
 
-                    <button class="nav-link" id="v-pills-languages-tab" data-bs-toggle="pill"
-                            data-bs-target="#v-pills-languages" type="button" role="tab" aria-controls="v-pills-languages"
-                            aria-selected="false">
-                        <i class="bi bi-translate"></i>اللغات</button>
-                    <button class="nav-link" id="v-pills-cv-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cv"
-                            type="button" role="tab" aria-controls="v-pills-cv" aria-selected="false">
-                        <i class="bi bi-file-earmark-person"></i>السيرة الذاتية</button>
+                    <button class="nav-link" id="v-pills-languages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-languages" type="button" role="tab" aria-controls="v-pills-languages" aria-selected="false">
+                        <i class="fa-solid fa-language"></i>
+                        اللغات
+                    </button>
+                    <button class="nav-link" id="v-pills-cv-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cv" type="button" role="tab" aria-controls="v-pills-cv" aria-selected="false">
+                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                        السيرة الذاتية
+                    </button>
                 </div>
             </div>
 
@@ -311,33 +312,47 @@
                                 <tr>
                                     <th class="tab-title" scope="row">الاسم</th>
                                     <td>
-                                        {{ $employee->first_name . $employee->last_name }}
+                                        {{ $employee->user->first_name . ' ' . $employee->user->last_name }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th class="tab-title" scope="row">تاريخ الميلاد</th>
-                                    <td>24/10/1990</td>
+                                    <td>
+                                        {{ $employee->date_of_birth }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="tab-title" scope="row">الجنس</th>
-                                    <td>أنثى</td>
+                                    <td>
+                                        @if( $employee->gender == 'Male' )
+                                            ذكر
+                                        @else
+                                            أنثى
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="tab-title" scope="row">الجنسية</th>
-                                    <td>قطرية</td>
+                                    <td>
+                                        {{ $employee->nationality->name }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="tab-title" scope="row">بلد الإقامة</th>
-                                    <td>قطر</td>
+                                    <td>
+                                        {{ $employee->country->country_name }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="tab-title" scope="row">الحالة الاجتماعية</th>
-                                    <td>عزباء</td>
+                                    <td>
+                                        {{ $employee->marital_status }}
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#profileModal">
-                                <i class="bi bi-pencil-square"></i>
+                                <i class="fa-regular fa-pen-to-square"></i>
                             </button>
                         </div>
                     </div>
@@ -348,76 +363,108 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أخبرنا عن نفسك</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    {{-- Personal Info Edit Modal --}}
+                                    <form action="{{ route('employee.dashboard.personalTap', ['id' => $employee->id]) }}" method="POST" id="personal-tap">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="hidden" id="employee_id" value="{{ $employee->id }}">
+
+
+                                        <div class="tap-personal-errors">
+
+                                        </div>
+
                                         <div class="row">
                                             <label for="name" class="col-sm-3 col-form-label">الاسم</label>
                                             <div class="col-sm-4 mb-4">
-                                                <input type="text" class="form-control" id="name">
+                                                <input type="text" class="form-control" id="tap-first" name="first_name" value="{{ $employee->user->first_name }}">
                                             </div>
                                             <div class="col-sm-4 mb-4">
-                                                <input type="text" class="form-control">
+                                                <input type="text" name="last_name" id="tap-last" value="{{ $employee->user->last_name }}" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <label for="name" class="col-sm-3 col-form-label">تاريخ الميلاد</label>
                                             <div class="col-sm-3 mb-4">
-                                                <input type="text" class="form-control" id="name">
+                                                <select class="form-select" aria-label="Default select example" id="day" name="day">
+                                                    @for( $i = 1; $i <= 31; $i++ )
+                                                        <option @if( $day->format('d') == $i ) selected @endif>
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
                                             </div>
                                             <div class="col-sm-3 mb-4">
-                                                <input type="text" class="form-control">
+                                                <select class="form-select" aria-label="Default select example" id="month" name="month">
+                                                    @for( $i = 1; $i <= 12; $i++ )
+                                                        <option @if( $day->format('m') == $i ) selected @endif>
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
+
+                                                </select>
                                             </div>
                                             <div class="col-sm-3 mb-4">
-                                                <input type="text" class="form-control">
+                                                <select class="form-select" aria-label="Default select example" id="year" name="year">
+                                                    @for( $i = 1970; $i <= 2022; $i++ )
+                                                        <option @if( $day->format('Y') == $i ) selected @endif>
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="mb-4 row">
                                             <label class="col-sm-3 col-form-label">الجنس</label>
                                             <div class="col-sm-9">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="male">
+                                                <div class="form-check form-check-inline" style="display:inline-block;">
+                                                    <input class="form-check-input" type="radio" name="gender" id="male-gender" value="Male" @if( $employee->gender == 'Male') checked @endif>
                                                     <label class="form-check-label" for="inlineRadio1">ذكر</label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="female">
+                                                <div class="form-check form-check-inline" style="display:inline-block;">
+                                                    <input class="form-check-input" type="radio" name="gender" id="female-gender" value="Female" @if( $employee->gender == 'Female') checked @endif>
                                                     <label class="form-check-label" for="inlineRadio2">انثى</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
-                                            <label class="col-sm-3 col-form-label">الحنسية</label>
+                                            <label class="col-sm-3 col-form-label">الجنسية</label>
                                             <div class="col-sm-9">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>قطرية</option>
-                                                    <option value="1">الامارات</option>
-                                                    <option value="2">مصر</option>
-                                                    <option value="3">السعودية</option>
+                                                <select class="form-select" aria-label="Default select example" id="nationality" name="nationality">
+                                                    @foreach($nationalities as $national)
+                                                        <option @if($employee->nationality_id == $national->id) selected @endif value="{{ $national->id }}">
+                                                            {{ $national->name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label class="col-sm-3 col-form-label">بلد الاقامة</label>
                                             <div class="col-sm-9">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>قطرية</option>
-                                                    <option value="1">الامارات</option>
-                                                    <option value="2">مصر</option>
-                                                    <option value="3">السعودية</option>
+                                                <select class="form-select" aria-label="Default select example" id="country" name="country_id">
+                                                    @foreach($countries as $country)
+                                                        <option @if($employee->country_id == $country->id) selected @endif value="{{ $country->id }}">
+                                                            {{ $country->country_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label class="col-sm-3 col-form-label">الحالة الاجتماعية</label>
                                             <div class="col-sm-9">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>اعزب</option>
-                                                    <option value="3">متزوج</option>
+                                                <select class="form-select" aria-label="Default select example" id="marital_status" name="marital_status">
+                                                    <option value="عزابي" @if( $employee->marital_status == 'عزابي') selected @endif>اعزب</option>
+                                                    <option value="متزوج" @if( $employee->marital_status == 'متزوج') selected @endif>متزوج</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 d-flex gap-2 justify-content-end mb-5 mt-4">
-                                            <button type="submit" class="btn btn-secondary px-3" data-bs-dismiss="modal">الغاء</button>
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="about-me">الغاء</button>
                                             <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                                         </div>
                                     </form>
@@ -428,49 +475,41 @@
                 </div>
 
 
-                <div class="tab-pane fade" id="v-pills-experience" role="tabpanel"
-                     aria-labelledby="v-pills-experience-tab" tabindex="0">
+                <div class="tab-pane fade" id="v-pills-experience" role="tabpanel" aria-labelledby="v-pills-experience-tab" tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">الخبرة العملية</h3>
-                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#experModal">أضف خيرة</button>
+                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#experModal">أضف خبرة</button>
                     </div>
-                    <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <img class="border rounded-circle border-success border-2" src="images/company.png"
-                                     width="50" alt="">
+                    @foreach($practical_experiences as $practical)
+                        <div class="ms-4 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
+                                         width="50" alt="">
+                                    <div>
+                                        <span class="d-block">{{ $practical->company_name }}</span>
+                                        <small>{{ $practical->job_title }}</small>
+                                    </div>
+                                </div>
                                 <div>
-                                    <span class="d-block">اسم الشركة</span>
-                                    <small>المسمى الوظيفي</small>
+                                    {{ $practical->start_date }} - {{ $practical->end_date }} - {{ $practical->country->country_name }}
                                 </div>
                             </div>
-                            <div>
-                                تاريخ بدء العمل - تاريخ ترك العمل - مكان الوظيفة
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
-                        <button type="button" class="btn btn-sm">التخصص 2</button>
-                        <button type="button" class="btn btn-sm">التخصص 3</button>
-                        <button type="button" class="btn btn-sm">التخصص 4</button>
-                        <button type="button" class="btn btn-sm">التخصص 5</button>
-                        <button type="button" class="btn btn-sm">التخصص 6</button>
-                        <button type="button" class="btn btn-sm">التخصص 7</button>
-                        <button type="button" class="btn btn-sm">التخصص 8</button>
-                        <button type="button" class="btn btn-sm">التخصص 9</button>
-                    </div>
-                    <div class="mt-3">
-                        <p class="tab-content">لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل
-                            وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص
-                            الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها
-                            من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا
-                            النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير
-                            في ستينيّات هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي مقاطع من هذا
-                            النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
-                            (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.</p>
-                    </div>
+                        <div class="container mt-3">
+                            @foreach($practical->specializations as $special)
+                                <button type="button" class="btn btn-sm">
+                                    {{ $special }}
+                                </button>
+                            @endforeach
+                        </div>
+                        <div class="mt-3" style="margin-right: 30px;">
+                            <p class="tab-content">
+                                {{ $practical->description }}
+                            </p>
+                        </div>
+                    @endforeach
                     <div class="modal fade" id="experModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content px-0 px-sm-5">
@@ -478,71 +517,89 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أضف خبرتك العملية</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="{{ route('employee.dashboard.practicalExperience') }}" method="POST">
+                                        @csrf
+
                                         <div class="mb-4 row">
                                             <label for="Job-title" class="col-sm-3 col-form-label">المسمى الوظيفي</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="Job-title">
+                                                <input type="text" name="job_title" class="form-control" id="Job-title">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="spc" class="col-sm-3 col-form-label">التخصص</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="spc">
+                                                <select id="personal_special" class="special" name="special[]" multiple>
+                                                    @foreach( $specializations as $specialization)
+                                                        <option value="{{ $specialization->specialization_name }}">
+                                                            {{$specialization->specialization_name}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="compa" class="col-sm-3 col-form-label">اسم الشركة</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="compa">
+                                                <input type="text" class="form-control" name="company_name" id="compa">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label class="col-sm-3 col-form-label">مكان التوظيف</label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>قطر</option>
-                                                    <option value="1">الامارات</option>
-                                                    <option value="2">مصر</option>
-                                                    <option value="3">السعودية</option>
+                                                <select class="form-select" aria-label="Default select example" name="country_id">
+                                                    @foreach($countries as $country)
+                                                        <option value="{{ $country->id }}">
+                                                            {{ $country->country_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ بدء العمل</label>
-                                            <div class="col-sm-4 mb-4">
-                                                <select class="form-select" aria-label="Default select example">
+                                            <div class="col-sm-4">
+                                                <select class="form-select mb-3" name="start_month" aria-label="Default select example">
                                                     <option selected>الشهر</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
-                                            <div class="col-sm-4 mb-4">
-                                                <select class="form-select" aria-label="Default select example">
+                                            <div class="col-sm-4" >
+                                                <select class="form-select mb-3" name="start_year" aria-label="Default select example">
                                                     <option selected>السنة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1980; $i <= 2022; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ ترك العمل</label>
+
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" aria-label="Default select example">
+                                                <select class="form-select mb-3" name="end_month" aria-label="Default select example" id="end_date_month">
                                                     <option selected>الشهر</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" aria-label="Default select example">
+                                                <select class="form-select mb-3" name="end_year" aria-label="Default select example" id="end_date_year">
                                                     <option selected>السنة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1980; $i <= 2022; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                         </div>
@@ -550,8 +607,8 @@
                                             <label class="col-sm-3 col-form-label"></label>
                                             <div class="col-sm-8">
                                                 <div class="form-check d-flex align-items-center gap-2">
-                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                    <small class="form-check-label text-muted" for="inlineCheckbox1">مازلت اعمل</small>
+                                                    <input class="form-check-input" type="checkbox" id="still" value="option1" >
+                                                    <small class="form-check-label text-muted" for="inlineCheckbox1" style="margin-right: 25px;">مازلت اعمل</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -559,12 +616,12 @@
                                             <label for="Textarea" class="col-sm-3 col-form-label">الوصف الوظيفي</label>
                                             <div class="col-sm-8">
                                                 <div>
-                                                    <textarea class="form-control" id="Textarea" rows="4"></textarea>
+                                                    <textarea class="form-control" name="description" id="Textarea" rows="4"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-11 d-flex gap-2 justify-content-end mb-5 mt-4">
-                                            <button type="submit" class="btn btn-secondary px-3" data-bs-dismiss="modal">الغاء</button>
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="experModalButton">الغاء</button>
                                             <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                                         </div>
                                     </form>
