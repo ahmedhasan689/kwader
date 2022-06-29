@@ -199,6 +199,8 @@ Route::namespace('/Employer')
                 Route::get('/', [JobController::class, 'index'])->name('index');
                 Route::get('/create/{step}', [JobController::class, 'create'])->name('create');
                 Route::post('/store/{step}', [JobController::class, 'store'])->name('store');
+                Route::get('/{id}', [JobController::class, 'show'])->name('show');
+                Route::put('/{id}', [JobController::class, 'update'])->name('update');
             });
                 // For Search In Job-Index Page
                 Route::post('/search/{salary?}/{years?}', [JobController::class, 'search'])->name('search');
@@ -239,6 +241,7 @@ Route::namespace('/Employee')
             Route::put('/edit_bio/{id}', [EmployeeController::class, 'editBio'])->name('editBio');
             Route::put('/personal_tap/{id}', [EmployeeController::class, 'personalTap'])->name('personalTap');
             Route::post('/practicalExperience', [EmployeeController::class, 'practicalExperience'])->name('practicalExperience');
+            Route::post('/education', [EmployeeController::class, 'education'])->name('education');
         });
         // End Employee Dashboard Route
     });

@@ -48,4 +48,7 @@ interface EmployeeInterface {
     // Add Practical Experience For Employee
     public function practicalExperience(Request $request);
 
+    // Add Education For Employee
+    public function education(Request $request);
+
 }

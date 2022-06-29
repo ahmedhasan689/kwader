@@ -44,7 +44,7 @@ class Job extends Model
     // With Employer
     public function employer()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employer::class);
     }
 
     // With Country

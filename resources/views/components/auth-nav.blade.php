@@ -134,7 +134,7 @@
                              أبحث عن كوادر
                          </a>
                     @else
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('job.index') }}">
                             البحث عن وظائف
                         </a>
                     @endif

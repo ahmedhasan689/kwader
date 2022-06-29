@@ -21,4 +21,10 @@ interface JobInterface
     // Search
     public function search(Request $request);
 
+    // Show Job
+    public function show($id);
+
+    // Update Job For Employee Applicants
+    public function update(Request $request, $id);
+
 }

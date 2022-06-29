@@ -145,8 +145,18 @@ class EmployeeController extends Controller
         return $this->employee->personalTap($request, $id);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function practicalExperience(Request $request)
     {
         return $this->employee->practicalExperience($request);
+    }
+
+
+    public function education(Request $request)
+    {
+        return $this->employee->education($request);
     }
 }

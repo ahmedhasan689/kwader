@@ -279,6 +279,10 @@ class EmployeeRepository implements EmployeeInterface
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function practicalExperience(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -288,8 +292,8 @@ class EmployeeRepository implements EmployeeInterface
             'country_id' => ['required', 'string', 'max:255'],
             'start_month' => ['required'],
             'start_year' => ['required'],
-            'end_month' => ['required'],
-            'end_year' => ['required'],
+            'end_month' => ['nullable'],
+            'end_year' => ['nullable'],
             'description' => ['required', 'min:20', 'max:500'],
         ]);
 
@@ -300,7 +304,7 @@ class EmployeeRepository implements EmployeeInterface
                 'country_id' => $request->country_id,
                 'company_name' => $request->company_name,
                 'specializations' => $request->special,
-                'start_date' => $request->start_month . '/' . $request->start_year,
+                'start_date' => $request->start_month . ' / ' . $request->start_year,
                 'end_date' => $request->end_month . '/' . $request->end_year,
                 'description' => $request->description,
             ]);
@@ -315,5 +319,10 @@ class EmployeeRepository implements EmployeeInterface
             ]);
         }
 
+    }
+
+    public function education(Request $request)
+    {
+        dd($request);
     }
 }

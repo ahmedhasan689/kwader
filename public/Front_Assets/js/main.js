@@ -29,10 +29,19 @@ document.getElementById("edit_availability").style.display="block";
 $(document).ready(function() {
   $('#personal_info_cancel').click(function(e) {
       e.preventDefault();
-      document.getElementById("edit_personal_info").style.display="none";
-      document.getElementById("personal_info").style.display="block";
+      document.getElementById("educationModal").style.display="none";
   })
-})
+});
+
+$(document).ready(function() {
+    $('#edu-cancel').click(function(e) {
+        e.preventDefault();
+        document.getElementById("edit_personal_info").style.display="none";
+        document.getElementById("personal_info").style.display="block";
+    })
+});
+
+
 $(document).ready(function() {
     $('#edit_salary_cancel').click(function(e) {
         e.preventDefault();
@@ -549,6 +558,88 @@ $('#uploadImage').change(function() {
     $('#image').val( $(this).val() );
 });
 
+// Employee Experience Modal
+$(document).ready(function() {
+    $('#experience').submit(function(e) {
+        e.preventDefault();
+        var job_title = $('#experience-Job-title').val();
+        var special = $('#personal_special').val();
+        var company_name = $('#experience-company').val();
+        var country_id = $('#experience-country').val();
+        var start_month = $('#start-month').val();
+        var start_year = $('#start-year').val();
+        var description = $('#description').val();
+        var end_month = null;
+        var end_year = null;
+
+        $('#still').change(function () {
+            if ($(this).is(":checked")) {
+                $('#end_date_month').prop('disabled', true);
+                $('#end_date_year').prop('disabled', true);
+            }else{
+                $('#end_date_month').prop('disabled', false);
+                $('#end_date_year').prop('disabled', false);
+                end_month = $('#end_date_month').val();
+                end_year = $('#end_date_year').val();
+            }
+        })
+
+        $.ajax({
+            url: '/employee/dashboard/practicalExperience',
+            type: 'POST',
+            data: {
+                job_title: job_title,
+                country_id: country_id,
+                company_name: company_name,
+                special: special,
+                start_month: start_month,
+                start_year: start_year,
+                end_month: end_month,
+                end_year: end_year,
+                description: description,
+            },
+            dataType: 'json',
+            success: function(data) {
+                if(data.errors) {
+                    $('.experience-error').append(`
+                        <p class="alert alert-danger">
+                            يرجى التأكد من تعبئة جميع الخانات
+                        </p>
+                    `)
+                }else if(data.success){
+                    location.reload(true);
+                }
+            },
+            error: function(data) {
+
+            },
+        })
+    })
+})
+
+
+$(document).ready(function() {
+    $('#update_job').click(function(e) {
+        e.preventDefault();
+        var job = $('#job_object').val();
+
+        $.ajax({
+            url: '/employer/job/' + job,
+            type: 'put',
+            data: {
+                id: job,
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#send_id_to_job').modal('show');
+            },
+            error: function(data) {
+                console.log(data)
+            },
+        })
+    });
+})
+
 $(document).ready(function() {
    $('#skills').chosen();
 });
@@ -563,6 +654,9 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $('#job_skills').chosen();
+});
+$(document).ready(function() {
+    $('#edu_special').chosen();
 });
 
 $(document).ready(function() {

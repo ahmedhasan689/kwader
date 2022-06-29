@@ -3,11 +3,13 @@
 namespace App\Repositories\Job;
 
 use App\Models\Country;
+use App\Models\Employee;
 use App\Models\Employer;
 use App\Models\Field;
 use App\Models\Job;
 use App\Models\Language;
 use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -161,4 +163,51 @@ class JobRepository implements JobInterface
             'result' => $job,
         ]);
     }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function show($id)
+    {
+        $job = Job::findOrFail($id);
+
+//        dd($job->employee_applicants);
+
+        $employee = Employee::where('user_id', Auth::user()->id)->first();
+
+        $users = [];
+
+        if ($job->employee_applicants) {
+            foreach ( $job->employee_applicants as $applicant) {
+                $user = Employee::where('user_id', $applicant)->first();
+                $users[] = $user;
+            }
+        }
+//        dd($users);
+
+        return view('employer.job.show', compact('job', 'employee', 'users'));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    public function update(Request $request, $id)
+    {
+        $job = Job::findOrFail($id);
+
+        $applicants = $job->employee_applicants;
+
+        $applicants[] = Employee::where('user_id', Auth::user()->id)->first()->id;
+        $job->update([
+            'employee_applicants' => $applicants,
+        ]);
+
+        return response()->json([
+            'id' => $job,
+        ]);
+    }
+
 }

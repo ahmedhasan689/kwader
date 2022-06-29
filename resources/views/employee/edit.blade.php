@@ -302,6 +302,7 @@
                     </div>
                 </div>
 
+                {{-- Personal Info --}}
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
                      tabindex="0">
                     <h3 class="tab-title">المعلومات الشخصية</h3>
@@ -334,7 +335,11 @@
                                 <tr>
                                     <th class="tab-title" scope="row">الجنسية</th>
                                     <td>
-                                        {{ $employee->nationality->name }}
+                                        @if($employee->nationalit_id)
+                                            {{ $employee->nationality->name }}
+                                        @else
+                                            {{ $employee->country->country_name . 'ي' }}
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
@@ -474,13 +479,14 @@
                     </div>
                 </div>
 
-
+                {{-- Practical Exps. --}}
                 <div class="tab-pane fade" id="v-pills-experience" role="tabpanel" aria-labelledby="v-pills-experience-tab" tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">الخبرة العملية</h3>
                         <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#experModal">أضف خبرة</button>
                     </div>
-                    @foreach($practical_experiences as $practical)
+                    @if ($practical_experiences)
+                        @foreach( $practical_experiences as $practical)
                         <div class="ms-4 mt-4">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-between align-items-center gap-3">
@@ -492,7 +498,13 @@
                                     </div>
                                 </div>
                                 <div>
-                                    {{ $practical->start_date }} - {{ $practical->end_date }} - {{ $practical->country->country_name }}
+                                    {{ $practical->start_date }} -
+                                    @if( $practical->end_date == '/')
+                                        {{ 'حتى الآن' }}
+                                    @else
+                                        {{ $practical->end_date }}
+                                    @endif  -
+                                    {{ $practical->country->country_name }}
                                 </div>
                             </div>
                         </div>
@@ -510,20 +522,24 @@
                             </p>
                         </div>
                     @endforeach
+                    @endif
                     <div class="modal fade" id="experModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content px-0 px-sm-5">
                                 <div class="modal-header mt-5">
                                     <h3 class="modal-title" id="exampleModalLabel">أضف خبرتك العملية</h3>
                                 </div>
+                                <div class="experience-error">
+
+                                </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('employee.dashboard.practicalExperience') }}" method="POST">
+                                    <form action="{{ route('employee.dashboard.practicalExperience') }}" method="POST" id="experience">
                                         @csrf
 
                                         <div class="mb-4 row">
                                             <label for="Job-title" class="col-sm-3 col-form-label">المسمى الوظيفي</label>
                                             <div class="col-sm-8">
-                                                <input type="text" name="job_title" class="form-control" id="Job-title">
+                                                <input type="text" name="job_title" class="form-control" id="experience-Job-title">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
@@ -541,13 +557,13 @@
                                         <div class="mb-4 row">
                                             <label for="compa" class="col-sm-3 col-form-label">اسم الشركة</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="company_name" id="compa">
+                                                <input type="text" class="form-control" name="company_name" id="experience-company">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label class="col-sm-3 col-form-label">مكان التوظيف</label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" name="country_id">
+                                                <select id="experience-country" class="form-select" aria-label="Default select example" name="country_id">
                                                     @foreach($countries as $country)
                                                         <option value="{{ $country->id }}">
                                                             {{ $country->country_name }}
@@ -559,7 +575,7 @@
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ بدء العمل</label>
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" name="start_month" aria-label="Default select example">
+                                                <select class="form-select mb-3" name="start_month" aria-label="Default select example" id="start-month">
                                                     <option selected>الشهر</option>
                                                     @for($i = 1; $i <= 12; $i++)
                                                         <option value="{{ $i }}">
@@ -569,7 +585,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm-4" >
-                                                <select class="form-select mb-3" name="start_year" aria-label="Default select example">
+                                                <select class="form-select mb-3" name="start_year" aria-label="Default select example" id="start-year">
                                                     <option selected>السنة</option>
                                                     @for($i = 1980; $i <= 2022; $i++)
                                                         <option value="{{ $i }}">
@@ -584,7 +600,7 @@
 
                                             <div class="col-sm-4">
                                                 <select class="form-select mb-3" name="end_month" aria-label="Default select example" id="end_date_month">
-                                                    <option selected>الشهر</option>
+                                                    <option >الشهر</option>
                                                     @for($i = 1; $i <= 12; $i++)
                                                         <option value="{{ $i }}">
                                                             {{ $i }}
@@ -594,7 +610,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <select class="form-select mb-3" name="end_year" aria-label="Default select example" id="end_date_year">
-                                                    <option selected>السنة</option>
+                                                    <option>السنة</option>
                                                     @for($i = 1980; $i <= 2022; $i++)
                                                         <option value="{{ $i }}">
                                                             {{ $i }}
@@ -616,7 +632,7 @@
                                             <label for="Textarea" class="col-sm-3 col-form-label">الوصف الوظيفي</label>
                                             <div class="col-sm-8">
                                                 <div>
-                                                    <textarea class="form-control" name="description" id="Textarea" rows="4"></textarea>
+                                                    <textarea class="form-control" name="description" id="description" rows="4"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -632,6 +648,7 @@
                 </div>
 
 
+                {{-- Educations --}}
                 <div class="tab-pane fade" id="v-pills-education" role="tabpanel"
                      aria-labelledby="v-pills-education-tab" tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
@@ -674,6 +691,7 @@
                             النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
                             (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.</p>
                     </div>
+                    {{-- Education Modal --}}
                     <div class="modal fade" id="educationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content px-0 px-sm-5">
@@ -681,54 +699,64 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أضف معلومات التعليم</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="{{ route('employee.dashboard.education') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+
                                         <div class="mb-4 row">
                                             <label for="edu-name" class="col-sm-3 col-form-label">اسم المؤسسة</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="edu-name">
+                                                <input type="text" name="enterprise_name" class="form-control" id="edu-name">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="deploma" class="col-sm-3 col-form-label">اسم الدبلوم</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="deploma">
+                                                <input type="text" name="diploma_name" class="form-control" id="diploma">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ بدء العمل</label>
                                             <div class="col-sm-4 mb-4">
-                                                <select class="form-select" aria-label="Default select example">
+                                                <select class="form-select" aria-label="Default select example" id="edu_start_month" name="edu_start_month">
                                                     <option selected>الشهر</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                             <div class="col-sm-4 mb-4">
-                                                <select class="form-select" aria-label="Default select example">
+                                                <select class="form-select" aria-label="Default select example" id="edu_start_year" name="edu_start_year">
                                                     <option selected>السنة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1980; $i <= 2022; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ ترك العمل</label>
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" aria-label="Default select example">
+                                                <select class="form-select mb-3" aria-label="Default select example" id="edu_end_month" name="edu_end_month">
                                                     <option selected>الشهر</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" aria-label="Default select example">
+                                                <select class="form-select mb-3" aria-label="Default select example" id="edu_end_year" name="edu_end_year">
                                                     <option selected>السنة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    @for($i = 1980; $i <= 2022; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                         </div>
@@ -737,36 +765,42 @@
                                             <div class="col-sm-8">
                                                 <div class="form-check d-flex align-items-center gap-2">
                                                     <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                    <small class="form-check-label text-muted" for="inlineCheckbox1">مازلت اعمل</small>
+                                                    <small class="form-check-label text-muted" for="inlineCheckbox1" id="edu_still">مازلت اعمل</small>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="sp" class="col-sm-3 col-form-label">مجال التخصص</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="sp">
+                                                <select id="edu_special" class="special" name="special[]" multiple>
+                                                    @foreach( $specializations as $specialization)
+                                                        <option value="{{ $specialization->specialization_name }}">
+                                                            {{$specialization->specialization_name}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="Textarea" class="col-sm-3 col-form-label">الوصف</label>
                                             <div class="col-sm-8">
                                                 <div>
-                                                    <textarea class="form-control" id="Textarea" rows="4"></textarea>
+                                                    <textarea class="form-control" name="description" id="edu-description" rows="4"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="cert" class="col-sm-3 col-form-label">رابط الشهادة</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="cert">
+                                                <input type="text" class="form-control" name="cert-url" id="edu-url">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="cert" class="col-sm-3 col-form-label">ملف الشهادة</label>
                                             <div class="col-sm-8">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <input type="file" id="upload" hidden />
-                                                    <label class="btn btn-upload p-3 w-100" for="upload">
+                                                    <input type="file" name="cert-file" id="cert-file" hidden />
+                                                    <label class="btn btn-upload p-3 w-100" for="cert-file">
                                                         <i class="bi bi-cloud-upload"></i>
                                                         <span style="color: var(--secondary-color)">Browse</span> file to upload
                                                     </label>
@@ -774,7 +808,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-11 d-flex gap-2 justify-content-end mb-5 mt-4">
-                                            <button type="submit" class="btn btn-secondary px-3" data-bs-dismiss="modal">الغاء</button>
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="edu-cancel">الغاء</button>
                                             <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                                         </div>
                                     </form>

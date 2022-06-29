@@ -185,8 +185,9 @@
                         <div class="card">
                         <div class="title">
                             <img src="{{ asset('Front_Assets/img/ss.png') }}" alt="">
+
                             <h5>
-                                {{ $job->job_title }}
+                                <a href="{{ route('job.show', ['id' => $job->id]) }}" style="text-decoration: none; color: #000">{{ $job->job_title }}</a>
                             </h5>
 
                             <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>

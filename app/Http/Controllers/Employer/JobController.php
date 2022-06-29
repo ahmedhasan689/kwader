@@ -62,7 +62,7 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->job->show($id);
     }
 
     /**
@@ -85,7 +85,7 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->job->update($request, $id);
     }
 
     /**
