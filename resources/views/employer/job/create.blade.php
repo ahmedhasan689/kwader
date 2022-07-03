@@ -35,6 +35,7 @@
                 @else
                 <div class="first-step" style="display:none;">
                 @endif
+
                         <div class="row d-flex gap-2">
                             <div class="col-lg-4" style="border: 1px solid #898EA3; border-radius:5px; padding-bottom: 30px;">
                                 <div class="mb-3 px-4 mt-4">
@@ -221,6 +222,7 @@
                                 </div>
                             </div>
                         </div>
+
                 </div>
 
                 {{-- Step Two ( Administrator's approval ) --}}
@@ -262,8 +264,7 @@
                                     <div class="d-flex ss">
                                         <div><input type="checkbox" name="" id=""> <span>Paypal</span></div>
                                         <div class="image d-flex ">
-                                            <img src="{{ asset('Front_Assets/img/paypal.png') }}" alt="">
-
+                                           <img src="{{ asset('Front_Assets/img/paypal.png') }}" alt="">
                                         </div>
                                     </div>
                                     <div class="d-flex ss">
@@ -281,40 +282,42 @@
                             </div>
                         </div>
                         <div class="col-lg-4 center mt-4">
-                            <h5>تفاصيل الدفع الخاصة بك</h5>
-                                <div class="mb-3 d-flex gap-2" style="flex-direction:column ;">
-                                    <label for="#name">اسمك كما في البطاقة الائتمانية</label>
-                                    <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
 
-                                </div>
-                                <div class="mb-3">
-                                    <label for="#numb">رقم البطاقة</label>
+                                <h5>تفاصيل الدفع الخاصة بك</h5>
+                                    <div class="mb-3 d-flex gap-2" style="flex-direction:column ;">
+                                        <label for="#name">اسمك كما في البطاقة الائتمانية</label>
+                                        <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
 
-                                    <input type="number" class="form-control" id="numb" aria-describedby="emailHelp">
-
-                                </div>
-                                <div class="mb-3 d-flex gap-2">
-                                    <div><label for="#date">تاريخ انتهاء الصلاحية </label>
-
-                                        <input type="date" placeholder="كلمة المرور" class="form-control" id="date">
                                     </div>
-                                    <div>
-                                        <label for="#cvv">CVV</label>
+                                    <div class="mb-3">
+                                        <label for="#numb">رقم البطاقة</label>
 
-                                        <input type="number" placeholder="522" class="form-control" id="cvv">
+                                        <input type="number" class="form-control" id="numb" aria-describedby="emailHelp">
+
+                                    </div>
+                                    <div class="mb-3 d-flex gap-2">
+                                        <div><label for="#date">تاريخ انتهاء الصلاحية </label>
+
+                                            <input type="date" placeholder="كلمة المرور" class="form-control" id="date">
+                                        </div>
+                                        <div>
+                                            <label for="#cvv">CVV</label>
+
+                                            <input type="number" placeholder="522" class="form-control" id="cvv">
+                                        </div>
+
                                     </div>
 
-                                </div>
+                                    <div class="mb-3 form-check ">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">احفظ البطاقة لتسهيل
+                                            الدفع في المستقبل</label>
+                                    </div>
 
-                                <div class="mb-3 form-check ">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                    <label class="form-check-label" for="exampleCheck1">احفظ البطاقة لتسهيل
-                                        الدفع في المستقبل</label>
-                                </div>
+                                    <a href="{{ route('financial.CreatePayment', ['total' => 50]) }}" type="submit" class="btn click" style="background-color: #00B398; color: white; padding: 10px 60px;">
+                                        ادفع الان
+                                    </a>
 
-                                <a href="{{ route('financial.CreatePayout') }}" type="button" class="btn click" style="background-color: #00B398; color: white; padding: 10px 60px;">
-                                    ادفع الان
-                                </a>
 
                         </div>
                         <div class="col-lg-4 mt-5">
@@ -324,7 +327,11 @@
                 </div>
 
                 {{-- Step Four ( Job Advertisement ) --}}
-                <div class="final" style="display:none;">
+                @if( $step == 4 )
+                <div class="payment-fees" style="display:block;">
+                @else
+                <div class="payment-fees" style="display:none;">
+                @endif
                     <div>
                         <img src="{{ asset('Front_Assets/img/Group 613.png') }}" alt="">
                         <p id="threeStep">
@@ -342,4 +349,62 @@
         </div>
     </form>
     <br> <br> <br><br> <br> <br>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script type="text/javascript">
+    $(function() {
+
+        var $form = $(".require-validation");
+
+        $('form.require-validation').bind('submit', function(e) {
+            var $form         = $(".require-validation"),
+            inputSelector = ['input[type=email]', 'input[type=password]',
+                             'input[type=text]', 'input[type=file]',
+                             'textarea'].join(', '),
+            $inputs       = $form.find('.required').find(inputSelector),
+            $errorMessage = $form.find('div.error'),
+            valid         = true;
+            $errorMessage.addClass('hide');
+
+            $('.has-error').removeClass('has-error');
+            $inputs.each(function(i, el) {
+              var $input = $(el);
+              if ($input.val() === '') {
+                $input.parent().addClass('has-error');
+                $errorMessage.removeClass('hide');
+                e.preventDefault();
+              }
+            });
+
+            if (!$form.data('cc-on-file')) {
+              e.preventDefault();
+              Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+              Stripe.createToken({
+                number: $('.card-number').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val()
+              }, stripeResponseHandler);
+            }
+
+      });
+
+      function stripeResponseHandler(status, response) {
+            if (response.error) {
+                $('.error')
+                    .removeClass('hide')
+                    .find('.alert')
+                    .text(response.error.message);
+            } else {
+                /* token contains id, last4, and card type */
+                var token = response['id'];
+
+                $form.find('input[type=text]').empty();
+                $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+                $form.get(0).submit();
+            }
+        }
+
+    });
+    </script>
 @endsection

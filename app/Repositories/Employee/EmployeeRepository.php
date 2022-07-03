@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Employee;
 
+use App\Models\Certification;
 use App\Models\Country;
+use App\Models\Education;
 use App\Models\Employee;
 use App\Models\Field;
 use App\Models\Nationality;
@@ -149,11 +151,12 @@ class EmployeeRepository implements EmployeeInterface
         $nationalities = Nationality::all();
         $specializations = Specialization::all();
         $practical_experiences = Practical_Experience::where('employee_id', $employee->id)->get();
+        $educations = Education::where('employee_id', $employee->id)->get();
 
         $date_of_birth = $employee->date_of_birth;
         $day = Carbon::createFromFormat('m/d/Y', $employee->date_of_birth);
 
-        return view('employee.edit', compact('employee', 'countries', 'nationalities', 'day', 'specializations', 'practical_experiences'));
+        return view('employee.edit', compact('employee', 'countries', 'nationalities', 'day', 'specializations', 'practical_experiences', 'educations'));
     }
 
     /**
@@ -321,8 +324,105 @@ class EmployeeRepository implements EmployeeInterface
 
     }
 
-    public function education(Request $request)
+    public function education($request)
     {
-        dd($request);
+        $validator = Validator::make($request->all(), [
+            'enterprise_name' => ['required', 'string', 'max:255'],
+            'special' => ['required'],
+            'diploma_name' => ['required', 'string', 'max:255'],
+            'edu_start_month' => ['required'],
+            'edu_start_year' => ['required'],
+            'edu_end_month' => ['nullable'],
+            'edu_end_year' => ['nullable'],
+            'description' => ['required', 'min:20', 'max:500'],
+            'certification_url' => ['nullable', 'url'],
+            'certification_file' => ['nullable']
+        ]);
+
+        if ($validator->passes()) {
+
+            $file_path = null;
+            if ($request->hasFile('cert_file')) {
+                $file = $request->file('cert_file');
+
+                $file_path = $file->store('/', [
+                    'disk' => 'attachments'
+                ]);
+
+            }
+            if( $request->edu_end_month == 'الشهر' || $request->edu_end_year == 'السنة') {
+                $request->edu_end_month = null;
+                $request->edu_end_year= null;
+            }
+            Education::create([
+                'enterprise_name' => $request->enterprise_name,
+                'diploma_name' => $request->diploma_name,
+                'employee_id' => Employee::where('user_id', Auth::user()->id)->first()->id,
+                'specializations' => $request->special,
+                'start_date' => $request->edu_start_month . ' / ' . $request->edu_start_year,
+                'end_date' => $request->edu_end_month . ' / ' . $request->edu_end_year,
+                'description' => $request->description,
+                'certification_url' => $request->cert_url,
+                'certification_file' => $file_path,
+            ]);
+
+            toastr()->success('تم التعديل');
+
+            return redirect()->back();
+        }elseif($validator->fails()){
+            toastr()->error('لم يتم حفظ البيانات ، يرجى التأكد');
+
+            return redirect()->back()->withErrors($validator);
+        }
+    }
+
+    public function certification($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'center_name' => ['required', 'string', 'max:255'],
+            'certification_name' => ['required', 'string', 'max:255'],
+            'special' => ['required'],
+            'start_month' => ['required'],
+            'start_year' => ['required'],
+            'end_month' => ['nullable'],
+            'end_year' => ['nullable'],
+            'certification_url' => ['nullable', 'url'],
+            'certification_file' => ['nullable']
+        ]);
+
+        if ($validator->passes()) {
+
+            $file_path = null;
+            if ($request->hasFile('certification_file')) {
+                $file = $request->file('certification_file');
+
+                $file_path = $file->store('/', [
+                    'disk' => 'attachments'
+                ]);
+
+            }
+            if( $request->end_month == 'الشهر' || $request->end_year == 'السنة') {
+                $request->end_month = null;
+                $request->end_year= null;
+            }
+            Certification::create([
+                'center_name' => $request->center_name,
+                'name' => $request->certification_name,
+                'employee_id' => Employee::where('user_id', Auth::user()->id)->first()->id,
+                'specializations' => $request->special,
+                'start_date' => $request->start_month . ' / ' . $request->edu_start_year,
+                'end_date' => $request->end_month . ' / ' . $request->edu_end_year,
+                'certification_url' => $request->certification_url,
+                'certification_file' => $file_path,
+            ]);
+
+            toastr()->success('تمت الإضافة');
+
+            return redirect()->back();
+        }elseif($validator->fails()){
+            toastr()->error('لم يتم حفظ البيانات ، يرجى التأكد');
+
+            return redirect()->back()->withErrors($validator);
+        }
     }
 }

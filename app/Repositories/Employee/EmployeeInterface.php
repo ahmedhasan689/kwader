@@ -3,6 +3,7 @@
 namespace App\Repositories\Employee;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\JsonRequest;
 
 interface EmployeeInterface {
 
@@ -50,5 +51,8 @@ interface EmployeeInterface {
 
     // Add Education For Employee
     public function education(Request $request);
+
+    // Add Certification For Employee
+    public function certification(Request $request);
 
 }

@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
+use App\Models\Education;
 use App\Models\Employee;
+use App\Models\Nationality;
+use App\Models\Practical_Experience;
+use App\Models\Specialization;
 use App\Repositories\Employee\EmployeeInterface;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -29,6 +35,24 @@ class EmployeeController extends Controller
         return view('employee.index', compact('employee'));
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function show($id)
+    {
+        $employee = Employee::where('id', $id)->first();
+        $countries = Country::all();
+        $nationalities = Nationality::all();
+        $specializations = Specialization::all();
+        $practical_experiences = Practical_Experience::where('employee_id', $employee->id)->get();
+        $educations = Education::where('employee_id', $employee->id)->get();
+
+        $date_of_birth = $employee->date_of_birth;
+        $day = Carbon::createFromFormat('m/d/Y', $employee->date_of_birth);
+
+        return view('employee.show', compact( 'employee', 'countries', 'nationalities', 'specializations', 'practical_experiences', 'educations', 'day' ));
+    }
     /**
      * @return mixed
      */
@@ -154,9 +178,21 @@ class EmployeeController extends Controller
         return $this->employee->practicalExperience($request);
     }
 
-
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function education(Request $request)
     {
         return $this->employee->education($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function certification(Request $request)
+    {
+        return $this->employee->certification($request);
     }
 }

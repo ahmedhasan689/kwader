@@ -97,11 +97,14 @@
 
             @if (auth()->user()->user_type == 'Employee')
                 <div style="text-align: left; padding:0px 70px;">
-                    <button class="btn btn-success" id="update_job" style="background-color: #00B398; border: none; margin-top: -10px" @if( in_array($employee->id, $job->employee_applicants) ) disabled @endif >
-{{--                         style="background-color: #00B398; border: none; margin-top: -10px">--}}
-                            تقدم الآن
-
-                 </button>
+                    <button class="btn btn-success" id="update_job" style="background-color: #00B398; border: none; margin-top: -10px"
+                            @if($job->employee_applicants)
+                                @if( in_array($employee->id, $job->employee_applicants) )
+                                    disabled
+                                @endif
+                            @endif>
+                        تقدم الآن
+                    </button>
                 </div>
                 <!-- Modal -->
                 <div class="modal fade" id="send_id_to_job" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -188,63 +191,6 @@
 
             </div>
 
-            <!-- <h5>
-                الكوادر المتقدمة
-
-            </h5> -->
-            <!-- <hr> -->
-            <!-- <div>
-                <div class="section d-flex">
-                    <div class="d-flex">
-                        <div class="image">
-                            <img src="./img/Mask Group 33.png" alt="">
-                        </div>
-                        <div class="title">
-                            <p>
-                                الاسم واللقب
-                            </p>
-                            <span>المسمى الوظيفي</span>
-                            <span>قطر</span>
-
-
-                            <span><i class="fa-solid fa-clock"></i>منذ 4أيام</span>
-
-                        </div>
-                    </div>
-
-                    <div class="but">
-                        <button type="button" class="btn btn-primary right">اطلع على السيرة الذاتية</button>
-                        <button type="button" class="btn btn-primary left">تواصل مع الكادر</button>
-
-                    </div>
-                </div>
-                <hr>
-                <div class="section d-flex">
-                    <div class="d-flex">
-                        <div class="image">
-                            <img src="./img/Mask Group 33.png" alt="">
-                        </div>
-                        <div class="title">
-                            <p>
-                                الاسم واللقب
-                            </p>
-                            <span>المسمى الوظيفي</span>
-                            <span>قطر</span>
-
-
-                            <span><i class="fa-solid fa-clock"></i>منذ 4أيام</span>
-
-                        </div>
-                    </div>
-
-                    <div class="but">
-                        <button type="button" class="btn btn-primary right">اطلع على السيرة الذاتية</button>
-                        <button type="button" class="btn btn-primary left">تواصل مع الكادر</button>
-
-                    </div>
-                </div>
-            </div> -->
-            <!-- <hr> -->
 
         </div>
         @endif

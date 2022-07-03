@@ -10,6 +10,7 @@ use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Financial\PaypalController;
+use App\Http\Controllers\Financial\StripeController;
 use App\Http\Controllers\Social_Media\FacebookController;
 use App\Http\Controllers\Social_Media\GoogleController;
 use Illuminate\Support\Facades\Route;
@@ -204,7 +205,11 @@ Route::namespace('/Employer')
             });
                 // For Search In Job-Index Page
                 Route::post('/search/{salary?}/{years?}', [JobController::class, 'search'])->name('search');
-            //Start Job Route
+            // End Job Route
+
+            // Start Find Employee Page
+            Route::get('/find_employee', [EmployerController::class, 'find_employee'])->name('find_employee');
+            // End Find Employee Page
         });
 
 Route::namespace('/Employee')
@@ -234,6 +239,7 @@ Route::namespace('/Employee')
             'as' => 'employee.dashboard.',
         ], function() {
             Route::get('/{id?}', [EmployeeController::class, 'index'])->name('index');
+            Route::get('/show/{id}', [EmployeeController::class, 'show'])->name('show');
             Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('edit');
             Route::put('/edit_info/{id}', [EmployeeController::class, 'editInfo'])->name('editInfo');
             Route::put('/edit_salary/{id}', [EmployeeController::class, 'editSalary'])->name('editSalary');
@@ -242,6 +248,7 @@ Route::namespace('/Employee')
             Route::put('/personal_tap/{id}', [EmployeeController::class, 'personalTap'])->name('personalTap');
             Route::post('/practicalExperience', [EmployeeController::class, 'practicalExperience'])->name('practicalExperience');
             Route::post('/education', [EmployeeController::class, 'education'])->name('education');
+            Route::post('/certification', [EmployeeController::class, 'certification'])->name('certification');
         });
         // End Employee Dashboard Route
     });
@@ -255,8 +262,16 @@ Route::namespace('/Financial')
         Route::group([
             'as' => 'financial.',
         ], function() {
-            Route::get('/payout', [PaypalController::class, 'CreatePayout'])->name('CreatePayout');
+            // Paypal
+            Route::get('/payment/{total}/create', [PaypalController::class, 'CreatePayment'])->name('CreatePayment');
+            Route::get('/payment/callback', [PaypalController::class, 'callback'])->name('CallbackPayment');
+            Route::get('/payment/cancel', [PaypalController::class, 'cancel'])->name('CancelPayment');
+
+            // Stripe
+            Route::get('/stripe', [StripeController::class, 'create'])->name('CreateStripe');
+            Route::post('/stripe', [StripeController::class, 'store'])->name('StoreStripe');
         });
         // End Financial Route
+
 
     });

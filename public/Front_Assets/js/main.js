@@ -76,6 +76,12 @@ $(document).ready(function() {
         document.getElementById("experModal").style.display="none";
     })
 })
+$(document).ready(function() {
+    $('#certification_cancel').click(function(e) {
+        e.preventDefault();
+        document.getElementById("certificateModal").style.display="none";
+    })
+})
 
 
   /* Hover Dropdown */
@@ -618,6 +624,79 @@ $(document).ready(function() {
 })
 
 
+$('#edu_still').change(function() {
+        if ($(this).prop('checked') == true) {
+            $('#edu_end_month').prop('disabled', true);
+            $('#edu_end_year').prop('disabled', true);
+        }else{
+            $('#edu_end_month').prop('disabled', false);
+            $('#edu_end_year').prop('disabled', false);
+        }
+    })
+// $(document).ready(function() {
+//     $('#edu_still').change(function() {
+//         if ($(this).prop('checked') == true) {
+//             $('#edu_end_month').prop('disabled', true);
+//             $('#edu_end_year').prop('disabled', true);
+//         }else{
+//             $('#edu_end_month').prop('disabled', false);
+//             $('#edu_end_year').prop('disabled', false);
+//         }
+//     })
+//     $('#education').submit(function(e) {
+//         e.preventDefault();
+//         var enterprise_name = $('#edu-name').val();
+//         var diploma_name = $('#diploma').val();
+//         var start_month = $('#edu_start_month').val();
+//         var start_year = $('#edu_start_year').val();
+//         var specialization = $('#edu_special').val();
+//         var description = $('#edu-description').val();
+//         var certification_url = $('#edu-url').val();
+//         var certification_file = $('#cert-file')[0].files;
+//         var end_month = $('#edu_end_month').val();
+//         if (end_month == 'الشهر') {
+//             end_month = null;
+//         }
+//         var end_year= $('#edu_end_year').val();
+//         if (end_year == 'السنة') {
+//             end_year = null;
+//         }
+//
+//         $.ajax({
+//             url: '/employee/dashboard/education',
+//             type: 'post',
+//             data: {
+//                 enterprise_name: enterprise_name,
+//                 diploma_name: diploma_name,
+//                 start_month: start_month,
+//                 start_year: start_year,
+//                 end_month: end_month,
+//                 end_year: end_year,
+//                 specialization: specialization,
+//                 description: description,
+//                 certification_url: certification_url,
+//                 certification_file: certification_file,
+//             },
+//             dataType: 'json',
+//             success: function(data) {
+//                 console.log(data)
+//                 // if(data.errors) {
+//                 //     $.each(data.errors, function(key, value){
+//                 //         $('.edu-error').append('<p class="alert alert-danger">' + value + '</p>')
+//                 //     });
+//                 //     // $('.edu-error').append('<p class="alert alert-danger">يرجى التأكد من البيانات</p>')
+//                 // }else if(data.success){
+//                 //     location.reload(true);
+//                 // }
+//             },
+//             error: function(data) {
+//                 console.log(data)
+//             }
+//         })
+//
+//     });
+// })
+
 $(document).ready(function() {
     $('#update_job').click(function(e) {
         e.preventDefault();
@@ -647,6 +726,9 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#languages').chosen();
 });
+$(document).ready(function() {
+    $('#cert_special').chosen();
+});
 
 $(document).ready(function() {
     $('#personal_special').chosen();
@@ -667,6 +749,18 @@ $(document).ready(function() {
         }else{
             $('#end_date_month').prop('disabled', false);
             $('#end_date_year').prop('disabled', false);
+        }
+    })
+});
+
+$(document).ready(function() {
+    $('#cert_not_end').change(function () {
+        if ($(this).is(":checked")) {
+            $('#cert_end_month').prop('disabled', true);
+            $('#cert_end_year').prop('disabled', true);
+        }else{
+            $('#cert_end_month').prop('disabled', false);
+            $('#cert_end_year').prop('disabled', false);
         }
     })
 });

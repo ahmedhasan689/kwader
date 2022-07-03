@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
         "ext-mongodb": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -13,9 +14,10 @@
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.5",
+        "paypal/paypal-checkout-sdk": "^1.0",
         "paypal/paypal-payouts-sdk": "^1.0",
-        "yoeunes/toastr": "^1.2",
-        "ext-json": "*"
+        "stripe/stripe-php": "^8.9",
+        "yoeunes/toastr": "^1.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

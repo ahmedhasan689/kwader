@@ -655,42 +655,46 @@
                         <h3 class="tab-title">التعليم و الدبلومات</h3>
                         <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#educationModal">أضف دبلوم</button>
                     </div>
-                    <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <img class="border rounded-circle border-success border-2" src="images/company.png"
-                                     width="50" alt="">
-                                <div>
-                                    <span class="d-block">اسم المؤسسة التربوية</span>
-                                    <small>اسم الدبلوم</small>
+                    @if( $educations )
+                        @foreach( $educations as $education)
+                            <div class="ms-4 mt-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-between align-items-center gap-3">
+                                        <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
+                                             width="50" alt="">
+                                        <div>
+                                            <span class="d-block">
+                                                {{ $education->enterprise_name }}
+                                            </span>
+                                            <small>
+                                                {{ $education->diploma_name }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {{ $education->start_date }} -
+                                        @if( $education->end_date == ' / ' )
+                                            {{ 'حتى الآن' }}
+                                        @else
+                                            {{ $education->end_date }}
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                تاريخ البدء - تاريخ الانتهاء
+                            <div class="container mt-3">
+                                @foreach($education->specializations as $special)
+                                    <button type="button" class="btn btn-sm">
+                                        {{ $special }}
+                                    </button>
+                                @endforeach
                             </div>
-                        </div>
-                    </div>
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
-                        <button type="button" class="btn btn-sm">التخصص 2</button>
-                        <button type="button" class="btn btn-sm">التخصص 3</button>
-                        <button type="button" class="btn btn-sm">التخصص 4</button>
-                        <button type="button" class="btn btn-sm">التخصص 5</button>
-                        <button type="button" class="btn btn-sm">التخصص 6</button>
-                        <button type="button" class="btn btn-sm">التخصص 7</button>
-                        <button type="button" class="btn btn-sm">التخصص 8</button>
-                        <button type="button" class="btn btn-sm">التخصص 9</button>
-                    </div>
-                    <div class="mt-3">
-                        <p class="tab-content">لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل
-                            وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص
-                            الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها
-                            من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا
-                            النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير
-                            في ستينيّات هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي مقاطع من هذا
-                            النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
-                            (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.</p>
-                    </div>
+                            <div class="mt-3">
+                                <p class="tab-content">
+                                    {{ $education->description }}
+                                </p>
+                            </div>
+                        @endforeach
+                    @endif
                     {{-- Education Modal --}}
                     <div class="modal fade" id="educationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -699,21 +703,26 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أضف معلومات التعليم</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('employee.dashboard.education') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('employee.dashboard.education') }}" method="POST" id="education" enctype="multipart/form-data">
                                         @csrf
 
+                                        <div class="edu-error">
+
+                                        </div>
                                         <div class="mb-4 row">
                                             <label for="edu-name" class="col-sm-3 col-form-label">اسم المؤسسة</label>
                                             <div class="col-sm-8">
                                                 <input type="text" name="enterprise_name" class="form-control" id="edu-name">
                                             </div>
                                         </div>
+
                                         <div class="mb-4 row">
                                             <label for="deploma" class="col-sm-3 col-form-label">اسم الدبلوم</label>
                                             <div class="col-sm-8">
                                                 <input type="text" name="diploma_name" class="form-control" id="diploma">
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ بدء العمل</label>
                                             <div class="col-sm-4 mb-4">
@@ -726,6 +735,7 @@
                                                     @endfor
                                                 </select>
                                             </div>
+
                                             <div class="col-sm-4 mb-4">
                                                 <select class="form-select" aria-label="Default select example" id="edu_start_year" name="edu_start_year">
                                                     <option selected>السنة</option>
@@ -737,11 +747,12 @@
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ ترك العمل</label>
                                             <div class="col-sm-4">
                                                 <select class="form-select mb-3" aria-label="Default select example" id="edu_end_month" name="edu_end_month">
-                                                    <option selected>الشهر</option>
+                                                    <option>الشهر</option>
                                                     @for($i = 1; $i <= 12; $i++)
                                                         <option value="{{ $i }}">
                                                             {{ $i }}
@@ -749,9 +760,10 @@
                                                     @endfor
                                                 </select>
                                             </div>
+
                                             <div class="col-sm-4">
                                                 <select class="form-select mb-3" aria-label="Default select example" id="edu_end_year" name="edu_end_year">
-                                                    <option selected>السنة</option>
+                                                    <option>السنة</option>
                                                     @for($i = 1980; $i <= 2022; $i++)
                                                         <option value="{{ $i }}">
                                                             {{ $i }}
@@ -760,15 +772,17 @@
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="mb-4 row">
                                             <label class="col-sm-3 col-form-label"></label>
                                             <div class="col-sm-8">
                                                 <div class="form-check d-flex align-items-center gap-2">
-                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                    <small class="form-check-label text-muted" for="inlineCheckbox1" id="edu_still">مازلت اعمل</small>
+                                                    <input class="form-check-input" type="checkbox" id="edu_still">
+                                                    <small class="form-check-label text-muted" for="edu_still" style="margin-right: 25px">مازلت اعمل</small>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="mb-4 row">
                                             <label for="sp" class="col-sm-3 col-form-label">مجال التخصص</label>
                                             <div class="col-sm-8">
@@ -781,6 +795,7 @@
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="mb-4 row">
                                             <label for="Textarea" class="col-sm-3 col-form-label">الوصف</label>
                                             <div class="col-sm-8">
@@ -789,17 +804,19 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="mb-4 row">
                                             <label for="cert" class="col-sm-3 col-form-label">رابط الشهادة</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="cert-url" id="edu-url">
+                                                <input type="text" class="form-control" name="cert_url" id="edu-url">
                                             </div>
                                         </div>
+
                                         <div class="mb-4 row">
                                             <label for="cert" class="col-sm-3 col-form-label">ملف الشهادة</label>
                                             <div class="col-sm-8">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <input type="file" name="cert-file" id="cert-file" hidden />
+                                                    <input type="file" name="cert_file" id="cert-file" hidden />
                                                     <label class="btn btn-upload p-3 w-100" for="cert-file">
                                                         <i class="bi bi-cloud-upload"></i>
                                                         <span style="color: var(--secondary-color)">Browse</span> file to upload
@@ -807,6 +824,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-11 d-flex gap-2 justify-content-end mb-5 mt-4">
                                             <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="edu-cancel">الغاء</button>
                                             <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
@@ -842,14 +860,7 @@
                     </div>
                     <div class="container mt-3">
                         <button type="button" class="btn btn-sm">التخصص 1</button>
-                        <button type="button" class="btn btn-sm">التخصص 2</button>
-                        <button type="button" class="btn btn-sm">التخصص 3</button>
-                        <button type="button" class="btn btn-sm">التخصص 4</button>
-                        <button type="button" class="btn btn-sm">التخصص 5</button>
-                        <button type="button" class="btn btn-sm">التخصص 6</button>
-                        <button type="button" class="btn btn-sm">التخصص 7</button>
-                        <button type="button" class="btn btn-sm">التخصص 8</button>
-                        <button type="button" class="btn btn-sm">التخصص 9</button>
+
                     </div>
                     <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -858,60 +869,86 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أدرج الشهادات التي تحصلت عليها</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="{{ route('employee.dashboard.certification') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <div class="mb-4 row">
-                                            <label for="certif-name" class="col-sm-3 col-form-label">اسم الشهادة</label>
+                                            <label for="certif-name" class="col-sm-3 col-form-label">
+                                                اسم الشهادة
+                                            </label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="certif-name">
+                                                <input type="text" name="certification_name" class="form-control" id="certification-name">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="center-name" class="col-sm-3 col-form-label">اسم المركز</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="center-name">
+                                                <input type="text" name="center_name" class="form-control" id="center-name">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="major" class="col-sm-3 col-form-label">مجال التخصص</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="major">
+                                                <select id="cert_special" class="special" name="special[]" multiple>
+                                                    @foreach( $specializations as $specialization)
+                                                        <option value="{{ $specialization->specialization_name }}">
+                                                            {{$specialization->specialization_name}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ الإصدار</label>
                                             <div class="col-sm-4 mb-4">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>الشهر</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select" name="start_month" id="cert_start_month" aria-label="Default select example">
+                                                    <option>الشهر</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                             <div class="col-sm-4 mb-4">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>السنة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select" name="start_year" id="cert_start_year" aria-label="Default select example">
+                                                    <option>السنة</option>
+                                                    @for($i = 1980; $i <= 2022; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-sm-3 col-form-label">تاريخ الانتهاء</label>
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" aria-label="Default select example">
-                                                    <option selected>الشهر</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select mb-3" name="end_month" id="cert_end_month" aria-label="Default select example">
+                                                    <option>الشهر</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                             <div class="col-sm-4">
-                                                <select class="form-select mb-3" aria-label="Default select example">
-                                                    <option selected>السنة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select mb-3" name="end_year" id="cert_end_year" aria-label="Default select example">
+                                                    <option>السنة</option>
+                                                    @for($i = 1980; $i <= 2022; $i++)
+                                                        <option value="{{ $i }}">
+                                                            {{ $i }}
+                                                        </option>
+                                                    @endfor
                                                 </select>
                                             </div>
                                         </div>
@@ -919,28 +956,23 @@
                                             <label class="col-sm-3 col-form-label"></label>
                                             <div class="col-sm-8">
                                                 <div class="form-check d-flex align-items-center gap-2">
-                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                    <small class="form-check-label text-muted" for="inlineCheckbox1">هذه الشهادة لا تملك تايخ إنتهاء</small>
+                                                    <input class="form-check-input" type="checkbox" id="cert_not_end" value="option1">
+                                                    <small class="form-check-label text-muted" for="inlineCheckbox1" style="margin-right: 25px;">هذه الشهادة لا تملك تايخ إنتهاء</small>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-4 row">
-                                            <label for="cer-link" class="col-sm-3 col-form-label">رابط الشهادة</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="cer-link">
-                                            </div>
-                                        </div>
+
                                         <div class="mb-4 row">
                                             <label for="cert" class="col-sm-3 col-form-label">رابط الشهادة</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="cert">
+                                                <input type="text" name="certification_url" class="form-control" id="cert">
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="cert" class="col-sm-3 col-form-label">ملف الشهادة</label>
                                             <div class="col-sm-8">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <input type="file" id="upload" hidden />
+                                                    <input type="file" name="certification_file" id="upload" hidden />
                                                     <label class="btn btn-upload p-3 w-100" for="upload">
                                                         <i class="bi bi-cloud-upload"></i>
                                                         <span style="color: var(--secondary-color)">Browse</span> file to upload
@@ -949,7 +981,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-11 d-flex gap-2 justify-content-end mb-5 mt-4">
-                                            <button type="submit" class="btn btn-secondary px-3" data-bs-dismiss="modal">الغاء</button>
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="certification_cancel">الغاء</button>
                                             <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                                         </div>
                                     </form>

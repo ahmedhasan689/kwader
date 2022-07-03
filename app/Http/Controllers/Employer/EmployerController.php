@@ -55,4 +55,12 @@ class EmployerController extends Controller
             'name' => Cookie::get('user_type'),
         ]);
     }
+
+    public function find_employee()
+    {
+        $employees = Employee::all();
+
+        return view('employer.find_employer.index', compact('employees'));
+
+    }
 }

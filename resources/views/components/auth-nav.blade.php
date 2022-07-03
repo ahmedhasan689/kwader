@@ -130,7 +130,7 @@
 
                 <li class="nav-item">
                     @if(auth()->user()->user_type == 'Employer')
-                         <a class="nav-link" href="#">
+                         <a class="nav-link" href="{{ route('find_employee') }}">
                              أبحث عن كوادر
                          </a>
                     @else

@@ -5,9 +5,9 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use PaypalPayoutsSDK\Core\PayPalHttpClient;
-use PaypalPayoutsSDK\Core\SandboxEnvironment;
-use PaypalPayoutsSDK\Core\ProductionEnvironment;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,17 +42,5 @@ class AppServiceProvider extends ServiceProvider
 
         // To Use Bootstrap Not Tailwindcss
         Paginator::useBootstrap();
-
-//        $this->app->bind('paypal.client', function($app) {
-//            $config = config('services.paypal');
-//
-//            if ($config['mode'] == 'sandbox') {
-//                $environment = new SandboxEnvironment($config['client_id'], $config['client_secret']);
-//            }else{
-//                $environment = new ProductionEnvironment($config['client_id'], $config['client_secret']);
-//            }
-//            $client = new PayPalHttpClient($environment);
-//            return $client;
-//        });
     }
 }

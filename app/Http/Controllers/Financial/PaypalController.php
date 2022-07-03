@@ -3,20 +3,23 @@
 namespace App\Http\Controllers\Financial;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employer;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalHttp\HttpException;
-use PaypalPayoutsSDK\Core\PayPalHttpClient;
-use PaypalPayoutsSDK\Payouts\PayoutsPostRequest;
-use Sample\CreatePayoutSample;
-use Sample\PayPalClient;
+
 
 
 class PaypalController extends Controller
 {
     /**
-     * @var mixed|PayPalHttpClient
+     * @var PayPalCheckoutSdk\Core\PayPalHttpClient
      */
     protected $client;
 
@@ -25,60 +28,70 @@ class PaypalController extends Controller
         $this->client = App::make('paypal.client');
     }
 
-    public function buildRequestBody()
+    public function createPayment($total)
     {
-        return json_decode(
-            '{
-                "sender_batch_header":
-                {
-                  "sender_batch_id": "Payouts_2018_100008",
-                  "email_subject": "SDK payouts test txn"
-                },
-                "items": [
-                {
-                  "recipient_type": "EMAIL",
-                  "receiver": "payouts2342@paypal.com",
-                  "note": "Your 50$ payout",
-                  "sender_item_id": "1",
-                  "amount":
-                  {
-                    "currency": "USD",
-                    "value": "50"
-                  }
-                }]
-              }',
-            true
-        );
+        $request = new OrdersCreateRequest();
+        $request->prefer('return=representation');
+        $request->body = [
+            "intent" => "CAPTURE",
+            "purchase_units" => [[
+                "reference_id" => "test_ref_id1",
+                "amount" => [
+                    "value" => $total,
+                    "currency_code" => "USD"
+                ]
+            ]],
+            "application_context" => [
+                "cancel_url" => url(route('financial.CancelPayment')),
+                "return_url" => url(route('financial.CallbackPayment'))
+            ],
+        ];
+
+        try {
+            // Call API with your client and get a response for your call
+            $response = $this->client->execute($request);
+
+            if($response && $response->statusCode == 201) {
+                $links = collect($response->result->links);
+
+                $link = $links->where('rel', '=', 'approve')->first();
+
+                return redirect()->away($link->href);
+
+            };
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+//            print_r($response);
+
+        }catch (HttpException $ex) {
+            echo $ex->statusCode;
+            print_r($ex->getMessage());
+        }
     }
 
-    public function CreatePayout($debug = false)
+    public function callback()
     {
+        $paypal_order_id = request()->query('token');
+
+        $request = new OrdersCaptureRequest($paypal_order_id );
+        $request->prefer('return=representation');
         try {
-            $request = new PayoutsPostRequest();
-            $request->body = self::buildRequestBody();
-            $this->client = PayPalClient::client();
+            // Call API with your client and get a response for your call
             $response = $this->client->execute($request);
-            if ($debug) {
-                print "Status Code: {$response->statusCode}\n";
-                print "Status: {$response->result->batch_header->batch_status}\n";
-                print "Batch ID: {$response->result->batch_header->payout_batch_id}\n";
-                print "Links:\n";
-                foreach ($response->result->links as $link) {
-                    print "\t{$link->rel}: {$link->href}\tCall Type: {$link->method}\n";
-                }
-                // To toggle printing the whole response body comment/uncomment below line
-                echo json_encode($response->result, JSON_PRETTY_PRINT), "\n";
+
+            if($response && $response->statusCode == 201) {
+                $employer = Employer::where('user_id', Auth::user()->id)->first();
+                $job = Job::where('employer_id', $employer->id)->first();
+                $job::update([
+                    'status' => 'Opened'
+                ]);
+
+                return redirect()->route('job.create', ['step' => 4]);
             }
-            return $response;
-        } catch (HttpException $e) {
-            //Parse failure response
-            echo $e->getMessage() . "\n";
-            $error = json_decode($e->getMessage());
-//            echo $error->message . "\n";
-//            echo $error->name . "\n";
-//            echo $error->debug_id . "\n";
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+//            dd($response);
+        }catch (HttpException $ex) {
+            echo $ex->statusCode;
+            print_r($ex->getMessage());
         }
     }
 }
-
-
