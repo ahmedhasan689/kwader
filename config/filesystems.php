@@ -70,6 +70,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'employee_cv' => [
+            'driver' => 'local',
+            'root' => public_path('/Employee_CVs'),
+            'url' => env('APP_URL').'/Employee_CV',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

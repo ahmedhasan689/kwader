@@ -2680,6 +2680,397 @@ h2 {
     color: var(--text-color);
     line-height: 35px;
 }
+.form-pic{
+    position: relative;
+}
+.form-pic #submit_pic{
+    position: absolute;
+    top: 240px;
+    right: 0;
+    left: 0;
+    height: 20%;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    color: #fafafa;
+    background-color: rgb(0 179 152 / 60%);
+    backdrop-filter: blur(5px);
+    transition: background-color 0.1s ease-in-out;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: none;
+}
+
+.inboxMessage .container {
+    border: solid 1px #898EA3;
+    border-radius: 5px;
+    padding: 0;
+}
+
+
+.inboxMessage .container .row .right ul::-webkit-scrollbar-thumb {
+    background-color: #321212;
+    border-radius: 10px;
+    width: .4em;
+}
+
+.inboxMessage .container .row .messages {
+    padding: 20px;
+}
+
+.inboxMessage ul {
+    padding: 0;
+    height: 70vh;
+    overflow-y: scroll;
+}
+
+.inboxMessage .container .row .right ul::-webkit-scrollbar {
+    width: .4em;
+}
+
+.inboxMessage .container .row .right ul::-webkit-scrollbar-track {
+    background-color: #E7EAF6;
+    margin-block: 0;
+    /* border-radius: 10px; */
+}
+
+.inboxMessage .container .row .right ul::-webkit-scrollbar-thumb {
+    background-color: #898EA3;
+    border-radius: 10px;
+    width: .4em;
+}
+
+.inboxMessage .right .messages {
+    padding: 20px;
+}
+
+.inboxMessage ul li {
+    list-style: none;
+    /* background-color: #8888886e; */
+    width: 100%;
+    padding: 20px;
+    /* padding-bottom: 0; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: solid 1px #898ea36f;
+}
+
+.inboxMessage ul li img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.inboxMessage ul li div {
+    display: flex;
+    font-size: large;
+    flex-direction: column;
+
+    justify-content: start;
+}
+
+.inboxMessage ul li div p {
+    margin: 0;
+}
+
+.inboxMessage ul li span {
+    color: #898EA3;;
+}
+
+.inboxMessage .container .row .left {
+    height: 70vh;
+    overflow-y: scroll;
+    /* background-color: rebeccapurple; */
+    /* margin-left: 2px; */
+}
+
+.inboxMessage .container .row .left::-webkit-scrollbar {
+    width: .4em;
+
+}
+
+.inboxMessage .container .row .left::-webkit-scrollbar-track {
+    background-color: #E7EAF6;
+    margin-block: 0;
+    /* border-radius: 10px; */
+}
+
+.inboxMessage .container .row .left::-webkit-scrollbar-thumb {
+    background-color: #898EA3;
+    border-radius: 10px;
+    width: .4em;
+}
+
+.inboxMessage .container .row .left img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.inboxMessage .container .row .left div .nn {
+    display: flex;
+    font-size: large;
+    flex-direction: column;
+
+    justify-content: start;
+    margin-right: 10px;
+}
+
+.inboxMessage .container .row .left div .nn p {
+    margin: 0;
+}
+
+.inboxMessage .hhed {
+    justify-content: space-between;
+    padding: 10px 20px;
+    border: solid 1px #898EA3;
+}
+
+.inboxMessage .container .row .left .dropdown button {
+    background-color: transparent;
+    color: #434651;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px #434651;
+    width: 100%;
+    border-radius: 0;
+}
+
+.inboxMessage .container .row .left .dropdown button:focus {
+    box-shadow: none;
+}
+
+.inboxMessage .container .row .left .dropdown ul {
+    overflow: auto;
+    border: none;
+}
+
+.inboxMessage .container .row .left .dropdown ul li {
+    background-color: #E7EAF6;
+    margin: 10px 0px;
+    text-align: right;
+}
+
+.inboxMessage .container .row .left .dropdown ul li div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+.inboxMessage .container .row .left .dropdown ul li .rights {
+    background-color: #00B398;
+    color: #fff;
+    /* height: 30px; */
+    border-radius: 5px;
+    /* padding: 0 50px; */
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+}
+
+.inboxMessage .container .row .left .dropdown ul li p span {
+    color: #00B398;
+}
+
+.inboxMessage .container .row .left .dropdown ul li .lefts {
+    border: solid 2px #898EA3;
+    border-radius: 5px;
+    color: #898EA3;
+    display: flex;
+    justify-content: center;
+    /* height: 30px; */
+}
+
+.inboxMessage .container .row .left .aoe {
+    margin-top: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.inboxMessage .container .row .left .aoe button {
+    background-color: #00B398;
+    color: #fff;
+}
+
+.inboxMessage .hhed button {
+    border: solid 2px #898EA3;
+}
+
+.inboxMessage .hhed .avtar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.inboxMessage .chat .chat-header img {
+    float: left;
+    border-radius: 40px;
+    width: 40px
+}
+
+.inboxMessage .chat .chat-header .chat-about {
+    float: left;
+    padding-left: 10px
+}
+
+.inboxMessage .col-3 {
+    padding-left: 0;
+}
+
+.inboxMessage .col-9 {
+    padding-right: .5;
+}
+
+.inboxMessage .chat .chat-history {
+    /* padding: 20px 0px ; */
+    border-bottom: 2px solid #fff;
+    /* height: 70vh; */
+
+    /* overflow-y: scroll; */
+}
+
+.inboxMessage .chat .chat-history ul {
+    padding: 20px 0px;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.inboxMessage .chat .chat-history ul::-webkit-scrollbar {
+    width: .4em;
+}
+
+.inboxMessage .chat .chat-history ul::-webkit-scrollbar-track {
+    background-color: #E7EAF6;
+    margin-block: 0;
+    /* border-radius: 10px; */
+}
+
+.inboxMessage .chat .chat-history ul::-webkit-scrollbar-thumb {
+    background-color: #898EA3;
+    border-radius: 10px;
+    width: .4em;
+}
+
+.inboxMessage .chat .chat-history ul li {
+
+    list-style: none;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+}
+
+.inboxMessage .chat .chat-history ul li:last-child {
+    margin-bottom: 0px
+}
+
+.inboxMessage .chat .chat-history .message-data {
+    margin-bottom: 0px;
+    font-size: 10px;
+
+}
+
+.inboxMessage .chat .chat-history .message-data span {
+    text-align: right;
+}
+
+.inboxMessage .chat .chat-history .message-data img {
+    border-radius: 40px;
+    width: 40px
+}
+
+.inboxMessage .chat .chat-history .message-data-time {
+    color: #434651;
+    padding-left: 6px
+}
+
+.inboxMessage .chat .chat-history .message {
+    color: #444;
+
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 7px;
+    display: inline-block;
+    /* position: relative */
+}
+
+.inboxMessage .chat .chat-history .message:after {
+    bottom: 100%;
+    left: 7%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #fff;
+    border-width: 10px;
+    margin-left: -10px
+}
+
+.inboxMessage .chat .chat-history .my-message {
+    background: #E7EAF6;
+    border-bottom-left-radius: 0px;
+}
+
+.inboxMessage .chat .chat-history .my-message:after {
+    bottom: 100%;
+    left: 30px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #efefef;
+    border-width: 10px;
+    margin-left: -10px
+}
+
+.inboxMessage .chat .chat-history .other-message {
+    background: #00b3988e;
+    text-align: right;
+    border-bottom-right-radius: 0px;
+}
+
+.inboxMessage .chat .chat-history li {
+    border: none;
+}
+
+.inboxMessage .chat .chat-history .other-message:after {
+    border-bottom-color: #e8f1f3;
+    left: 93%
+}
+
+.inboxMessage .chat .chat-message {
+    padding: 20px;
+    background-color: #E7EAF6;
+}
+
+.inboxMessage .chat .chat-message .form-control {
+    border-radius: 20px;
+
+}
+
+.inboxMessage .chat .chat-message .input-group-prepend {
+    background-color: #00B398;
+    margin-right: 10px;
+
+}
+
+.inboxMessage .chat .chat-message .input-group-prepend button {
+    border-radius: 20px !important;
+    color: #fff;
+}
 
 /**/
 .availability {

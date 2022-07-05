@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employer;
+use App\Models\FinancialTransactions;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -72,17 +73,29 @@ class PaypalController extends Controller
     {
         $paypal_order_id = request()->query('token');
 
-        $request = new OrdersCaptureRequest($paypal_order_id );
+        $request = new OrdersCaptureRequest($paypal_order_id);
         $request->prefer('return=representation');
         try {
             // Call API with your client and get a response for your call
+
             $response = $this->client->execute($request);
 
             if($response && $response->statusCode == 201) {
                 $employer = Employer::where('user_id', Auth::user()->id)->first();
-                $job = Job::where('employer_id', $employer->id)->first();
-                $job::update([
+                $job = Job::where('employer_id', $employer->id)->latest();
+                $job->update([
                     'status' => 'Opened'
+                ]);
+
+                $total = null;
+                foreach($response->result->purchase_units as $unit){
+                    $total = $unit->amount->value;
+                };
+
+                FinancialTransactions::create([
+                    'employer_id' => $employer->id,
+                    'amount' => $total,
+                    'transaction_number' => '#'.str_pad(0 + 1, 8, "0", STR_PAD_LEFT),
                 ]);
 
                 return redirect()->route('job.create', ['step' => 4]);

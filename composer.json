@@ -8,7 +8,10 @@
         "php": "^7.3|^8.0",
         "ext-json": "*",
         "ext-mongodb": "*",
+        "davcpas1234/laravelpdfviewer": "^1.0",
+        "dompdf/dompdf": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
+        "goodnesskay/laravelpdfviewer": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
@@ -16,6 +19,7 @@
         "laravel/tinker": "^2.5",
         "paypal/paypal-checkout-sdk": "^1.0",
         "paypal/paypal-payouts-sdk": "^1.0",
+        "pusher/pusher-php-server": "^7.0",
         "stripe/stripe-php": "^8.9",
         "yoeunes/toastr": "^1.2"
     },

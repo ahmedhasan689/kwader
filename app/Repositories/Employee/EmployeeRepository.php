@@ -4,9 +4,13 @@ namespace App\Repositories\Employee;
 
 use App\Models\Certification;
 use App\Models\Country;
+use App\Models\CurriculumVitae;
 use App\Models\Education;
 use App\Models\Employee;
+use App\Models\EmployeeLanguage;
+use App\Models\EmployeeSkills;
 use App\Models\Field;
+use App\Models\Language;
 use App\Models\Nationality;
 use App\Models\Practical_Experience;
 use App\Models\Skill;
@@ -20,7 +24,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Dompdf\Dompdf;
+use Illuminate\Support\Str;
 
 class EmployeeRepository implements EmployeeInterface
 {
@@ -146,17 +153,28 @@ class EmployeeRepository implements EmployeeInterface
      */
     public function edit($id)
     {
-        $employee = Employee::where('user_id', Auth::user()->id)->first();
-        $countries = Country::all();
-        $nationalities = Nationality::all();
-        $specializations = Specialization::all();
-        $practical_experiences = Practical_Experience::where('employee_id', $employee->id)->get();
-        $educations = Education::where('employee_id', $employee->id)->get();
+        $data = [];
 
-        $date_of_birth = $employee->date_of_birth;
-        $day = Carbon::createFromFormat('m/d/Y', $employee->date_of_birth);
+        $data['employee'] = Employee::where('user_id', Auth::user()->id)->first();
+        $data['countries'] = Country::all();
+        $data['nationalities'] = Nationality::all();
+        $data['specializations'] = Specialization::all();
+        $data['practical_experiences'] = Practical_Experience::where('employee_id', $data['employee']->id)->get();
+        $data['educations'] = Education::where('employee_id', $data['employee']->id)->get();
 
-        return view('employee.edit', compact('employee', 'countries', 'nationalities', 'day', 'specializations', 'practical_experiences', 'educations'));
+        $date_of_birth = $data['employee']->date_of_birth;
+        $data['day'] = Carbon::createFromFormat('m/d/Y', $data['employee']->date_of_birth);
+
+        $data['certifications'] = Certification::where('employee_id', $data['employee']->id)->get();
+        $data['fields'] = Field::all();
+        $data['skills'] = Skill::all();
+        $data['employee_skills'] = EmployeeSkills::all();
+        $data['languages'] = Language::all();
+        $data['employee_languages'] = EmployeeLanguage::all();
+        $data['curriculum_vitaes'] = CurriculumVitae::where('employee_id', $data['employee']->id)->get();
+
+        return view('employee.edit',  $data);
+
     }
 
     /**
@@ -248,6 +266,11 @@ class EmployeeRepository implements EmployeeInterface
         return redirect()->back();
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function personalTap(Request $request, $id)
     {
         $employee = Employee::where('user_id', Auth::user()->id)->findOrFail($id);
@@ -324,6 +347,10 @@ class EmployeeRepository implements EmployeeInterface
 
     }
 
+    /**
+     * @param $request
+     * @return RedirectResponse|void
+     */
     public function education($request)
     {
         $validator = Validator::make($request->all(), [
@@ -376,6 +403,10 @@ class EmployeeRepository implements EmployeeInterface
         }
     }
 
+    /**
+     * @param $request
+     * @return RedirectResponse|void
+     */
     public function certification($request)
     {
         $validator = Validator::make($request->all(), [
@@ -410,8 +441,8 @@ class EmployeeRepository implements EmployeeInterface
                 'name' => $request->certification_name,
                 'employee_id' => Employee::where('user_id', Auth::user()->id)->first()->id,
                 'specializations' => $request->special,
-                'start_date' => $request->start_month . ' / ' . $request->edu_start_year,
-                'end_date' => $request->end_month . ' / ' . $request->edu_end_year,
+                'start_date' => $request->start_month . ' / ' . $request->start_year,
+                'end_date' => $request->end_month . ' / ' . $request->end_year,
                 'certification_url' => $request->certification_url,
                 'certification_file' => $file_path,
             ]);
@@ -424,5 +455,96 @@ class EmployeeRepository implements EmployeeInterface
 
             return redirect()->back()->withErrors($validator);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function setSkills(Request $request)
+    {
+        $employee = Employee::where('user_id', Auth::user()->id)->first();
+
+        $validator = Validator::make($request->all(), [
+            'specializations' => ['required'],
+            'skills' => ['required'],
+            'description' => ['required', 'min:5', 'max:250'],
+        ]);
+
+        if ($validator->passes()) {
+            EmployeeSkills::create([
+                'employee_id' =>  $employee->id,
+                'specialization_id' => $request->specializations,
+                'skills' => $request->skills,
+                'description' => $request->description
+            ]);
+
+            toastr()->success('تمت الإضافة');
+            return response()->json([
+                'success' => 'Done',
+            ]);
+        }elseif($validator->fails()){
+            return response()->json([
+                'errors' => $validator->getMessageBag()->toArray(),
+            ]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function setlanguages(Request $request)
+    {
+        $request->validate([
+            'language_id' => ['required'],
+            'level' => ['required'],
+        ]);
+
+        EmployeeLanguage::create([
+            'employee_id' => Employee::where('user_id', Auth::user()->id)->first()->id,
+            'language_id' => $request->language_id,
+            'level' => $request->level,
+        ]);
+
+        toastr()->success('تمت الإضافة');
+
+        return redirect()->back();
+    }
+
+    public function addCV(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'cv_file' => ['required']
+        ]);
+
+        if($validator->passes()) {
+
+//            $file_path = null;
+
+            if ( $request->hasFile('cv_file') ) {
+                $file = $request->file('cv_file');
+
+                $file_path = $file->store('/', [
+                    'disk' => 'employee_cv',
+                ]);
+            }
+
+            CurriculumVitae::create([
+                'id' => Str::uuid(),
+                'employee_id' => Employee::where('user_id', Auth::user()->id)->first()->id,
+                'cv' => $file_path,
+            ]);
+
+            toastr()->success('تمت إضافة السيرة الذاتية إلى ملفك بنجاح');
+
+            return redirect()->back();
+        }elseif($validator->fails()) {
+            return redirect()->back()->withErrors('يوجد في ملفك سيرة ذاتية بالفعل !');
+        }
+
+
+
+
     }
 }

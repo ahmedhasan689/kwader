@@ -172,19 +172,17 @@ class JobRepository implements JobInterface
     {
         $job = Job::findOrFail($id);
 
-//        dd($job->employee_applicants);
-
         $employee = Employee::where('user_id', Auth::user()->id)->first();
 
         $users = [];
 
         if ($job->employee_applicants) {
             foreach ( $job->employee_applicants as $applicant) {
-                $user = Employee::where('user_id', $applicant)->first();
+                $user = Employee::where('id', $applicant)->first();
                 $users[] = $user;
             }
         }
-//        dd($users);
+
 
         return view('employer.job.show', compact('job', 'employee', 'users'));
     }

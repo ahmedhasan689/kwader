@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -36,6 +37,12 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (Throwable $e) {
+            if ($e instanceof QueryException) {
+                return redirect()->back()->with('error', 'يوجد نفس اللغة مسبقاً');
+            }
         });
     }
 }

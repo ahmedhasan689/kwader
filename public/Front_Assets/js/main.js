@@ -4,8 +4,49 @@ const input = document.querySelector('.input')
 link.addEventListener('click', () => {
     search.classList.toggle('active')
     input.focus()
-})
+});
 
+$(document).ready(function() {
+    $('button[type="button"]').click(function() {
+        var name = $('.job-selected').val();
+        console.log(name);
+    })
+});
+// contract
+$(document).ready(function() {
+    $(".two").click(function() {
+        $(".tableOne").hide();
+        $(".tableTwo").show();
+        $(this).css({ "background-color": "#002C7F", "color": "#fff" })
+        $(".two a").css({  "color":"#fff"})
+
+        $(".one").css({ "background-color": "transparent", "color": "gray" })
+        $(".one a").css({"color":"gray"})
+
+
+    });
+});
+
+$(document).ready(function() {
+    $(".one").click(function() {
+        $(".tableTwo").hide();
+        $(".tableOne").show();
+        $(this).css({ "background-color": "#002C7F", "color": "#fff" })
+        $(".one a").css({  "color":"#fff"})
+
+        $(".two").css({ "background-color": "transparent", "color": "gray" })
+        $(".two a").css({"color":"gray"})
+
+
+    });
+});
+
+var changePic = function (event) {edit_pic
+    document.getElementById("submit_pic").style.display="block";
+    document.getElementById("edit_pic").style.display="none";
+    var image = document.getElementById("output");
+    image.src = URL.createObjectURL(event.target.files[0]);
+};
 
 /* Edit Content */
 function editAboutMe() {
@@ -29,8 +70,14 @@ document.getElementById("edit_availability").style.display="block";
 $(document).ready(function() {
   $('#personal_info_cancel').click(function(e) {
       e.preventDefault();
-      document.getElementById("educationModal").style.display="none";
+      document.getElementById("languagesModal").style.display="none";
   })
+});
+$(document).ready(function() {
+    $('#cancel_langs').click(function(e) {
+        e.preventDefault();
+        document.getElementById("educationModal").style.display="none";
+    })
 });
 
 $(document).ready(function() {
@@ -220,6 +267,62 @@ $(document).ready(function() {
     })
 })
 
+// Ajax Register Request
+$(document).ready(function() {
+    $('#register-form').submit(function(e) {
+        e.preventDefault();
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#register_email').val();
+        var password = $('#register_password').val();
+        var password_confirm = $('#confirm').val();
+        var token = $('input[name="_token"]').val();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        if (password === password_confirm) {
+            $.ajax({
+                url: $('#register-form').attr('action'),
+                type: 'POST',
+                data: {
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    password_confirmation: password_confirm,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.errors){
+                        $.each(data.errors, function(key, value){
+                            $('#error_msg_register').show();
+                            $('#error_msg_register').append('<p class="text-danger">'+value+'</p>');
+                        });
+                    }
+
+                    if ( data.user.user_type == 'Employer' ) {
+                        window.location.href = '/employer/dashboard'
+                    }else if( data.user.user_type == 'Employee' ) {
+                        window.location.href = '/employee/profile/specialization'
+                    }else {
+                        window.location.href = '/employer/dashboard'
+                    }
+
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        } else {
+            alert('Password');
+        }
+    });
+});
+
 $(document).ready(function() {
     $(".owner").click(function(e) {
         e.preventDefault();
@@ -273,6 +376,7 @@ $(document).ready(function() {
     });
 })
 
+// Set Personal Info For Employee
 $(document).ready(function() {
     $('#personal-tap').submit(function(e) {
         e.preventDefault();
@@ -331,61 +435,7 @@ $(document).ready(function() {
     });
 })
 
-// Ajax Register Request
-$(document).ready(function() {
-    $('#register-form').submit(function(e) {
-        e.preventDefault();
-        var first_name = $('#first_name').val();
-        var last_name = $('#last_name').val();
-        var email = $('#register_email').val();
-        var password = $('#register_password').val();
-        var password_confirm = $('#confirm').val();
-        var token = $('input[name="_token"]').val();
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        if (password === password_confirm) {
-            $.ajax({
-                url: $('#register-form').attr('action'),
-                type: 'POST',
-                data: {
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    password: password,
-                    password_confirmation: password_confirm,
-                },
-                dataType: 'json',
-                success: function(data) {
-                    if (data.errors){
-                        $.each(data.errors, function(key, value){
-                            $('#error_msg_register').show();
-                            $('#error_msg_register').append('<p class="text-danger">'+value+'</p>');
-                        });
-                    }
-
-                    if ( data.user.user_type == 'Employer' ) {
-                        window.location.href = '/employer/dashboard'
-                    }else if( data.user.user_type == 'Employee' ) {
-                        window.location.href = '/employee/profile/specialization'
-                    }else {
-                        window.location.href = '/employer/dashboard'
-                    }
-
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        } else {
-            alert('Password');
-        }
-    });
-});
 
 // Choice Field & Specialization
 $(document).ready(function() {
@@ -449,7 +499,6 @@ $(document).ready(function() {
 
 // By Id
 $(document).ready(function() {
-
 
     $('input[name="job_field"]').change(function () {
 
@@ -623,6 +672,39 @@ $(document).ready(function() {
     })
 })
 
+// Employee Specialization Modal
+$(document).ready(function() {
+   $('#employee_field').submit(function(e) {
+       e.preventDefault();
+       var specializations = $('#employee_specialization').val();
+       var skills = $('#employee_skills').val();
+       var description = $('#field_description').val();
+
+       $.ajax({
+           url: '/employee/dashboard/setSkills',
+           type: 'post',
+           data: {
+               specializations: specializations,
+               skills: skills,
+               description: description
+           },
+           dataType: 'json',
+           success: function(data){
+                if(data.errors){
+                    $.each(data.errors, function(key, value){
+                        $('.skill-error').append('<p class="alert alert-danger">' + value + '</p>')
+                    });
+                }else if(data.success){
+                    location.reload(true);
+                }
+           },
+           error: function(data){
+                console.log(data);
+           },
+
+       })
+   })
+});
 
 $('#edu_still').change(function() {
         if ($(this).prop('checked') == true) {
@@ -711,6 +793,9 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 $('#send_id_to_job').modal('show');
+                setTimeout(function(){// wait for 5 secs(2)
+                    location.reload(true); // then reload the page.(3)
+                }, 3000);
             },
             error: function(data) {
                 console.log(data)
@@ -729,7 +814,9 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#cert_special').chosen();
 });
-
+$(document).ready(function() {
+    $('#employee_skills').chosen();
+});
 $(document).ready(function() {
     $('#personal_special').chosen();
 });

@@ -332,19 +332,22 @@
                 @else
                 <div class="payment-fees" style="display:none;">
                 @endif
-                    <div>
-                        <img src="{{ asset('Front_Assets/img/Group 613.png') }}" alt="">
-                        <p id="threeStep">
+                    <div style="text-align: center; margin-top: 20px;">
+                        <img src="{{ asset('Front_Assets/img/Group 613.png') }}" alt="" style="width: 300px; height: 300px">
+                        <p id="threeStep" style="margin-top: 25px; font-size: 20px;">
                             مبروك ، لقد تم إعلان الوظيفة
                         </p>
                     </div>
                 </div>
 
-                <div class="px-4 mt-4" style="float:left ; ">
-                    <button type="submit" style="background-color: #00B398; border: none; padding: 10px 20px; font-size: large;"  class="btn btn-primary">
-                        معاينة الوظيفة
-                    </button>
-                </div>
+                @if( $step == 1 )
+                    <div class="px-4 mt-4" style="float:left ; ">
+                        <button type="submit" style="background-color: #00B398; border: none; padding: 10px 20px; font-size: large;"  class="btn btn-primary">
+                            معاينة الوظيفة
+                        </button>
+                    </div>
+                @endif
+
             </div>
         </div>
     </form>

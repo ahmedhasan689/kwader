@@ -55,4 +55,13 @@ interface EmployeeInterface {
     // Add Certification For Employee
     public function certification(Request $request);
 
+    // Add Field Name For Employee
+    public function setSkills(Request $request);
+
+    // Add languages For Employee
+    public function setlanguages(Request $request);
+
+    // Add CV For Employee
+    public function addCV(Request $request);
+
 }

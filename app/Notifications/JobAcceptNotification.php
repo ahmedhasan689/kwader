@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Job;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -35,7 +36,9 @@ class JobAcceptNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        $via = ['database', 'broadcast'];
+
+        return $via;
     }
 
     /**
@@ -59,10 +62,27 @@ class JobAcceptNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
+            'id' => $notifiable->latest(),
             'title' => 'إشعار جديد',
             'body' =>  'تم الموافقة على إعلان الوظيفة بالمسمى الوظيفي ' . $this->job->job_title,
-            'icon' => asset('Dashboard_Assets/img/Accept-icon.png'),
+            'icon' => asset('Dashboard_Assets/img/accept.png'),
             'url' => env('APP_URL'). '/employer/job/create/3',
+            'time' => Carbon::now()->diffForHumans(),
+        ];
+    }
+
+    /**
+     * @param $notifiable
+     * @return array
+     */
+    public function toBroadcast($notifiable)
+    {
+        return [
+            'title' => 'إشعار جديد',
+            'body' =>  'تم الموافقة على إعلان الوظيفة بالمسمى الوظيفي ' . $this->job->job_title,
+            'icon' => asset('Dashboard_Assets/img/accept.png'),
+            'url' => env('APP_URL'). '/employer/job/create/3',
+            'time' => Carbon::now()->diffForHumans(),
         ];
     }
     /**

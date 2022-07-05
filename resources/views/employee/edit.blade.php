@@ -6,14 +6,25 @@
     <div class="container personal-page mb-5">
         <div class="row align-items-center custom-border">
             <div class="col-lg-3 col-md-4">
-                <div class="profile-pic">
-                    <label class="-label" for="file">
-                        <i class="bi bi-camera-fill me-2"></i>
-                        <span>تعديل صورتك</span>
-                    </label>
-                    <input id="file" type="file" onchange="changePic(event)" />
-                    <img src="{{ $employee->image }}" class="img-fluid" alt="" id="output">
-                </div>
+                <form class="form-pic">
+                    <div class="profile-pic">
+                        <label id="edit_pic" class="-label" for="file">
+                            <i class="bi bi-camera-fill me-2"></i>
+                            <span>تعديل صورتك</span>
+                        </label>
+                        <input id="file" type="file" onchange="changePic(event)" />
+                        <img src="{{ $employee->image }}" class="img-fluid" alt="" id="output">
+                    </div>
+                    <button id="submit_pic" type="submit">حفظ الصورة</button>
+                </form>
+{{--                <div class="profile-pic">--}}
+{{--                    <label class="-label" for="file">--}}
+{{--                        <i class="bi bi-camera-fill me-2"></i>--}}
+{{--                        <span>تعديل صورتك</span>--}}
+{{--                    </label>--}}
+{{--                    <input id="file" type="file" onchange="changePic(event)" />--}}
+{{--                    <img src="{{ $employee->image }}" class="img-fluid" alt="" id="output">--}}
+{{--                </div>--}}
             </div>
             <div class="col-lg-9 col-md-8">
                 <div class="d-flex justify-content-between my-4 my-md-0 flex-column flex-md-row">
@@ -27,7 +38,7 @@
                             </p>
                             <div
                                 class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
-                                <i class="bi bi-geo-alt-fill"></i>
+                                <i class="fa-solid fa-location-dot" style="color: #00B5AD"></i>
                                 <img width="20" src="{{ asset('flags/') . '/' . $employee->country->code . '.png'}}" alt="">
                                 <span class="country">
                                     {{ $employee->country->country_name }}
@@ -845,22 +856,36 @@
                     </div>
                     <div class="ms-4 mt-4">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <img class="border rounded-circle border-success border-2" src="images/company.png"
-                                     width="50" alt="">
-                                <div>
-                                    <span class="d-block">اسم الشهادة</span>
-                                    <small>اسم المركز</small>
+                            @foreach( $certifications as $certification)
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
+                                         width="50" alt="">
+                                    <div>
+                                        <span class="d-block">
+                                            {{ $certification->name }}
+                                        </span>
+                                        <small>
+                                            {{ $certification->center_name }}
+                                        </small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                تاريخ الإصدار - تاريخ الانتهاء
-                            </div>
+                                <div>
+                                    {{ $certification->start_date }} -
+                                    @if( $certification->end_date == ' / ' )
+                                        {{ 'لا يوجد تاريخ إنتهاء' }}
+                                    @else
+                                        {{ $certification->end_date }}
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
-
+                        @foreach( $certification->specializations as $special )
+                            <button type="button" class="btn btn-sm">
+                                {{ $special }}
+                            </button>
+                        @endforeach
                     </div>
                     <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -992,42 +1017,37 @@
                 </div>
 
 
+                {{-- Start Employee Skills --}}
                 <div class="tab-pane fade" id="v-pills-skills" role="tabpanel" aria-labelledby="v-pills-skills-tab"
                      tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">التخصصات والمهارات</h3>
                         <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#skillsModal">أضف تخصص</button>
                     </div>
-                    <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-3">
-                                <img class="ounded-circle" src="images/skills.png" width="50" alt="">
-                                <h4>فن و تصميم</h4>
+                    @foreach( $employee_skills as $employee_skill)
+                        <div class="ms-4 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img class="ounded-circle" src="{{ asset('Front_Assets/img/ss.png') }}" width="50" alt="">
+                                    <h4>
+                                        {{ $employee_skill->specialization->specialization_name }}
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
-                        <button type="button" class="btn btn-sm">التخصص 2</button>
-                        <button type="button" class="btn btn-sm">التخصص 3</button>
-                        <button type="button" class="btn btn-sm">التخصص 4</button>
-                        <button type="button" class="btn btn-sm">التخصص 5</button>
-                        <button type="button" class="btn btn-sm">التخصص 6</button>
-                        <button type="button" class="btn btn-sm">التخصص 7</button>
-                        <button type="button" class="btn btn-sm">التخصص 8</button>
-                        <button type="button" class="btn btn-sm">التخصص 9</button>
-                    </div>
-                    <div class="mt-3 ms-4">
-                        <p class="tab-content">لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل
-                            وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص
-                            الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها
-                            من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا
-                            النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير
-                            في ستينيّات هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي مقاطع من هذا
-                            النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
-                            (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.</p>
-                    </div>
-
+                        <div class="container mt-3">
+                            @foreach( $employee_skill->skills as $skill)
+                                <button type="button" class="btn btn-sm">
+                                    {{ $skill }}
+                                </button>
+                            @endforeach
+                        </div>
+                        <div class="mt-3 ms-4">
+                            <p class="tab-content">
+                                {{ $employee_skill->description }}
+                            </p>
+                        </div>
+                    @endforeach
                     <div class="modal fade" id="skillsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content px-0 px-sm-5">
@@ -1035,36 +1055,53 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أضف مجال تخصصك</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="" method="POST" id="employee_field">
+                                        <div class="skill-error">
+
+                                        </div>
                                         <div class="mb-4 row">
                                             <label for="certif-name" class="col-sm-3 col-form-label">المجال</label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected>اختر مجال تخصصك</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select" name="specialization" id="employee_specialization" aria-label="Default select example">
+{{--                                                    <option>اختر مجال تخصصك</option>--}}
+                                                    @foreach( $specializations as $specialization )
+                                                        <option value="{{ $specialization->id }}">
+                                                            {{ $specialization->specialization_name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
-                                            <label for="major-name" class="col-sm-3 col-form-label"> التخصص</label>
+                                            <label for="major-name" class="col-sm-3 col-form-label">
+                                                التخصص
+                                            </label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="major-name">
+                                                <select class="form-select specialization" multiple id="employee_skills" name="skills[]" aria-label="Default select example">
+                                                    @foreach($skills as $skill)
+                                                        <option value="{{ $skill->skill_name }}">
+                                                            {{ $skill->skill_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="mb-4 row">
                                             <label for="Textarea" class="col-sm-3 col-form-label">الوصف</label>
                                             <div class="col-sm-8">
                                                 <div>
-                                                    <textarea class="form-control" id="Textarea" rows="4"></textarea>
+                                                    <textarea name="description" id="field_description" class="form-control" rows="4"></textarea>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-11 d-flex gap-2 justify-content-end mb-5 mt-4">
-                                            <button type="submit" class="btn btn-secondary px-3" data-bs-dismiss="modal">الغاء</button>
-                                            <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="employee_skills">
+                                                الغاء
+                                            </button>
+                                            <button type="submit" class="btn main-btn-2 px-3">
+                                                حفظ
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -1072,17 +1109,27 @@
                         </div>
                     </div>
                 </div>
+                {{-- End Employee Skills --}}
 
-
+                {{-- Start Employee Language --}}
                 <div class="tab-pane fade" id="v-pills-languages" role="tabpanel"
                      aria-labelledby="v-pills-languages-tab" tabindex="0">
+                    @if ( session()->has('error') )
+                        <div class="alert alert-danger">
+                            <ul>
+                                {{ session()->get('error') }}
+                            </ul>
+                        </div>
+                    @endif
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">اللغات</h3>
                         <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#languagesModal">أضف لغة</button>
                     </div>
-                    <div class="container ms-4">
-                        العربي : متوسط
-                    </div>
+                    @foreach( $employee_languages as $employee_language)
+                        <div class="container ms-4">
+                            {{ $employee_language->language->language_name }} : {{ $employee_language->level }}
+                        </div>
+                    @endforeach
                     <div class="modal fade" id="languagesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content px-0 px-sm-5">
@@ -1090,27 +1137,31 @@
                                     <h3 class="modal-title" id="exampleModalLabel">أضف مجال تخصصك</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form action="{{ route('employee.dashboard.setlanguages') }}" method="POST">
+                                        @csrf
                                         <div class="mb-4 row">
                                             <div class="col-sm-6">
-                                                <select class="form-select mb-3" aria-label="Default select example">
-                                                    <option selected>اختر لغة</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select mb-3" name="language_id" id="employee_language" aria-label="Default select example">
+                                                    <option>اختر لغة</option>
+                                                    @foreach( $languages as $language)
+                                                    <option value="{{ $language->id }}">
+                                                        {{ $language->language_name }}
+                                                    </option>
+                                                    @endforeach
+
                                                 </select>
                                             </div>
                                             <div class="col-sm-6">
-                                                <select class="form-select mb-3" aria-label="Default select example">
-                                                    <option selected>اختر  المستوى </option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="form-select mb-3" name="level" id="language_level" aria-label="Default select example">
+                                                    <option>اختر المستوى </option>
+                                                    <option value="مبتدئ">مبتدئ</option>
+                                                    <option value="متوسط">متوسط</option>
+                                                    <option value="أتحدثه بطلاقة">أتحدثه بطلاقة</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 d-flex gap-2 justify-content-end mb-5 mt-4">
-                                            <button type="submit" class="btn btn-secondary px-3" data-bs-dismiss="modal">الغاء</button>
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="cancel_langs">الغاء</button>
                                             <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
                                         </div>
                                     </form>
@@ -1119,18 +1170,60 @@
                         </div>
                     </div>
                 </div>
+                {{-- End Employee Language --}}
 
 
                 <div class="tab-pane fade" id="v-pills-cv" role="tabpanel" aria-labelledby="v-pills-cv-tab"
                      tabindex="0">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">السيرة الذاتية</h3>
-                        <input type="file" id="upload" hidden />
-                        <label class="btn main-btn-2" for="upload">أرفق السيرة الذاتية</label>
+                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#CVModal">أرفق السيرة الذاتية</button>
                     </div>
-                    <div class="container">
+                    <div class="container" style="margin-top: 25px">
+                        @foreach( $curriculum_vitaes as $curriculum_vitae )
+                            <iframe src="{{ asset('/Employee_CVs') . '/' . $curriculum_vitae->cv }}" type="application/pdf" width="900px" height="600px"></iframe>
+                        @endforeach
+                    </div>
 
+                    <div class="modal fade" id="CVModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content px-0 px-sm-5">
+                                <div class="modal-header mt-5">
+                                    <h3 class="modal-title" id="exampleModalLabel">أرفق السيرة الذاتية</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('employee.dashboard.addCV') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mb-4 row">
+                                            <div class="col-sm-12">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input type="file" name="cv_file" id="cv-upload" hidden />
+                                                    <label class="btn btn-upload p-3 w-100" for="cv-upload">
+                                                        <i class="bi bi-cloud-upload"></i>
+                                                        <span style="color: var(--secondary-color)">Browse</span> file to upload
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-11 d-flex gap-2 justify-content-end mb-5 mt-4">
+                                            <button type="reset" class="btn btn-secondary px-3" data-bs-dismiss="modal" id="certification_cancel">الغاء</button>
+                                            <button type="submit" class="btn main-btn-2 px-3">حفظ</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

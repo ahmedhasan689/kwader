@@ -106,8 +106,6 @@ class JobDashboardController extends Controller
 
         $user = User::where('id', $employer->user_id)->first();
 
-
-//        dd($user);
         $user->notify( new JobAcceptNotification($job)  );
 
         toastr()->success('تم قبول الوظيفة');

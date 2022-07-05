@@ -7,11 +7,6 @@
         <div class="row align-items-center custom-border">
             <div class="col-lg-3 col-md-4">
                 <div class="profile-pic">
-                    <label class="-label" for="file">
-                        <i class="bi bi-camera-fill me-2"></i>
-                        <span>تعديل صورتك</span>
-                    </label>
-                    <input id="file" type="file" onchange="changePic(event)" />
                     <img src="{{ $employee->image }}" class="img-fluid" alt="" id="output">
                 </div>
             </div>
@@ -33,9 +28,6 @@
                                     {{ $employee->country->country_name }}
                                 </span>
                             </div>
-                            <button onclick="editPersonalInfo()" class="btn btn-edit">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </button>
                         </div>
                         <div class="edit-hover pe-0 pe-md-5 py-3">
                             <div class="div-group d-flex mt-3">
@@ -79,6 +71,52 @@
 
                     </div>
                 </div>
+                @if(auth()->user()->user_type == 'Employer')
+                    <div style="margin-top: -100px;margin-left: 25px; text-align: left;">
+                        <button href="#" type="button" data-bs-toggle="modal" data-bs-target="#selectJob" class="btn btn-success" style="margin-bottom: 5px; font-size: 18px; padding: 10px 50px; background-color: #00B398; border: none">
+                            أقترح عليّ وظيفة
+                        </button>
+                        <br>
+                        <button href="#" type="button" class="btn btn-outline-secondary" style="color: #898EA3; font-size: 18px; padding: 10px 35px">
+                            <i class="fa-regular fa-heart" style="color: #898EA3"></i>
+                            أضف إلى المفضلة
+                        </button>
+                    </div>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="selectJob" tabindex="-1" aria-labelledby="selectJobLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">
+                                            أقترح وظيفة
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @foreach( $jobs as $job )
+                                            <button class="btn btn-secondary" type="button" style="background-color: #E7EAF6; border: 1px solid #898EA3; padding: 10px 15px; width: 100%; margin-bottom: 5px; color: #898EA3; text-align: right">
+                                                <input type="hidden" class="job-selected" value="{{ $job->id }}">
+                                                {{ $job->job_title }}
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                    <div class="modal-footer" style="justify-content: flex-end;">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: transparent; padding: 8px 25px; color: #898EA3">
+                                            إلغاء
+                                        </button>
+                                        <button type="submit" class="btn btn-primary" style="background-color: #00B398; padding: 8px 25px; border: none">
+                                            أقترح
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
             </div>
         </div>
 

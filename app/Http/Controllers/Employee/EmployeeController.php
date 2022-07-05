@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Education;
 use App\Models\Employee;
+use App\Models\Employer;
+use App\Models\Job;
 use App\Models\Nationality;
 use App\Models\Practical_Experience;
 use App\Models\Specialization;
@@ -51,7 +53,11 @@ class EmployeeController extends Controller
         $date_of_birth = $employee->date_of_birth;
         $day = Carbon::createFromFormat('m/d/Y', $employee->date_of_birth);
 
-        return view('employee.show', compact( 'employee', 'countries', 'nationalities', 'specializations', 'practical_experiences', 'educations', 'day' ));
+        $employer = Employer::where('user_id', Auth::user()->id)->first();
+
+        $jobs = Job::where('employer_id', $employer->id)->get();
+
+        return view('employee.show', compact( 'employee', 'countries', 'nationalities', 'specializations', 'practical_experiences', 'educations', 'day', 'jobs' ));
     }
     /**
      * @return mixed
@@ -194,5 +200,31 @@ class EmployeeController extends Controller
     public function certification(Request $request)
     {
         return $this->employee->certification($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function setSkills(Request $request)
+    {
+        return $this->employee->setSkills($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function setlanguages(Request $request)
+    {
+        return $this->employee->setlanguages($request);
+    }
+
+    /**
+     * @return \Illuminate\Http\Response|void
+     */
+    public function addCV(Request $request)
+    {
+        return $this->employee->addCV($request);
     }
 }

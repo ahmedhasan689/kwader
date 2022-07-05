@@ -21,7 +21,7 @@
                 </div>
 
                 <div>
-                    <a class="link-light">
+                    <a class="link-light" href="{{ route('chat.index') }}">
                         <i class="far fa-envelope" style="color:#fff"></i>
                     </a>
                 </div>
@@ -60,8 +60,10 @@
             </div>
         </div>
 
-        <a class="navbar-brand" href="index.html">
-            <img src="{{ asset('Front_Assets/img/logo.png') }}" alt="logo">
+        <a class="navbar-brand" href="/">
+            <div>
+                <img src="{{ asset('Front_Assets/img/logo.png') }}" alt="logo">
+            </div>
         </a>
 
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight"
@@ -72,44 +74,23 @@
                         aria-label="Close">&times;</button>
             </div>
             <ul class="offcanvas-body navbar-nav gap-3 me-lg-auto text-center mb-2 mb-lg-0">
-{{--                <li class="nav-item">--}}
-{{--                    @if(auth()->user()->user_type == 'Employer')--}}
-{{--                        <a class="nav-link active" href="{{ route('employer.dashboard.index', ['id' => auth()->user()->id]) }}" id="navbarDropdown" role="button" data-bs-toggle="dropdown"--}}
-{{--                           aria-expanded="false">--}}
-{{--                            الصفحة الشخصية--}}
-{{--                        </a>--}}
-{{--                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
-{{--                            <li><a class="dropdown-item" href="#">الملف الشخصي</a></li>--}}
-{{--                            <li>--}}
-{{--                                <hr class="dropdown-divider">--}}
-{{--                            </li>--}}
-{{--                            <li><a class="dropdown-item" href="#">العقود والمعاملات المالية</a></li>--}}
-{{--                        </ul>--}}
-{{--                    @else--}}
-{{--                        <a class="nav-link active" href="{{ route('employee.dashboard.index', ['id' => auth()->user()->id]) }}">--}}
-{{--                            الصفحة الشخصية--}}
-{{--                        </a>--}}
-{{--                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
-{{--                            <li><a class="dropdown-item" href="#">الملف الشخصي</a></li>--}}
-{{--                            <li>--}}
-{{--                                <hr class="dropdown-divider">--}}
-{{--                            </li>--}}
-{{--                            <li><a class="dropdown-item" href="#">العقود والمعاملات المالية</a></li>--}}
-{{--                        </ul>--}}
-{{--                    @endif--}}
-{{--                </li>--}}
+
                 @if(auth()->user()->user_type == 'Employer')
                 <li class="nav-item dropdown">
                     <a class="nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         الصفحة الشخصية
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 55px; margin-left: -65px;">
                         <li><a class="dropdown-item" href="{{ route('employer.dashboard.index', ['id' => auth()->user()->id]) }}">الملف الشخصي</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">العقود والمعاملات المالية</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('contract.index') }}">
+                                العقود والمعاملات المالية
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 @else

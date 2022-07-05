@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Chat\ChatController;
+use App\Http\Controllers\Contract\ContractController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\EmployeeDashboardController;
 use App\Http\Controllers\Dashboard\EmployerDashboardController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Financial\PaypalController;
 use App\Http\Controllers\Financial\StripeController;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Social_Media\FacebookController;
 use App\Http\Controllers\Social_Media\GoogleController;
 use Illuminate\Support\Facades\Route;
@@ -249,6 +252,9 @@ Route::namespace('/Employee')
             Route::post('/practicalExperience', [EmployeeController::class, 'practicalExperience'])->name('practicalExperience');
             Route::post('/education', [EmployeeController::class, 'education'])->name('education');
             Route::post('/certification', [EmployeeController::class, 'certification'])->name('certification');
+            Route::post('/setSkills', [EmployeeController::class, 'setSkills'])->name('setSkills');
+            Route::post('/setlanguages', [EmployeeController::class, 'setlanguages'])->name('setlanguages');
+            Route::post('/addCV', [EmployeeController::class, 'addCV'])->name('addCV');
         });
         // End Employee Dashboard Route
     });
@@ -272,6 +278,39 @@ Route::namespace('/Financial')
             Route::post('/stripe', [StripeController::class, 'store'])->name('StoreStripe');
         });
         // End Financial Route
-
-
     });
+
+Route::get('notification/show/{id}', [NotificationController::class, 'show'])->name('notification.show');
+
+// Start Contract And Financial
+Route::namespace('/Contract')
+    ->prefix('/contract')
+    ->middleware(['auth'])
+    ->group(function() {
+
+        // Start Contract Route
+        Route::group([
+            'as' => 'contract.',
+        ], function() {
+            Route::get('/', [ContractController::class, 'index'])->name('index');
+        });
+        //
+    });
+// End Contract And Financial
+
+// Start Contract And Financial
+Route::namespace('/Chat')
+    ->prefix('/chat')
+    ->middleware(['auth'])
+    ->group(function() {
+
+        // Start Contract Route
+        Route::group([
+            'as' => 'chat.',
+        ], function() {
+            Route::get('/', [ChatController::class, 'index'])->name('index');
+            Route::get('/{employee}/{job}', [ChatController::class, 'create'])->name('create');
+        });
+        //
+    });
+// End Contract And Financial
