@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light t">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="{{ asset('Front_Assets/img/logo.png') }}" alt="logo"> </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,13 +9,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mu-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="#">اضف وظيفة</a>
+                    <a class="nav-link " aria-current="page" href="/">الرئيسية</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">ابحث في الوظائف</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="howWork.html">كيف يعمل؟</a>
+                    <a class="nav-link" href="{{ route('page.howTo') }}">كيف يعمل؟</a>
                 </li>
             </ul>
             <form class="d-flex">
@@ -50,31 +50,31 @@
                     <button type="button" class="btn-close close " data-bs-dismiss="modal" aria-label="Close"></button>
 
 
-                    <h5 class="modal-title mt-5" id="staticBackdropLabel">
+                    <h5 class="modal-title mt-5" id="staticBackdropLabel" style="color: #000">
                         تسجيل الدخول
                     </h5>
                     <span style="color:#000 ;">
                         ليس لديك حساب؟
-                        <a href="">
+                        <a href="#" class="loginToOption" data-bs-toggle="modal" data-bs-target="#staticBackdropOption">
                             اشترك الان
                         </a>
                     </span>
                     <div class="modal-body">
-                        <div class="social">
-                            <button class="btn facebook">
-                                <i class="fa-brands fa-facebook-square"></i>
-                                <a href="">
-                                    الدخول عن طريق فيسبوك
-                                </a>
-                            </button>
+{{--                        <div class="social">--}}
+{{--                            <button class="btn facebook">--}}
+{{--                                <i class="fa-brands fa-facebook-square"></i>--}}
+{{--                                <a href="">--}}
+{{--                                    الدخول عن طريق فيسبوك--}}
+{{--                                </a>--}}
+{{--                            </button>--}}
 
-                            <button class="btn btn-ligth google">
-                                <img src="{{ asset('Front_Assets/img/google.svg') }}">
-                                <a href="{{ route('google.redirect') }}">
-                                    الدخول عن طريق جوجل
-                                </a>
-                            </button>
-                        </div>
+{{--                            <button class="btn btn-ligth google">--}}
+{{--                                <img src="{{ asset('Front_Assets/img/google.svg') }}">--}}
+{{--                                <a href="{{ route('google.redirect') }}">--}}
+{{--                                    الدخول عن طريق جوجل--}}
+{{--                                </a>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
                         <hr>
 
                         <div class="font-medium text-red-600 my-2" id="error_msg">
@@ -115,7 +115,7 @@
                             </a>
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1" style="color: #000">
                                     تذكرني
                                 </label>
                             </div>
@@ -139,29 +139,29 @@
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <button type="button" class="btn-close close " data-bs-dismiss="modal" aria-label="Close"></button>
-                    <h5 class="modal-title mt-5" id="staticBackdropLabel">إنشاء حساب جديد</h5>
+                    <h5 class="modal-title mt-5" id="staticBackdropLabel" style="color: #000">إنشاء حساب جديد</h5>
                     <span style="color:#000 ;">
                         لديك حساب على كوادر.كوم
-                        <a href="">
+                        <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdropLogin" class="signToLogin">
                             تسجيل الدخول
                         </a>
                     </span>
                     <div class="modal-body">
-                        <div class="social">
-                            <button class="facebook">
-                                <a href="{{ route('facebook.redirect') }}">
-                                    <i class="fa-brands fa-facebook-square"></i>
-                                    التسجيل عن طريق فيسبوك
-                                </a>
-                            </button>
+{{--                        <div class="social">--}}
+{{--                            <button class="facebook">--}}
+{{--                                <a href="{{ route('facebook.redirect') }}">--}}
+{{--                                    <i class="fa-brands fa-facebook-square"></i>--}}
+{{--                                    التسجيل عن طريق فيسبوك--}}
+{{--                                </a>--}}
+{{--                            </button>--}}
 
-                            <button class="google">
-                                <a href="{{ route('google.redirect') }}">
-                                    <img src="{{ asset('Front_Assets/img/google.svg') }}">
-                                    التسجيل عن طريق جوجل
-                                </a>
-                            </button>
-                        </div>
+{{--                            <button class="google">--}}
+{{--                                <a href="{{ route('google.redirect') }}">--}}
+{{--                                    <img src="{{ asset('Front_Assets/img/google.svg') }}">--}}
+{{--                                    التسجيل عن طريق جوجل--}}
+{{--                                </a>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
                         <hr>
                         <div class="font-medium text-red-600 my-2" id="error_msg_register">
 
@@ -199,7 +199,7 @@
                             {{-- Accepted For Privacy --}}
                             <div class="mb-3 form-check ">
                                 <input type="checkbox" class="form-check-input" id="accept" name="accept">
-                                <label class="form-check-label" for="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1" style="color: #000">
                                     قرأت شروط استخدام كوادر.كوم و بيان الخصوصية
                                 </label>
                             </div>
@@ -227,7 +227,7 @@
 
                     <button type="button" class="btn-close close " data-bs-dismiss="modal" aria-label="Close"></button>
                     <img class="mt-5" style="width:70px; height: 70px; margin: 0 auto;" src="{{ asset('Front_Assets/img//Group 404.png') }}" alt="">
-                    <h5 class="modal-title" id="staticBackdropLabel">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="color: #000">
                         اختر نوع الحساب
                     </h5>
                     <div class="modal-body" id="type">
@@ -259,10 +259,10 @@
                     <button type="button" class="btn-close close " data-bs-dismiss="modal" aria-label="Close"></button>
 
                     <div class="modal-body mt-5">
-                        <h3>
+                        <h3 style="color: #000">
                             إعادة تعيين كلمة المرور الخاصة بك
                         </h3>
-                        <p>
+                        <p style="color: #000">
                             أدخل عنوان البريد الإلكتروني المرتبط بحسابك ، وسنرسل لك عبر البريد الإلكتروني
                             رابطًا
                             لإعادة تعيين كلمة المرور الخاصة بك

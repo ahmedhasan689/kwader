@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\Employee;
 use App\Models\Employer;
+use App\Models\Job;
 use App\Models\FinancialTransactions;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -39,9 +40,11 @@ class ContractController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($job, $employee)
     {
-        //
+        $specific_job = Job::findOrFail($job);
+        $specific_employee = Employee::findOrFail($employee);
+        return view('Contract.create', compact('specific_job', 'specific_employee'));
     }
 
     /**
@@ -52,7 +55,7 @@ class ContractController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -98,5 +101,27 @@ class ContractController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function totalSalary(Request $request)
+    {
+        if ($request->duration == 'شهر'){
+
+            $total = (1 * $request->salary) + 50;
+
+        }elseif($request->duration == 'شهرين'){
+
+            $total = (2 * $request->salary) + 50;
+
+        }elseif($request->duration == 'ثلاث أشهر'){
+
+            $total = (3 * $request->salary) + 50;
+
+        }
+
+        return response()->json([
+            'total' => $total,
+        ]);
+
     }
 }

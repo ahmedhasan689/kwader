@@ -250,7 +250,7 @@
                             <div class="right">
                                 <div class="card">
                                     <span>مجموع الدفع</span>
-                                    <h5>$46</h5>
+                                    <h5>$50</h5>
                                 </div>
                                 <p>كيف تريد أن تدفع</p>
 
@@ -281,42 +281,19 @@
 
                             </div>
                         </div>
-                        <div class="col-lg-4 center mt-4">
+                        <div class="col-lg-4 center text-center mt-4">
 
                                 <h5>تفاصيل الدفع الخاصة بك</h5>
-                                    <div class="mb-3 d-flex gap-2" style="flex-direction:column ;">
-                                        <label for="#name">اسمك كما في البطاقة الائتمانية</label>
-                                        <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
-
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="#numb">رقم البطاقة</label>
-
-                                        <input type="number" class="form-control" id="numb" aria-describedby="emailHelp">
-
-                                    </div>
-                                    <div class="mb-3 d-flex gap-2">
-                                        <div><label for="#date">تاريخ انتهاء الصلاحية </label>
-
-                                            <input type="date" placeholder="كلمة المرور" class="form-control" id="date">
-                                        </div>
-                                        <div>
-                                            <label for="#cvv">CVV</label>
-
-                                            <input type="number" placeholder="522" class="form-control" id="cvv">
-                                        </div>
-
-                                    </div>
-
-                                    <div class="mb-3 form-check ">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">احفظ البطاقة لتسهيل
-                                            الدفع في المستقبل</label>
-                                    </div>
-
-                                    <a href="{{ route('financial.CreatePayment', ['total' => 50]) }}" type="submit" class="btn click" style="background-color: #00B398; color: white; padding: 10px 60px;">
-                                        ادفع الان
-                                    </a>
+                                <span>
+                                    سيتم الدفع عن طريق حساب Paypal
+                                </span>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <a href="{{ route('financial.CreatePayment', ['total' => 50]) }}" type="submit" class="btn click" style="background-color: #00B398; color: white; padding: 10px 60px;">
+                                    ادفع الان
+                                </a>
 
 
                         </div>

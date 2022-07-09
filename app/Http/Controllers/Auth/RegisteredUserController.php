@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        return view('Home.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
 
-       $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -71,10 +71,6 @@ class RegisteredUserController extends Controller
 
             return response()->json([
                 'user' => Auth::user()
-            ]);
-        }else{
-            return response()->json([
-                'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
 

@@ -56,6 +56,9 @@ class EmployerController extends Controller
         ]);
     }
 
+    /**
+     * @return Application|Factory|View
+     */
     public function find_employee()
     {
         $employees = Employee::all();

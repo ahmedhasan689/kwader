@@ -62,7 +62,6 @@ class JobAcceptNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'id' => $notifiable->latest(),
             'title' => 'إشعار جديد',
             'body' =>  'تم الموافقة على إعلان الوظيفة بالمسمى الوظيفي ' . $this->job->job_title,
             'icon' => asset('Dashboard_Assets/img/accept.png'),

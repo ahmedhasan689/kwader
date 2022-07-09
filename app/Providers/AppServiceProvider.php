@@ -29,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
             $client = new PayPalHttpClient($environment);
             return $client;
         });
+
+
+//        // public_path
+//        $this->app->bind('path.public', function($app) {
+//            return base_path('public_html');
+//        });
     }
 
     /**

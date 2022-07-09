@@ -162,7 +162,7 @@
                                         </p>
 
                                         <div class="d-flex">
-                                            <a href="#" class="rights" style=" text-decoration: none; width: 50%;background-color: #00B398; color: #fff; height: 35px;border-radius: 5px;padding: -1px 29px; display: flex;justify-content: center;border-bottom: none;">
+                                            <a href="<?php echo e(route('contract.create', ['job' => $job->id, 'employee' => $employee->id])); ?>" class="rights" style=" text-decoration: none; width: 50%;background-color: #00B398; color: #fff; height: 35px;border-radius: 5px;padding: -1px 29px; display: flex;justify-content: center;border-bottom: none;">
                                                 تحرير عقد
                                             </a>
                                             <button class="lefts" style="width: 50%;">

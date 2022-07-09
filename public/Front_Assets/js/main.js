@@ -40,6 +40,19 @@ $(document).ready(function() {
 
     });
 });
+$(document).ready(function() {
+    $(".loginToOption").click(function() {
+        $("#staticBackdropLogin").modal('hide');
+        $("#staticBackdropOption").modal('show');
+    });
+});
+$(document).ready(function() {
+    $(".signToLogin").click(function() {
+        $("#staticBackdropSign").modal('hide');
+        $("#staticBackdropLogin").modal('show');
+    });
+});
+
 
 var changePic = function (event) {edit_pic
     document.getElementById("submit_pic").style.display="block";
@@ -258,7 +271,7 @@ $(document).ready(function() {
             error: function (data) {
                 $('#error_msg').append(`
                     <div class="alert alert-danger" role="alert">
-                        Whoops! Something went wrong.
+                        هناك خطأ بالمعلومات حاول مرة أخرى
                     </div>
                 `)
             }
@@ -267,61 +280,7 @@ $(document).ready(function() {
     })
 })
 
-// Ajax Register Request
-$(document).ready(function() {
-    $('#register-form').submit(function(e) {
-        e.preventDefault();
-        var first_name = $('#first_name').val();
-        var last_name = $('#last_name').val();
-        var email = $('#register_email').val();
-        var password = $('#register_password').val();
-        var password_confirm = $('#confirm').val();
-        var token = $('input[name="_token"]').val();
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        if (password === password_confirm) {
-            $.ajax({
-                url: $('#register-form').attr('action'),
-                type: 'POST',
-                data: {
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    password: password,
-                    password_confirmation: password_confirm,
-                },
-                dataType: 'json',
-                success: function(data) {
-                    if (data.errors){
-                        $.each(data.errors, function(key, value){
-                            $('#error_msg_register').show();
-                            $('#error_msg_register').append('<p class="text-danger">'+value+'</p>');
-                        });
-                    }
-
-                    if ( data.user.user_type == 'Employer' ) {
-                        window.location.href = '/employer/dashboard'
-                    }else if( data.user.user_type == 'Employee' ) {
-                        window.location.href = '/employee/profile/specialization'
-                    }else {
-                        window.location.href = '/employer/dashboard'
-                    }
-
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        } else {
-            alert('Password');
-        }
-    });
-});
 
 $(document).ready(function() {
     $(".owner").click(function(e) {
@@ -375,6 +334,64 @@ $(document).ready(function() {
         })
     });
 })
+
+
+// Ajax Register Request
+$(document).ready(function() {
+    $('#register-form').submit(function(e) {
+        e.preventDefault();
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#register_email').val();
+        var password = $('#register_password').val();
+        var password_confirm = $('#confirm').val();
+        var token = $('input[name="_token"]').val();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        if (password === password_confirm) {
+            $.ajax({
+                url: $('#register-form').attr('action'),
+                type: 'POST',
+                data: {
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    password_confirmation: password_confirm,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    // console.log(data.user);
+                    if (data.errors){
+                        $.each(data.errors, function(key, value){
+                            $('#error_msg_register').show();
+                            $('#error_msg_register').append('<p>'+value+'</p>');
+                        });
+                    }
+
+                    if ( data.user.user_type == 'Employer' ) {
+                        window.location.href = '/employer/dashboard'
+                    }else if( data.user.user_type == 'Employee' ) {
+                        window.location.href = '/employee/profile/specialization'
+                    }else {
+                        window.location.href = '/employer/dashboard'
+                    }
+
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        } else {
+            alert('Password');
+        }
+    });
+});
 
 // Set Personal Info For Employee
 $(document).ready(function() {
@@ -435,7 +452,30 @@ $(document).ready(function() {
     });
 })
 
+// Set Total Salary
+$(document).ready(function() {
+    $("#duration").change(function(){
+        var duration = $(this).children("option:selected").val();
+        var salary = $('#salaryJob').val();
 
+        $.ajax({
+            url: '/contract/totalSalary',
+            type: 'post',
+            data: {
+                duration: duration,
+                salary: salary,
+            },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById("totalBudget").value = data.total;
+            },
+            error: function(data) {
+                console.log(data)
+            }
+        })
+
+    });
+});
 
 // Choice Field & Specialization
 $(document).ready(function() {
@@ -457,6 +497,7 @@ $(document).ready(function() {
                     },
                     dataType: "json",
                     success: function(data){
+                        $('.leftOp').empty();
                         $('.leftOp').append(`
                                 <div class="dropdown" style="margin-top: 25px;">
                                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -562,7 +603,7 @@ $(document).ready(function() {
                     $.each(data, function(key, value) {
                         var url = value + '.png';
                         $('#flag').append(
-                            '<img src="http://127.0.0.1:8000/flags/' + url + ' " alt="flags">',
+                            '<img src="http://127.0.0.1:8000/flags/' + url + ' " alt="flags" style="width: 20px; margin: 10px">',
                         )
                     });
                 },

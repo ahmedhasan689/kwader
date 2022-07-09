@@ -2,6 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Models\Employee;
+use App\Models\Employer;
+use App\Models\Job;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +15,17 @@ class CreateContractNotification extends Notification
 {
     use Queueable;
 
+    protected $job;
+    protected $employer;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Job $job, Employer $employer)
     {
-        //
+        $this->job = $job;
+        $this->employer = $employer;
     }
 
     /**
@@ -29,7 +36,7 @@ class CreateContractNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -46,6 +53,18 @@ class CreateContractNotification extends Notification
                     ->line('Thank you for using our application!');
     }
 
+    public function toDatabase($notifiable)
+    {
+        return [
+            'body' => $this->employer->user->first_name . 'أرسل إليك عقد عمل',
+            'show' => route('contract.show'),
+            'accept_link' => route('contract.update', ['id' => $this->job->id]),
+            'cancel_link' => route('contract.delete', ['id' => $this->job->id]),
+            'job' => $this->job->job_title,
+            'time' => Carbon::now(),
+            'type' => 'Create',
+        ];
+    }
     /**
      * Get the array representation of the notification.
      *

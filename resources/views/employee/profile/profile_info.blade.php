@@ -46,9 +46,9 @@
                             </div>
                             <div class="three">
                                 <h5>البلد</h5>
-                                <div>
+                                <div style="height: 38px;">
                                     <span id="flag">
-                                        <img src="{{ asset('flags/QA.png') }}" style="width: 20px">
+                                        <img src="{{ asset('flags/QA.png') }}" style="width: 20px; margin: 10px">
                                     </span>
                                     <select class="form-select @error('country') is-invalid @enderror" name="country" aria-label="Default select example" style="border: none; border-radius: 0;">
                                         <option >الرجاء إختيار الدولة</option>
@@ -69,29 +69,29 @@
                                 <h5>سنوات الخبرة</h5>
                                 <div class="group mt-3">
                                     <label>
-                                        <input type="radio" name="years_of_experience" value="2-0سنوات" checked>
-                                        <span class="exp" style="padding: 8px 15px;">
+                                        <input type="radio" name="years_of_experience" class="btn-check" value="2-0سنوات" checked>
+                                        <span class="btn btn-outline-secondary" style="padding: 8px 15px;">
                                             2-0 سنوات
                                         </span>
                                     </label>
 
                                     <label>
-                                        <input type="radio" name="years_of_experience" value="5-2 سنوات">
-                                        <span class="exp" style="padding: 8px 15px;">
+                                        <input type="radio" name="years_of_experience" class="btn-check" value="5-2 سنوات">
+                                        <span class="btn btn-outline-secondary" style="padding: 8px 15px;">
                                             5-2 سنوات
                                         </span>
                                     </label>
 
                                     <label>
-                                        <input type="radio" name="years_of_experience" value="10-5 سنوات">
-                                        <span class="exp" style="padding: 8px 15px;">
+                                        <input type="radio" name="years_of_experience" class="btn-check" value="10-5 سنوات">
+                                        <span class="btn btn-outline-secondary" style="padding: 8px 15px;">
                                             10-5 سنوات
                                         </span>
                                     </label>
 
                                     <label>
-                                        <input type="radio" name="years_of_experience" value="+10 سنوات">
-                                        <span class="exp" style="padding: 8px 15px;">
+                                        <input type="radio" name="years_of_experience" class="btn-check" value="+10 سنوات">
+                                        <span class="btn btn-outline-secondary" style="padding: 8px 15px;">
                                             +10 سنوات
                                         </span>
                                     </label>
@@ -142,9 +142,9 @@
                                     رقم الهاتف
                                 </h5>
                                 <p>لن يظهر رقم هاتفك في ملفك الشخصي ولن تتم مشاركته إلّا مع أصحاب الأعمال المتعاقد معهم</p>
-                                <div>
-                                    <input type="text" class="form-control phone_number" name="phone_number">
-                                    <select name="" class="flag_select">
+                                <div style="border: 1px solid #ccc">
+                                    <input type="text" class="form-control phone_number" name="phone_number" style="width: 90%;display: inline;border: none;">
+                                    <select name="" class="flag_select" style="height: 38px;border: none;width: 9%;">
                                         <option>
                                             One
                                         </option>
@@ -155,7 +155,11 @@
                                 </div>
                             </div>
                             <div class="sub d-flex gap-2">
-                                <a href="{{ route('profile.specialization') }}" class="back">رجوع</a>
+                                <button class="btn btn-light" style="background-color: transparent; color:#ccc;">
+                                    <a href="{{ route('profile.specialization') }}" class="back" style="padding: 5px 20px; border-radius: 7px;padding-right: 20px;margin-left: -22px; text-decoration: none">
+                                            رجوع
+                                    </a>
+                                </button>
                                 <button type="submit" class="save">حفظ</button>
                             </div>
                         </div>

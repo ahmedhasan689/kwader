@@ -14,10 +14,10 @@
                 أعلن عن وظائفك الشاغرة و عيِّن عن بعد أكفأ الخبرات التي تحتاجها للعمل
             </p>
             <div>
-                <button class="add-button">
+                <button class="add-button" data-bs-toggle="modal" data-bs-target="#staticBackdropLogin">
                     أضف وظيفة مقابل 50$
                 </button>
-                <button type="button" class="btn sign-button" data-bs-toggle="modal" data-bs-target="#staticBackdropSign">
+                <button type="button" class="btn sign-button" data-bs-toggle="modal" data-bs-target="#staticBackdropSign" style="margin-bottom: 5px;">
                     أنشئ حسابك الآن
                 </button>
             </div>
@@ -92,8 +92,8 @@
             <div class="d-flex more">
                 <h2>كيف يعمل كوادر.كوم؟</h2>
 
-                <button class="morebut" style="border-radius: 5px;">اطّلع
-                    المزيد</button>
+                <a class="morebut" href="<?php echo e(route('page.howTo')); ?>" style="padding: 5px 30px;border-radius: 5px; text-decoration: none; cursor: pointer">اطّلع
+                    المزيد</a>
             </div>
 
             <div class="row text-center">
@@ -313,8 +313,8 @@
                             للدفع عند توقيع العقد</li>
                     </ul>
                     <div>
-                        <button class="add-button">أنشئ حسابك الان</button>
-                        <button>اقرأ المزيد</button>
+                        <button class="add-button" data-bs-toggle="modal" data-bs-target="#staticBackdropOption">أنشئ حسابك الان</button>
+                        <button style="padding: 8px 20px;">اقرأ المزيد</button>
 
                     </div>
                 </div>

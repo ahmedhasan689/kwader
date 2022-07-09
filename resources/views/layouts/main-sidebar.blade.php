@@ -17,8 +17,12 @@
 							<img alt="user-img" class="avatar avatar-xl brround" src="{{ asset('Dashboard_Assets/img/faces/6.jpg')}}"><span class="avatar-status profile-status bg-green"></span>
 						</div>
 						<div class="user-info">
-							<h4 class="font-weight-semibold mt-3 mb-0">Petey Cruiser</h4>
-							<span class="mb-0 text-muted">Premium Member</span>
+							<h4 class="font-weight-semibold mt-3 mb-0">
+                                {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}
+                            </h4>
+							<span class="mb-0 text-muted">
+                                {{ Auth::user()->user_type }}
+                            </span>
 						</div>
 					</div>
 				</div>

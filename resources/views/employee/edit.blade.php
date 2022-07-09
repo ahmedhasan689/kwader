@@ -855,36 +855,37 @@
                         <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#certificateModal">أضف شهادة</button>
                     </div>
                     <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            @foreach( $certifications as $certification)
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
-                                         width="50" alt="">
-                                    <div>
-                                        <span class="d-block">
-                                            {{ $certification->name }}
-                                        </span>
-                                        <small>
-                                            {{ $certification->center_name }}
-                                        </small>
-                                    </div>
-                                </div>
-                                <div>
-                                    {{ $certification->start_date }} -
-                                    @if( $certification->end_date == ' / ' )
-                                        {{ 'لا يوجد تاريخ إنتهاء' }}
-                                    @else
-                                        {{ $certification->end_date }}
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="container mt-3">
-                        @foreach( $certification->specializations as $special )
-                            <button type="button" class="btn btn-sm">
-                                {{ $special }}
-                            </button>
+                        @foreach( $certifications as $certification)
+                            <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-between align-items-center gap-3">
+                                            <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
+                                                 width="50" alt="">
+                                            <div>
+                                                <span class="d-block">
+                                                    {{ $certification->name }}
+                                                </span>
+                                                <small>
+                                                    {{ $certification->center_name }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {{ $certification->start_date }} -
+                                            @if( $certification->end_date == ' / ' )
+                                                {{ 'لا يوجد تاريخ إنتهاء' }}
+                                            @else
+                                                {{ $certification->end_date }}
+                                            @endif
+                                        </div>
+
+                            </div>
+                            <div class="container mt-3">
+                                @foreach( $certification->specializations as $special )
+                                    <button type="button" class="btn btn-sm">
+                                        {{ $special }}
+                                    </button>
+                                @endforeach
+                            </div>
                         @endforeach
                     </div>
                     <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -25,6 +25,7 @@ class CreateContractsTable extends Migration
             $table->foreignId('employer_id')->constrained('employers')->nullOnDelete();
             $table->foreignId('company_id')->constrained('companies')->nullOnDelete();
             $table->foreignId('employee_id')->constrained('employees')->nullOnDelete();
+            $table->foreignId('job_id')->constrained('jobs')->nullOnDelete();
             $table->timestamps();
         });
     }

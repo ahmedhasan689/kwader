@@ -983,41 +983,44 @@ unset($__errorArgs, $__bag); ?>
                         <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#certificateModal">أضف شهادة</button>
                     </div>
                     <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <?php $__currentLoopData = $certifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $certification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <img class="border rounded-circle border-success border-2" src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>"
-                                         width="50" alt="">
-                                    <div>
-                                        <span class="d-block">
-                                            <?php echo e($certification->name); ?>
+                        <?php $__currentLoopData = $certifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $certification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-between align-items-center gap-3">
+                                            <img class="border rounded-circle border-success border-2" src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>"
+                                                 width="50" alt="">
+                                            <div>
+                                                <span class="d-block">
+                                                    <?php echo e($certification->name); ?>
 
-                                        </span>
-                                        <small>
-                                            <?php echo e($certification->center_name); ?>
+                                                </span>
+                                                <small>
+                                                    <?php echo e($certification->center_name); ?>
 
-                                        </small>
-                                    </div>
-                                </div>
-                                <div>
-                                    <?php echo e($certification->start_date); ?> -
-                                    <?php if( $certification->end_date == ' / ' ): ?>
-                                        <?php echo e('لا يوجد تاريخ إنتهاء'); ?>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <?php echo e($certification->start_date); ?> -
+                                            <?php if( $certification->end_date == ' / ' ): ?>
+                                                <?php echo e('لا يوجد تاريخ إنتهاء'); ?>
 
-                                    <?php else: ?>
-                                        <?php echo e($certification->end_date); ?>
+                                            <?php else: ?>
+                                                <?php echo e($certification->end_date); ?>
 
-                                    <?php endif; ?>
-                                </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </div>
-                    </div>
-                    <div class="container mt-3">
-                        <?php $__currentLoopData = $certification->specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $special): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <button type="button" class="btn btn-sm">
-                                <?php echo e($special); ?>
+                                            <?php endif; ?>
+                                        </div>
 
-                            </button>
+                            </div>
+                            <div class="container mt-3">
+
+                                    <?php $__currentLoopData = $certification->specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $special): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <button type="button" class="btn btn-sm">
+                                            <?php echo e($special); ?>
+
+                                        </button>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                            </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                     <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

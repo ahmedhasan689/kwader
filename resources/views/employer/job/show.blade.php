@@ -69,7 +69,7 @@
                         </span>
                     @endforeach
                 </div>
-                <div style="width: 16%;">
+                <div style="width: 17%;">
                     @if (auth()->user()->user_type == 'Employee')
                         <button class="btn btn-success" style="background-color: #00B398; border: none; margin-top: -10px">تقدم الآن</button>
                     @else
