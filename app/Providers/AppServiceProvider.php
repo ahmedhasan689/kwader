@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
@@ -31,10 +32,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-//        // public_path
-//        $this->app->bind('path.public', function($app) {
-//            return base_path('public_html');
-//        });
+        // public_path
+        if(App::environment('production')) {
+            $this->app->singleton('path.public', function() {
+                return base_path('public_html');
+            });
+        }
     }
 
     /**

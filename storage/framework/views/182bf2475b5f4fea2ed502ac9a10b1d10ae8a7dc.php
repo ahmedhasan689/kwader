@@ -4,25 +4,19 @@
     <div class="container personal-page mb-5">
         <div class="row align-items-center custom-border">
             <div class="col-lg-3 col-md-4">
-                <form class="form-pic">
+                <form action="<?php echo e(route('employee.dashboard.changeAvatar', ['id' => $employee->id])); ?>" method="POST" class="form-pic" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
                     <div class="profile-pic">
                         <label id="edit_pic" class="-label" for="file">
                             <i class="bi bi-camera-fill me-2"></i>
                             <span>تعديل صورتك</span>
                         </label>
-                        <input id="file" type="file" onchange="changePic(event)" />
+                        <input id="file" name="avatar" type="file" onchange="changePic(event)" />
                         <img src="<?php echo e($employee->image); ?>" class="img-fluid" alt="" id="output">
                     </div>
                     <button id="submit_pic" type="submit">حفظ الصورة</button>
                 </form>
-
-
-
-
-
-
-
-
             </div>
             <div class="col-lg-9 col-md-8">
                 <div class="d-flex justify-content-between my-4 my-md-0 flex-column flex-md-row">
@@ -985,41 +979,39 @@ unset($__errorArgs, $__bag); ?>
                     <div class="ms-4 mt-4">
                         <?php $__currentLoopData = $certifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $certification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex justify-content-between align-items-center gap-3">
-                                            <img class="border rounded-circle border-success border-2" src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>"
-                                                 width="50" alt="">
-                                            <div>
-                                                <span class="d-block">
-                                                    <?php echo e($certification->name); ?>
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <img class="border rounded-circle border-success border-2" src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>"
+                                         width="50" alt="">
+                                    <div>
+                                        <span class="d-block">
+                                            <?php echo e($certification->name); ?>
 
-                                                </span>
-                                                <small>
-                                                    <?php echo e($certification->center_name); ?>
+                                        </span>
+                                        <small>
+                                            <?php echo e($certification->center_name); ?>
 
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <?php echo e($certification->start_date); ?> -
-                                            <?php if( $certification->end_date == ' / ' ): ?>
-                                                <?php echo e('لا يوجد تاريخ إنتهاء'); ?>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div>
+                                    <?php echo e($certification->start_date); ?> -
+                                    <?php if( $certification->end_date == ' / ' ): ?>
+                                        <?php echo e('لا يوجد تاريخ إنتهاء'); ?>
 
-                                            <?php else: ?>
-                                                <?php echo e($certification->end_date); ?>
+                                    <?php else: ?>
+                                        <?php echo e($certification->end_date); ?>
 
-                                            <?php endif; ?>
-                                        </div>
+                                    <?php endif; ?>
+                                </div>
 
                             </div>
                             <div class="container mt-3">
+                                <?php $__currentLoopData = $certification->specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $special): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <button type="button" class="btn btn-sm">
+                                        <?php echo e($special); ?>
 
-                                    <?php $__currentLoopData = $certification->specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $special): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <button type="button" class="btn btn-sm">
-                                            <?php echo e($special); ?>
-
-                                        </button>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                                    </button>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
@@ -1339,7 +1331,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="container" style="margin-top: 25px">
                         <?php $__currentLoopData = $curriculum_vitaes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $curriculum_vitae): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <iframe src="<?php echo e(asset('/Employee_CVs') . '/' . $curriculum_vitae->cv); ?>" type="application/pdf" width="900px" height="600px"></iframe>
+                            <iframe src="<?php echo e(asset('storage/Employee_CVs') . '/' . $curriculum_vitae->cv); ?>" type="application/pdf" width="900px" height="600px"></iframe>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
 

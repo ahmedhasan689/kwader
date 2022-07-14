@@ -28,10 +28,10 @@ class ChatController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create($employee, $job)
+    public function create($slug, $employee)
     {
         $employee = Employee::findOrFail($employee);
-        $job = Job::findOrFail($job);
+        $job = Job::where('slug', $slug)->first();
         if ( in_array($employee->id, $job->employee_applicants) ) {
             return view('Chat.create', compact('employee', 'job'));
         }else{

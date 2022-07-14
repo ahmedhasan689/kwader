@@ -22,9 +22,12 @@ interface JobInterface
     public function search(Request $request);
 
     // Show Job
-    public function show($id);
+    public function show($slug);
 
     // Update Job For Employee Applicants
     public function update(Request $request, $id);
+
+    // Make Arabic Slug
+    public function slug($string, $separator = '-');
 
 }

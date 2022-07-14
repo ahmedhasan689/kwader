@@ -64,4 +64,6 @@ interface EmployeeInterface {
     // Add CV For Employee
     public function addCV(Request $request);
 
+    // Change Avatar
+    public function changeAvatar(Request $request, $id);
 }

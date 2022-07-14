@@ -72,8 +72,8 @@ return [
 
         'employee_cv' => [
             'driver' => 'local',
-            'root' => public_path('/Employee_CVs'),
-            'url' => env('APP_URL').'/Employee_CV',
+            'root' => storage_path('app/public/Employee_CVs'),
+            'url' => env('APP_URL').'storage/Employee_CV',
             'visibility' => 'public',
         ],
 

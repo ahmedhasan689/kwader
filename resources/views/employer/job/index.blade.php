@@ -54,12 +54,6 @@
                         </h5>
                         <div class="gro">
 
-{{--                            <span>--}}
-{{--                                1-2سنوات--}}
-{{--                                <a href="#" class="search_value">--}}
-{{--                                    <i class="fa-solid fa-circle-xmark"></i>--}}
-{{--                                </a>--}}
-{{--                            </span>--}}
                         </div>
                         <hr>
 
@@ -67,7 +61,7 @@
 
 
                         <div class="slidecontainer">
-                            <input type="range" min="100" max="10000" name="salary" class="slider" id="myRange">
+                            <input type="range" min="100" max="5000" step="100" name="salary" class="slider" id="myRange">
                             <div class="d-flex " style="justify-content:space-between;">
                                 <span>100.00$</span>
                                 <span id="demo"></span>
@@ -82,17 +76,30 @@
                         <hr>
                         <div class="years">
                             <h5>سنوات الخبرة</h5>
-                            <input type="checkbox" id="years_one" name="years_one" value="0-2 سنوات">
-                            <label for="vehicle1">
-                                0-2سنوات
-                            </label>
-                            <br>
-                            <input type="checkbox" id="vehicle2" name="vehicle2" value="five">
-                            <label for="vehicle2"> 2-5سنوات</label><br>
-                            <input type="checkbox" id="vehicle3" name="vehicle3" value="ten">
-                            <label for="vehicle3"> 5-10سنوات</label> <br>
-                            <input type="checkbox" id="vehicle4" name="vehicle4" value="over">
-                            <label for="vehicle4"> +10سنوات</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="0-2 سنوات" id="year_one">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    0-2 سنوات
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="5-2 سنوات" id="year_two">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    5-2 سنوات
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="10-5 سنوات" id="year_three">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    10-5 سنوات
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="+10 سنوات" id="year_four">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    +10 سنوات
+                                </label>
+                            </div>
                         </div>
                         <hr>
                         <div class="field">
@@ -173,9 +180,6 @@
                             <label for="vehicle6">الالمانية</label>
                         </div>
                         <hr>
-                        <button type="submit" class="btn btn-success" id="result">
-                            بحث
-                        </button>
                     </form>
 
 
@@ -187,7 +191,9 @@
                             <img src="{{ asset('Front_Assets/img/ss.png') }}" alt="">
 
                             <h5>
-                                <a href="{{ route('job.show', ['id' => $job->id]) }}" style="text-decoration: none; color: #000">{{ $job->job_title }}</a>
+                                <a href="{{ route('job.show', ['slug' => $job->slug]) }}" style="text-decoration: none; color: #000">
+                                    {{ $job->job_title }}
+                                </a>
                             </h5>
 
                             <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
@@ -283,8 +289,10 @@
                 </div>
             </div>
 
-            <nav aria-label="Page navigation example" class="navigation-search">
+            <div style="background-color: transparent; display: flex; justify-content: center; margin-right: 300px">
                 {{ $jobs->links() }}
+            </div>
+            <nav aria-label="Page navigation example" class="navigation-search" style="background-color: transparent">
 {{--                <ul class="pagination">--}}
 {{--                    <li class="page-item">--}}
 {{--                        <a class="page-link" href="#" aria-label="Previous">--}}

@@ -21,7 +21,8 @@
         "paypal/paypal-payouts-sdk": "^1.0",
         "pusher/pusher-php-server": "^7.0",
         "stripe/stripe-php": "^8.9",
-        "yoeunes/toastr": "^1.2"
+        "yoeunes/toastr": "^1.2",
+      "ext-intl": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

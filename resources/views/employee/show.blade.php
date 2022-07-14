@@ -352,25 +352,42 @@
                      aria-labelledby="v-pills-certificate-tab" tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">الشهادات</h3>
-                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#certificateModal">أضف شهادة</button>
                     </div>
                     <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <img class="border rounded-circle border-success border-2" src="images/company.png"
-                                     width="50" alt="">
-                                <div>
-                                    <span class="d-block">اسم الشهادة</span>
-                                    <small>اسم المركز</small>
+                        @if($certifications)
+                            @foreach( $certifications as $certification)
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-between align-items-center gap-3">
+                                        <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
+                                             width="50" alt="">
+                                        <div>
+                                            <span class="d-block">
+                                                {{ $certification->name }}
+                                            </span>
+                                            <small>
+                                                {{ $certification->center_name }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {{ $certification->start_date }} -
+                                        @if( $certification->end_date == ' / ' )
+                                            {{ 'لا يوجد تاريخ إنتهاء' }}
+                                        @else
+                                            {{ $certification->end_date }}
+                                        @endif
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div>
-                                تاريخ الإصدار - تاريخ الانتهاء
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
+                                <div class="container mt-3">
+                                    @foreach( $certification->specializations as $special )
+                                        <button type="button" class="btn btn-sm">
+                                            {{ $special }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
 
                 </div>
@@ -380,37 +397,31 @@
                      tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">التخصصات والمهارات</h3>
-                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#skillsModal">أضف تخصص</button>
                     </div>
-                    <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-3">
-                                <img class="ounded-circle" src="images/skills.png" width="50" alt="">
-                                <h4>فن و تصميم</h4>
+                    @foreach( $employee_skills as $employee_skill)
+                        <div class="ms-4 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img class="ounded-circle" src="{{ asset('Front_Assets/img/ss.png') }}" width="50" alt="">
+                                    <h4>
+                                        {{ $employee_skill->specialization->specialization_name }}
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
-                        <button type="button" class="btn btn-sm">التخصص 2</button>
-                        <button type="button" class="btn btn-sm">التخصص 3</button>
-                        <button type="button" class="btn btn-sm">التخصص 4</button>
-                        <button type="button" class="btn btn-sm">التخصص 5</button>
-                        <button type="button" class="btn btn-sm">التخصص 6</button>
-                        <button type="button" class="btn btn-sm">التخصص 7</button>
-                        <button type="button" class="btn btn-sm">التخصص 8</button>
-                        <button type="button" class="btn btn-sm">التخصص 9</button>
-                    </div>
-                    <div class="mt-3 ms-4">
-                        <p class="tab-content">لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل
-                            وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص
-                            الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها
-                            من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا
-                            النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير
-                            في ستينيّات هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي مقاطع من هذا
-                            النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
-                            (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.</p>
-                    </div>
+                        <div class="container mt-3">
+                            @foreach( $employee_skill->skills as $skill)
+                                <button type="button" class="btn btn-sm">
+                                    {{ $skill }}
+                                </button>
+                            @endforeach
+                        </div>
+                        <div class="mt-3 ms-4">
+                            <p class="tab-content">
+                                {{ $employee_skill->description }}
+                            </p>
+                        </div>
+                    @endforeach
                 </div>
 
 
@@ -419,9 +430,11 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">اللغات</h3>
                     </div>
-                    <div class="container ms-4">
-                        العربي : متوسط
-                    </div>
+                    @foreach( $employee_languages as $employee_language)
+                        <div class="container ms-4">
+                            {{ $employee_language->language->language_name }} : {{ $employee_language->level }}
+                        </div>
+                    @endforeach
                 </div>
 
 
@@ -430,67 +443,15 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">السيرة الذاتية</h3>
                     </div>
-                    <div class="container">
-
+                    <div class="container" style="margin-top: 25px">
+                        @foreach( $curriculum_vitaes as $curriculum_vitae )
+                            <iframe src="{{ asset('storage/Employee_CVs') . '/' . $curriculum_vitae->cv }}" type="application/pdf" width="900px" height="600px"></iframe>
+                        @endforeach
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-
-    <footer>
-        <div class="container">
-            <div class="row pt-5 pb-2 text-center text-sm-start">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>كوادر.كوم</h5>
-                    <nav class="nav flex-column align-items-center align-items-sm-start">
-                        <a class="nav-link" href="#">عن كوادر.كوم</a>
-                        <a class="nav-link" href="#">إرشادات الاستخدام</a>
-                        <a class="nav-link" href="#">بيان الخصوصية</a>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>الكادر</h5>
-                    <nav class="nav flex-column align-items-center align-items-sm-start">
-                        <a class="nav-link" href="#">انضمَّ إلينا</a>
-                        <a class="nav-link" href="#">ابحث عن وظيفة</a>
-                        <a class="nav-link" href="#">كوادر بريميوم</a>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>صاحب العمل</h5>
-                    <nav class="nav flex-column align-items-center align-items-sm-start">
-                        <a class="nav-link" href="#">أنشئ حسابك الآن</a>
-                        <a class="nav-link" href="#">أعلن عن وظيفة</a>
-                        <a class="nav-link" href="#">بطاقات العضوية</a>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>تابعنا على</h5>
-                    <div
-                        class="social-icon d-flex align-items-center justify-content-center justify-content-sm-start mt-3 gap-4">
-                        <a href="#">
-                            <span>
-                                <i class="bi bi-twitter"></i>
-                            </span>
-                        </a>
-                        <a href="#">
-                            <span>
-                                <i class="bi bi-linkedin"></i>
-                            </span>
-                        </a>
-                        <a href="#">
-                            <span>
-                                <i class="bi bi-facebook"></i>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="last-footer py-4">
-            © 2022 كوادر.كوم جميع الحقوق محفوظة
-        </div>
-    </footer>
 @endsection

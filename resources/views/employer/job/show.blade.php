@@ -159,7 +159,7 @@
 
                                     <div class="but">
                                         <a href="{{ route('employee.dashboard.show', ['id' => $user->id]) }}" type="button" class="btn btn-primary right">اطلع على السيرة الذاتية</a>
-                                        <a href="{{ route('chat.create', ['employee' => $user->id, 'job' => $job->id ]) }}" type="button" class="btn btn-primary left">تواصل مع الكادر</a>
+                                        <a href="{{ route('chat.create', ['slug' => $job->slug, 'employee' => $user->id]) }}" type="button" class="btn btn-primary left">تواصل مع الكادر</a>
 
                                     </div>
                                 </div>

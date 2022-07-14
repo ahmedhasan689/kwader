@@ -389,25 +389,47 @@ unset($__errorArgs, $__bag); ?>
                      aria-labelledby="v-pills-certificate-tab" tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">الشهادات</h3>
-                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#certificateModal">أضف شهادة</button>
                     </div>
                     <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <img class="border rounded-circle border-success border-2" src="images/company.png"
-                                     width="50" alt="">
-                                <div>
-                                    <span class="d-block">اسم الشهادة</span>
-                                    <small>اسم المركز</small>
+                        <?php if($certifications): ?>
+                            <?php $__currentLoopData = $certifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $certification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-between align-items-center gap-3">
+                                        <img class="border rounded-circle border-success border-2" src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>"
+                                             width="50" alt="">
+                                        <div>
+                                            <span class="d-block">
+                                                <?php echo e($certification->name); ?>
+
+                                            </span>
+                                            <small>
+                                                <?php echo e($certification->center_name); ?>
+
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <?php echo e($certification->start_date); ?> -
+                                        <?php if( $certification->end_date == ' / ' ): ?>
+                                            <?php echo e('لا يوجد تاريخ إنتهاء'); ?>
+
+                                        <?php else: ?>
+                                            <?php echo e($certification->end_date); ?>
+
+                                        <?php endif; ?>
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div>
-                                تاريخ الإصدار - تاريخ الانتهاء
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
+                                <div class="container mt-3">
+                                    <?php $__currentLoopData = $certification->specializations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $special): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <button type="button" class="btn btn-sm">
+                                            <?php echo e($special); ?>
+
+                                        </button>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
                     </div>
 
                 </div>
@@ -417,37 +439,34 @@ unset($__errorArgs, $__bag); ?>
                      tabindex="0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">التخصصات والمهارات</h3>
-                        <button class="btn main-btn-2" data-bs-toggle="modal" data-bs-target="#skillsModal">أضف تخصص</button>
                     </div>
-                    <div class="ms-4 mt-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-3">
-                                <img class="ounded-circle" src="images/skills.png" width="50" alt="">
-                                <h4>فن و تصميم</h4>
+                    <?php $__currentLoopData = $employee_skills; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee_skill): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="ms-4 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img class="ounded-circle" src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>" width="50" alt="">
+                                    <h4>
+                                        <?php echo e($employee_skill->specialization->specialization_name); ?>
+
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container mt-3">
-                        <button type="button" class="btn btn-sm">التخصص 1</button>
-                        <button type="button" class="btn btn-sm">التخصص 2</button>
-                        <button type="button" class="btn btn-sm">التخصص 3</button>
-                        <button type="button" class="btn btn-sm">التخصص 4</button>
-                        <button type="button" class="btn btn-sm">التخصص 5</button>
-                        <button type="button" class="btn btn-sm">التخصص 6</button>
-                        <button type="button" class="btn btn-sm">التخصص 7</button>
-                        <button type="button" class="btn btn-sm">التخصص 8</button>
-                        <button type="button" class="btn btn-sm">التخصص 9</button>
-                    </div>
-                    <div class="mt-3 ms-4">
-                        <p class="tab-content">لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل
-                            وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص
-                            الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها
-                            من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا
-                            النص، بل انه حتى صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير
-                            في ستينيّات هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي مقاطع من هذا
-                            النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل "ألدوس بايج مايكر"
-                            (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم إيبسوم.</p>
-                    </div>
+                        <div class="container mt-3">
+                            <?php $__currentLoopData = $employee_skill->skills; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $skill): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <button type="button" class="btn btn-sm">
+                                    <?php echo e($skill); ?>
+
+                                </button>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                        <div class="mt-3 ms-4">
+                            <p class="tab-content">
+                                <?php echo e($employee_skill->description); ?>
+
+                            </p>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
 
 
@@ -456,9 +475,12 @@ unset($__errorArgs, $__bag); ?>
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">اللغات</h3>
                     </div>
-                    <div class="container ms-4">
-                        العربي : متوسط
-                    </div>
+                    <?php $__currentLoopData = $employee_languages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee_language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="container ms-4">
+                            <?php echo e($employee_language->language->language_name); ?> : <?php echo e($employee_language->level); ?>
+
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
 
 
@@ -467,69 +489,17 @@ unset($__errorArgs, $__bag); ?>
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="tab-title">السيرة الذاتية</h3>
                     </div>
-                    <div class="container">
-
+                    <div class="container" style="margin-top: 25px">
+                        <?php $__currentLoopData = $curriculum_vitaes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $curriculum_vitae): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <iframe src="<?php echo e(asset('storage/Employee_CVs') . '/' . $curriculum_vitae->cv); ?>" type="application/pdf" width="900px" height="600px"></iframe>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-
-    <footer>
-        <div class="container">
-            <div class="row pt-5 pb-2 text-center text-sm-start">
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>كوادر.كوم</h5>
-                    <nav class="nav flex-column align-items-center align-items-sm-start">
-                        <a class="nav-link" href="#">عن كوادر.كوم</a>
-                        <a class="nav-link" href="#">إرشادات الاستخدام</a>
-                        <a class="nav-link" href="#">بيان الخصوصية</a>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>الكادر</h5>
-                    <nav class="nav flex-column align-items-center align-items-sm-start">
-                        <a class="nav-link" href="#">انضمَّ إلينا</a>
-                        <a class="nav-link" href="#">ابحث عن وظيفة</a>
-                        <a class="nav-link" href="#">كوادر بريميوم</a>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>صاحب العمل</h5>
-                    <nav class="nav flex-column align-items-center align-items-sm-start">
-                        <a class="nav-link" href="#">أنشئ حسابك الآن</a>
-                        <a class="nav-link" href="#">أعلن عن وظيفة</a>
-                        <a class="nav-link" href="#">بطاقات العضوية</a>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-5">
-                    <h5>تابعنا على</h5>
-                    <div
-                        class="social-icon d-flex align-items-center justify-content-center justify-content-sm-start mt-3 gap-4">
-                        <a href="#">
-                            <span>
-                                <i class="bi bi-twitter"></i>
-                            </span>
-                        </a>
-                        <a href="#">
-                            <span>
-                                <i class="bi bi-linkedin"></i>
-                            </span>
-                        </a>
-                        <a href="#">
-                            <span>
-                                <i class="bi bi-facebook"></i>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="last-footer py-4">
-            © 2022 كوادر.كوم جميع الحقوق محفوظة
-        </div>
-    </footer>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.front_layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\kwader\resources\views/employee/show.blade.php ENDPATH**/ ?>

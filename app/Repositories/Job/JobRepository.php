@@ -16,6 +16,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class JobRepository implements JobInterface
 {
@@ -26,7 +27,7 @@ class JobRepository implements JobInterface
 
     public function allJobs()
     {
-        $jobs = Job::where('status', 'Opened')->paginate(12);
+        $jobs = Job::where('status', 'Opened')->paginate(6);
 
         return view('employer.job.index', compact('jobs'));
     }
@@ -114,6 +115,7 @@ class JobRepository implements JobInterface
 
         Job::create([
             'job_title' => $request->job_title,
+            'slug' => $this->slug($request->job_title),
             'description' => $request->job_description ,
             'years_of_experience' => $request->years_of_experience,
             'job_system' => $request->job_system,
@@ -151,26 +153,12 @@ class JobRepository implements JobInterface
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function search(Request $request)
-    {
-        if ($request->get('data') || $request->get('years')) {
-            $job = Job::where('salary', 'LIKE', '%' . $request->get('data') . '%')->orWhere('years_of_experience', 'LIKE', '%' . $request->get('years') . '%')->first();
-        }
-        return response()->json([
-            'result' => $job,
-        ]);
-    }
-
-    /**
-     * @param $id
+     * @param $slug
      * @return Application|Factory|View
      */
-    public function show($id)
+    public function show($slug)
     {
-        $job = Job::findOrFail($id);
+        $job = Job::where('slug', $slug)->first();
 
         $employee = Employee::where('user_id', Auth::user()->id)->first();
 
@@ -190,7 +178,7 @@ class JobRepository implements JobInterface
     /**
      * @param Request $request
      * @param $id
-     * @return void
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -208,4 +196,54 @@ class JobRepository implements JobInterface
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function search(Request $request)
+    {
+        $searchList = $request->search;
+
+        foreach ( $searchList as $key => $value ) {
+            for ($i = 0; $i < count($searchList); $i++) {
+                $results = [];
+            }
+//
+//            if ($key == 'salary'){
+//                $jobs = Job::where('salary', '>=', $value)->get();
+//                array_push($results, $jobs);
+//            };
+
+//            if ($key == 'years_of_experience') {
+//                $jobs = Job::where('years_of_experience', '=', $value)->where('salary', '>=', $value)->get();
+//                array_push($results, $jobs);
+//            }
+
+
+        }
+        return response()->json([
+            'items' => $results,
+        ]);
+
+    }
+
+
+
+    public function slug($string, $separator = '_') {
+        if (is_null($string)) {
+            return "";
+        }
+
+        $string = trim($string);
+
+        $string = mb_strtolower($string, "UTF-8");;
+
+        $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
+
+        $string = preg_replace("/[\s-]+/", " ", $string);
+
+        $string = preg_replace("/[\s_]/", $separator, $string);
+
+        return $string;
+    }
 }

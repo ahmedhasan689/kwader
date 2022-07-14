@@ -6,25 +6,19 @@
     <div class="container personal-page mb-5">
         <div class="row align-items-center custom-border">
             <div class="col-lg-3 col-md-4">
-                <form class="form-pic">
+                <form action="{{ route('employee.dashboard.changeAvatar', ['id' => $employee->id]) }}" method="POST" class="form-pic" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                     <div class="profile-pic">
                         <label id="edit_pic" class="-label" for="file">
                             <i class="bi bi-camera-fill me-2"></i>
                             <span>تعديل صورتك</span>
                         </label>
-                        <input id="file" type="file" onchange="changePic(event)" />
+                        <input id="file" name="avatar" type="file" onchange="changePic(event)" />
                         <img src="{{ $employee->image }}" class="img-fluid" alt="" id="output">
                     </div>
                     <button id="submit_pic" type="submit">حفظ الصورة</button>
                 </form>
-{{--                <div class="profile-pic">--}}
-{{--                    <label class="-label" for="file">--}}
-{{--                        <i class="bi bi-camera-fill me-2"></i>--}}
-{{--                        <span>تعديل صورتك</span>--}}
-{{--                    </label>--}}
-{{--                    <input id="file" type="file" onchange="changePic(event)" />--}}
-{{--                    <img src="{{ $employee->image }}" class="img-fluid" alt="" id="output">--}}
-{{--                </div>--}}
             </div>
             <div class="col-lg-9 col-md-8">
                 <div class="d-flex justify-content-between my-4 my-md-0 flex-column flex-md-row">
@@ -857,26 +851,26 @@
                     <div class="ms-4 mt-4">
                         @foreach( $certifications as $certification)
                             <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex justify-content-between align-items-center gap-3">
-                                            <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
-                                                 width="50" alt="">
-                                            <div>
-                                                <span class="d-block">
-                                                    {{ $certification->name }}
-                                                </span>
-                                                <small>
-                                                    {{ $certification->center_name }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            {{ $certification->start_date }} -
-                                            @if( $certification->end_date == ' / ' )
-                                                {{ 'لا يوجد تاريخ إنتهاء' }}
-                                            @else
-                                                {{ $certification->end_date }}
-                                            @endif
-                                        </div>
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <img class="border rounded-circle border-success border-2" src="{{ asset('Front_Assets/img/ss.png') }}"
+                                         width="50" alt="">
+                                    <div>
+                                        <span class="d-block">
+                                            {{ $certification->name }}
+                                        </span>
+                                        <small>
+                                            {{ $certification->center_name }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div>
+                                    {{ $certification->start_date }} -
+                                    @if( $certification->end_date == ' / ' )
+                                        {{ 'لا يوجد تاريخ إنتهاء' }}
+                                    @else
+                                        {{ $certification->end_date }}
+                                    @endif
+                                </div>
 
                             </div>
                             <div class="container mt-3">
@@ -1191,7 +1185,7 @@
                     </div>
                     <div class="container" style="margin-top: 25px">
                         @foreach( $curriculum_vitaes as $curriculum_vitae )
-                            <iframe src="{{ asset('/Employee_CVs') . '/' . $curriculum_vitae->cv }}" type="application/pdf" width="900px" height="600px"></iframe>
+                            <iframe src="{{ asset('storage/Employee_CVs') . '/' . $curriculum_vitae->cv }}" type="application/pdf" width="900px" height="600px"></iframe>
                         @endforeach
                     </div>
 

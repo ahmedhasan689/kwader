@@ -6,6 +6,7 @@ use App\Http\Controllers\Employer\CompanyController;
 use App\Http\Controllers\Employer\ContactController;
 use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Employer\EmployerSettingsController;
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Financial\PaypalController;
 use App\Http\Controllers\Financial\StripeController;
@@ -131,7 +132,7 @@ Route::namespace('/Employer')
             });
             // End Contact Route
 
-            //Start Job Route
+            // Start Job Route
             Route::group([
                 'prefix' => 'job',
                 'as' => 'job.',
@@ -139,11 +140,20 @@ Route::namespace('/Employer')
                 Route::get('/', [JobController::class, 'index'])->name('index')->withoutMiddleware(['employer']);
                 Route::get('/create/{step}', [JobController::class, 'create'])->name('create');
                 Route::post('/store/{step}', [JobController::class, 'store'])->name('store');
-                Route::get('/{id}', [JobController::class, 'show'])->name('show')->withoutMiddleware(['employer']);
-                Route::put('/{id}', [JobController::class, 'update'])->name('update');
+                Route::get('/{slug}', [JobController::class, 'show'])->name('show')->withoutMiddleware(['employer']);
+                Route::put('/{id}', [JobController::class, 'update'])->name('update')->withoutMiddleware(['employer']);
             });
-                // For Search In Job-Index Page
-                Route::post('/search/{salary?}/{years?}', [JobController::class, 'search'])->name('search');
+            // End Job Route
+            Route::group([
+                'prefix' => 'settings',
+                'as' => 'employer.settings.',
+            ], function() {
+                Route::get('/{id}', [EmployerSettingsController::class, 'index'])->name('index');
+            });
+            // End Job Route
+
+            // For Search In Job-Index Page
+            Route::post('/search', [JobController::class, 'search'])->name('search');
             // End Job Route
 
             // Start Find Employee Page
@@ -191,6 +201,7 @@ Route::namespace('/Employee')
             Route::post('/setSkills', [EmployeeController::class, 'setSkills'])->name('setSkills');
             Route::post('/setlanguages', [EmployeeController::class, 'setlanguages'])->name('setlanguages');
             Route::post('/addCV', [EmployeeController::class, 'addCV'])->name('addCV');
+            Route::put('/changeAvatar/{id}', [EmployeeController::class, 'changeAvatar'])->name('changeAvatar');
         });
         // End Employee Dashboard Route
     });
@@ -254,7 +265,7 @@ Route::namespace('/Chat')
             'as' => 'chat.',
         ], function() {
             Route::get('/', [ChatController::class, 'index'])->name('index');
-            Route::get('/{employee}/{job}', [ChatController::class, 'create'])->name('create');
+            Route::get('/{slug}/{employee}', [ChatController::class, 'create'])->name('create');
         });
         //
     });

@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\Certification;
 use App\Models\Country;
+use App\Models\CurriculumVitae;
 use App\Models\Education;
 use App\Models\Employee;
+use App\Models\EmployeeLanguage;
+use App\Models\EmployeeSkills;
 use App\Models\Employer;
+use App\Models\Field;
 use App\Models\Job;
+use App\Models\Language;
 use App\Models\Nationality;
 use App\Models\Practical_Experience;
+use App\Models\Skill;
 use App\Models\Specialization;
 use App\Repositories\Employee\EmployeeInterface;
 use Carbon\Carbon;
@@ -43,21 +50,29 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::where('id', $id)->first();
-        $countries = Country::all();
-        $nationalities = Nationality::all();
-        $specializations = Specialization::all();
-        $practical_experiences = Practical_Experience::where('employee_id', $employee->id)->get();
-        $educations = Education::where('employee_id', $employee->id)->get();
+        $data = [];
+        $data['employee'] = Employee::where('id', $id)->first();
+        $data['countries'] = Country::all();
+        $data['nationalities'] = Nationality::all();
+        $data['specializations'] = Specialization::all();
+        $data['practical_experiences'] = Practical_Experience::where('employee_id', $data['employee']->id)->get();
+        $data['educations'] = Education::where('employee_id', $data['employee']->id)->get();
 
-        $date_of_birth = $employee->date_of_birth;
-        $day = Carbon::createFromFormat('m/d/Y', $employee->date_of_birth);
+        $date_of_birth = $data['employee']->date_of_birth;
+        $data['day'] = Carbon::createFromFormat('m/d/Y', $data['employee']->date_of_birth);
+
+        $data['certifications'] = Certification::where('employee_id', $data['employee']->id)->get();
+        $data['fields'] = Field::all();
+        $data['skills'] = Skill::all();
+        $data['employee_skills'] = EmployeeSkills::all();
+        $data['languages'] = Language::all();
+        $data['employee_languages'] = EmployeeLanguage::all();
+        $data['curriculum_vitaes'] = CurriculumVitae::where('employee_id', $data['employee']->id)->get();
 
         $employer = Employer::where('user_id', Auth::user()->id)->first();
+        $data['jobs'] = Job::where('employer_id', $employer->id)->get();
 
-        $jobs = Job::where('employer_id', $employer->id)->get();
-
-        return view('employee.show', compact( 'employee', 'countries', 'nationalities', 'specializations', 'practical_experiences', 'educations', 'day', 'jobs' ));
+        return view('employee.show', $data);
     }
     /**
      * @return mixed
@@ -226,5 +241,15 @@ class EmployeeController extends Controller
     public function addCV(Request $request)
     {
         return $this->employee->addCV($request);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function changeAvatar(Request $request, $id)
+    {
+        return $this->employee->changeAvatar($request, $id);
     }
 }

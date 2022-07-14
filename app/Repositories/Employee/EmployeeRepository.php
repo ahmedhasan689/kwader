@@ -512,6 +512,10 @@ class EmployeeRepository implements EmployeeInterface
         return redirect()->back();
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|void
+     */
     public function addCV(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -542,9 +546,32 @@ class EmployeeRepository implements EmployeeInterface
         }elseif($validator->fails()) {
             return redirect()->back()->withErrors('يوجد في ملفك سيرة ذاتية بالفعل !');
         }
+    }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function changeAvatar(Request $request, $id)
+    {
+        $employee = Employee::where('user_id', Auth::user()->id)->first();
 
+        $image_path = null;
 
+        if($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
 
+            $image_path = $file->store('/', [
+                'disk' => 'user_avatar'
+            ]);
+        }
+
+        $employee->update([
+            'avatar' => $image_path,
+        ]);
+
+        toastr()->success('تم تحديث صورتك الشخصية بنجاح');
+
+        return redirect()->back();
     }
 }

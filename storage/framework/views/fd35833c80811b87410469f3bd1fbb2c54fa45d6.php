@@ -53,8 +53,18 @@
                                 مساعدة
                             </button>
                         </li>
-                        <li><button class="dropdown-item" type="button"><i class="fa-solid fa-gear"></i>اعدادات الحساب</button></li>
-                        <li><button class="dropdown-item" type="button"><i class="fa-solid fa-globe"></i>language</button></li>
+                        <li>
+                            <a href="<?php echo e(route('employer.settings.index', ['id' => auth()->user()->employer->id])); ?>" class="dropdown-item" type="button">
+                                <i class="fa-solid fa-gear"></i>
+                                اعدادات الحساب
+                            </a>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" type="button">
+                                <i class="fa-solid fa-globe"></i>
+                                اللغات
+                            </button>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form action="<?php echo e(route('logout')); ?>" method="POST">
@@ -167,5 +177,4 @@
         </div>
     </div>
 </nav>
-
 <?php /**PATH E:\kwader\resources\views/components/auth-nav.blade.php ENDPATH**/ ?>
