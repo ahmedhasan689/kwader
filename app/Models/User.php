@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email_verified_at',
         'phone_number',
         'phone_verified_at',
+        'phone_number_code',
         'password',
         'user_type',
         'oauth_id',
@@ -80,4 +81,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Employer::class);
     }
+
+    public function notifications_system()
+    {
+        return $this->belongsToMany(NotificationSystem::class, 'notification_user');
+    }
+
 }

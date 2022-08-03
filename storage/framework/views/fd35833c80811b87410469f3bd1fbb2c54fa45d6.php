@@ -15,7 +15,7 @@
                 </div>
 
                 <div>
-                    <a class="link-light">
+                    <a href="<?php echo e(route('employer.existing.index', ['id' => Auth::user()->employer->id])); ?>" class="link-light">
                         <i class="far fa-heart" style="color:#fff"></i>
                     </a>
                 </div>
@@ -54,10 +54,17 @@
                             </button>
                         </li>
                         <li>
-                            <a href="<?php echo e(route('employer.settings.index', ['id' => auth()->user()->employer->id])); ?>" class="dropdown-item" type="button">
-                                <i class="fa-solid fa-gear"></i>
-                                اعدادات الحساب
-                            </a>
+                            <?php if(Auth::user()->user_type == 'Employer'): ?>
+                                <a href="<?php echo e(route('employer.settings.index', ['id' => auth()->user()->employer->id])); ?>" class="dropdown-item" type="button">
+                                    <i class="fa-solid fa-gear"></i>
+                                    اعدادات الحساب
+                                </a>
+                            <?php elseif(Auth()->user()->user_type == 'Employee'): ?>
+                                <a href="<?php echo e(route('employee.settings.index', ['id' => auth()->user()->employee->id])); ?>" class="dropdown-item" type="button">
+                                    <i class="fa-solid fa-gear"></i>
+                                    اعدادات الحساب
+                                </a>
+                            <?php endif; ?>
                         </li>
                         <li>
                             <button class="dropdown-item" type="button">
@@ -135,6 +142,7 @@
                          <a class="nav-link" href="<?php echo e(route('find_employee')); ?>">
                              أبحث عن كوادر
                          </a>
+
                     <?php else: ?>
                         <a class="nav-link" href="<?php echo e(route('job.index')); ?>">
                             البحث عن وظائف
@@ -144,9 +152,25 @@
                 </li>
                 <li class="nav-item">
                     <?php if(auth()->user()->user_type == 'Employer'): ?>
-                        <a class="nav-link" href="<?php echo e(route('job.index')); ?>">
+                        <a class="nav-link" id="JobsDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             الوظائف
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="JobsDropdown" style="left: 240px; top: 55px">
+                            <li>
+                                <a class="dropdown-item" href="<?php echo e(route('job.myJobs')); ?>">
+                                    وظائفي
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item"  href="<?php echo e(route('job.index')); ?>">
+                                    الوظائف
+                                </a>
+                            </li>
+                        </ul>
                     <?php else: ?>
                         <a class="nav-link" href="#">
                             طلبات التوظيف

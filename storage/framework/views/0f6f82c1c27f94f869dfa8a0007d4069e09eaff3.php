@@ -139,6 +139,59 @@
                         </ul>
                     </li>
 
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="<?php echo e(url('/' . $page='#')); ?>">
+                            <i class="fa-solid fa-file-signature" style="margin-left: 15px;color: #AAA; font-size: 18px;"></i>
+                            <span class="side-menu__label">
+                                العقود
+                            </span>
+                            <i class="angle fe fe-chevron-down"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            <li>
+                                <a class="slide-item" href="#">
+                                    قائمة العقود
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item" href="#">
+                                    إضافة عقد
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="<?php echo e(url('/' . $page='#')); ?>">
+                            <i class="fa-solid fa-coins" style="margin-left: 15px;margin-right: 1px; color: #AAA; font-size: 18px;"></i>
+                            <span class="side-menu__label">
+                                المعاملات المالية
+                            </span>
+                            <i class="angle fe fe-chevron-down"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            <li>
+                                <a class="slide-item" href="#">
+                                    قائمة المعاملات المالية
+                                </a>
+                            </li>
+                            <li>
+                                <a class="slide-item" href="#">
+                                    إضافة معاملة مالية
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item" href="<?php echo e(route('admin.contact_us.index')); ?>">
+                            <i class="fa-solid fa-inbox" style="margin-left: 15px;margin-right: 1px; color: #AAA; font-size: 18px;"></i>
+                            <span class="side-menu__label">
+                                الشكاوي والإقتراحات
+                            </span>
+                        </a>
+                    </li>
+
 
 
 

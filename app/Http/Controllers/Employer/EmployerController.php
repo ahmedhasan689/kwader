@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employer;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Employer;
+use App\Models\Existing;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -34,7 +35,9 @@ class EmployerController extends Controller
      */
     public function index($id = null)
     {
-        return view('employer.index');
+        $employer = Employer::where('user_id', Auth::user()->id)->first();
+
+        return view('employer.index', compact('employer'));
     }
 
     /**
@@ -62,8 +65,10 @@ class EmployerController extends Controller
     public function find_employee()
     {
         $employees = Employee::all();
+        $user = Employer::where('user_id', Auth::user()->id)->first();
+        $existings = Existing::where('employer_id', $user->id)->get();
 
-        return view('employer.find_employer.index', compact('employees'));
+        return view('employer.find_employer.index', compact('employees', 'existings'));
 
     }
 }

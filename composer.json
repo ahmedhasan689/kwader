@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-intl": "*",
         "ext-json": "*",
         "ext-mongodb": "*",
         "davcpas1234/laravelpdfviewer": "^1.0",
@@ -14,15 +15,17 @@
         "goodnesskay/laravelpdfviewer": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
+        "laravel/nexmo-notification-channel": "^3.0",
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.5",
+        "nexmo/laravel": "^3.0",
         "paypal/paypal-checkout-sdk": "^1.0",
         "paypal/paypal-payouts-sdk": "^1.0",
         "pusher/pusher-php-server": "^7.0",
         "stripe/stripe-php": "^8.9",
-        "yoeunes/toastr": "^1.2",
-      "ext-intl": "*"
+        "vonage/client": "^3.0",
+        "yoeunes/toastr": "^1.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

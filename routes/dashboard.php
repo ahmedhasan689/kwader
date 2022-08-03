@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\EmployeeDashboardController;
 use App\Http\Controllers\Dashboard\EmployerDashboardController;
@@ -83,6 +84,18 @@ Route::namespace('/Dashboard')
             Route::put('/accept/{id}', [JobDashboardController::class, 'accept'])->name('accept');
         });
         // End Job Pages
+
+        // Start Contact Us Page
+        Route::group([
+            'prefix' => 'contact_us',
+            'as' => 'admin.contact_us.'
+        ], function() {
+            Route::get('/', [ContactUsController::class, 'index'])->name('index');
+            Route::get('/create', [ContactUsController::class, 'create'])->name('create');
+            Route::post('/', [ContactUsController::class, 'store'])->withoutMiddleware(['auth'])->name('store');
+            Route::get('/{id}', [ContactUsController::class, 'show'])->name('show');
+        });
+        // End Contact Us
     });
 
 // End Dashboard Controller

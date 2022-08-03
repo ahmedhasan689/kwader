@@ -2757,7 +2757,24 @@ h2 {
     border-top-right-radius: 15px;
     display: none;
 }
-
+#pic_settings{
+    position: absolute;
+    top: 94px;
+    right: 0;
+    left: 0;
+    height: 27%;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    color: #fafafa;
+    background-color: rgb(88 200 183 / 50%);
+    transition: background-color 0.1s ease-in-out;
+    display: none;
+}
+#pic_settings_btn{
+    background-color: transparent;
+    border: none;
+}
 .inboxMessage .container {
     border: solid 1px #898EA3;
     border-radius: 5px;
@@ -3554,4 +3571,68 @@ div#edit_availability .btn-group label.btn.btn-outline-primary {
     height: 150px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.267);
+}
+
+/* My-Jobs Page */
+.my_job_status{
+    padding: 15px 25px;
+    font-size: 35px;
+    color: #3A3F50 !important;
+}
+.my_job_li {
+    width: 330px;
+}
+.my_job_button {
+    width: 331px;
+    margin-right: -13px;
+    padding: 15px 40px;
+    text-align: right;
+    border: none;
+    color: #002C7F !important;
+}
+.my_job_button:active {
+    color: #002C7F !important;
+    background-color: #fff !important;
+}
+.my_job_image {
+    padding-left: 10px;
+}
+.my_job_search_btn {
+    background-color: #002C7F;
+    position: absolute;
+    top: 131px;
+    right: 480px;
+    width: 60px;
+    height: 47px;
+    border-radius: 0;
+    border: none;
+}
+.my_job_search_btn:hover {
+    background-color: #002C7F;
+}
+.my_job_search_btn:focus {
+    background-color: #002C7F;
+}
+.my_job_box {
+    border: 1px solid #ced4da !important;
+    height: 95px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-right: 1px;
+    margin-left: 1px;
+}
+.my_job_btn {
+    background-color: #E7EAF6 !important;
+    color: #3A3F50;
+    border: 1px solid #898EA3;
+}
+.my_job_btn:hover {
+    background-color: #E7EAF6 !important;
+    color: #3A3F50;
+    border: 1px solid #898EA3;
+}
+.my_job_btn:focus {
+    background-color: #E7EAF6 !important;
+    color: #3A3F50;
+    border: 1px solid #898EA3;
 }

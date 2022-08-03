@@ -96,11 +96,19 @@ class JobController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->job->deleteJob($id);
     }
 
     public function search(Request $request)
     {
         return $this->job->search($request);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function myJobs()
+    {
+        return $this->job->myJobs();
     }
 }

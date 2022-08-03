@@ -7,6 +7,38 @@ link.addEventListener('click', () => {
     input.focus()
 });
 
+// add new list name
+// function hideButton(x) {
+//     x.style.display = 'none';
+//     var div1 = document.getElementById("div2");
+//     var divParent = document.createElement("div");
+//     var newNode = document.createElement('input');
+//     var title = document.createElement('span');
+//     var buttonList = document.createElement('button');
+//     buttonList.id = ("buttonList")
+//     buttonList.textContent = "سجل"
+//     title.appendChild(document.createTextNode(' ادخل اسم القائمة الجديدة '));
+//     div1.appendChild(title);
+//     div1.appendChild(divParent);
+//
+//     divParent.className = ("d-flex" , "divParent")
+//     divParent.appendChild(newNode);
+//     divParent.appendChild(buttonList);
+//
+//     // div1.innerHTML =( " < input type = 'text' placeholder = 'اسم القائمة' class='form-control'  id = 'listName' > ");
+//     function buttonList() {
+//         var name = newNode.value;
+//         document.getElementById('ans').innerHTML = name;
+//         div1.style.display = "none";
+//     }
+// }
+$(document).ready(function() {
+    $('.btnAdd').click(function() {
+        $(this).css("display", "none");
+        $('.div2').css("display", "block");
+    });
+});
+
 $(document).ready(function () {
     $('button[type="button"]').click(function () {
         var name = $('.job-selected').val();
@@ -54,6 +86,12 @@ $(document).ready(function () {
     });
 });
 
+var changePicSettings = function (event) {
+    document.getElementById("pic_settings").style.visibility = "visible";
+    document.getElementById("cam").style.display = "none";
+    var image = document.getElementById("output");
+    image.src = URL.createObjectURL(event.target.files[0]);
+};
 
 var changePic = function (event) {
     edit_pic
@@ -1035,60 +1073,6 @@ $(document).ready(function () {
         };
     });
 
-// Start Job Search
-
-
-$(document).ready(function() {
-    var search = {};
-    salary.oninput = function () {
-        $('.gro').empty();
-        output.innerHTML = this.value;
-        $('.gro').append(`
-            <span>الحد الأدنى ` + output.innerHTML + ` <i class="fa-solid fa-circle-xmark"></i></span>
-        `);
-
-        search.salary = output.innerHTML;
-        $.ajax({
-            url: '/employer/search',
-            type: 'post',
-            data: {
-                search: search,
-            },
-            dataType: 'json',
-            success: function(data){
-                console.log(data.items);
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-
-    }
-
-    $('#year_one').change(function() {
-       if ($(this).attr('checked', true)) {
-           search.years_of_experince = $(this).val();
-           $.ajax({
-               url: '/employer/search',
-               type: 'post',
-               data: {
-                   search: search,
-               },
-               dataType: 'json',
-               success: function(data){
-                   console.log(data.items);
-               },
-               error: function(data) {
-                   console.log(data);
-               }
-           });
-       }else if ($(this).attr('checked', false)) {
-           console.log('no');
-       };
-    });
-})
-
-// End Job Search
 
 
 
@@ -1098,6 +1082,36 @@ $('input[name="years_one"]').change(function () {
     }
 })
 
+// Start Job Search
+$(document).ready(function() {
+    salary.oninput = function () {
+        $('.gro').empty();
+        output.innerHTML = this.value;
+        $('.gro').append(`
+        <span>الحد الأدنى ` + output.innerHTML + ` <i class="fa-solid fa-circle-xmark"></i></span>
+    `);
+
+        salary = output.innerHTML;
+
+
+        $.ajax({
+            url: '/employer/search',
+            type: 'post',
+            data: {
+                salary: salary,
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+
+    }
+});
+// End Job Search
 
     //     $('#result').on('click', function(e) {
     //         e.preventDefault();
@@ -1219,6 +1233,99 @@ $('input[name="years_one"]').change(function () {
 
 
 });
+
+// Add New List
+$(document).ready(function() {
+   $('.newListSubmit').click(function(e){
+       e.preventDefault();
+
+       var list_name = $('#newlistName').val();
+       var type = $('#newlistType').val();
+       var job = $('input[class="new_job_id"]').val();
+
+       $.ajax({
+           url: '/employer/existing/newList',
+           type: 'post',
+           data: {
+               list_name: list_name,
+               type: type,
+           },
+           dataType: 'json',
+           success: function(data) {
+
+
+                   $('.existing_list').append(`
+                        <div class="mb-3">
+                            <input type="hidden" name="job_id" value="` + job_id + `">
+                            <button type="submit" style="background-color: #E7EAF6; border-color: #898EA3; display:block; padding-right: 18px; width: 100%" name="existing_id" value="`+ data.existings.id +`" class="form-control">
+                                ` + data.existings.existing_name  +`
+                            </button>
+                        </div>
+                   `)
+
+           },
+           error: function(data) {
+                console.log(data)
+           },
+       })
+   })
+});
+
+$(document).ready(function() {
+    $('button[name="kwader_tap"]').click(function() {
+        var value = $(this).val();
+        var list_type =  $('input[name="list_type"]').attr("value", value);
+        var test = $('input[name="list_type"]').val()
+
+        console.log(test);
+    })
+});
+
+$(document).ready(function() {
+    $('button[name="jobs_tap"]').click(function() {
+        var value = $(this).val();
+        var list_type =  $('input[name="list_type"]').attr("value", value);
+        var test = $('input[name="list_type"]').val()
+
+        console.log(test);
+    })
+})
+
+// function filter() {
+//     var data = {};
+//     var salary = document.getElementById('myRange');
+//     salary.oninput = function () {
+//         $('.gro').empty();
+//         output.innerHTML = this.value;
+//         $('.gro').append(`
+//             <span>الحد الأدنى ` + output.innerHTML + ` <i class="fa-solid fa-circle-xmark"></i></span>
+//         `);
+//
+//         const money = {
+//             score: output.innerHTML
+//         };
+//
+//         const finalResult = Object.assign(data,money);
+//         console.log(finalResult)
+//     }
+//     // data.test(output.innerHTML);
+//
+//     $('#country_search_jobs').change(function () {
+//         var country = $(this).val();
+//         data.push(country);
+//
+//         const co = {
+//             score: output.innerHTML
+//         };
+//         const finalCountry = Object.assign(data,co);
+//
+//         console.log(finalCountry);
+//     });
+//
+//
+//
+//
+// }
 
 
 $('.fc-datepicker').datepicker({

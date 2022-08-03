@@ -15,7 +15,7 @@
                 </div>
 
                 <div>
-                    <a class="link-light">
+                    <a href="{{ route('employer.existing.index', ['id' => Auth::user()->employer->id]) }}" class="link-light">
                         <i class="far fa-heart" style="color:#fff"></i>
                     </a>
                 </div>
@@ -43,10 +43,17 @@
                             </button>
                         </li>
                         <li>
-                            <a href="{{ route('employer.settings.index', ['id' => auth()->user()->employer->id]) }}" class="dropdown-item" type="button">
-                                <i class="fa-solid fa-gear"></i>
-                                اعدادات الحساب
-                            </a>
+                            @if (Auth::user()->user_type == 'Employer')
+                                <a href="{{ route('employer.settings.index', ['id' => auth()->user()->employer->id]) }}" class="dropdown-item" type="button">
+                                    <i class="fa-solid fa-gear"></i>
+                                    اعدادات الحساب
+                                </a>
+                            @elseif (Auth()->user()->user_type == 'Employee')
+                                <a href="{{ route('employee.settings.index', ['id' => auth()->user()->employee->id]) }}" class="dropdown-item" type="button">
+                                    <i class="fa-solid fa-gear"></i>
+                                    اعدادات الحساب
+                                </a>
+                            @endif
                         </li>
                         <li>
                             <button class="dropdown-item" type="button">
@@ -124,6 +131,7 @@
                          <a class="nav-link" href="{{ route('find_employee') }}">
                              أبحث عن كوادر
                          </a>
+
                     @else
                         <a class="nav-link" href="{{ route('job.index') }}">
                             البحث عن وظائف
@@ -133,9 +141,25 @@
                 </li>
                 <li class="nav-item">
                     @if(auth()->user()->user_type == 'Employer')
-                        <a class="nav-link" href="{{ route('job.index') }}">
+                        <a class="nav-link" id="JobsDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             الوظائف
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="JobsDropdown" style="left: 240px; top: 55px">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('job.myJobs') }}">
+                                    وظائفي
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item"  href="{{ route('job.index') }}">
+                                    الوظائف
+                                </a>
+                            </li>
+                        </ul>
                     @else
                         <a class="nav-link" href="#">
                             طلبات التوظيف

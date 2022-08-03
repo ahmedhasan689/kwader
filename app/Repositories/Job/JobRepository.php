@@ -5,6 +5,8 @@ namespace App\Repositories\Job;
 use App\Models\Country;
 use App\Models\Employee;
 use App\Models\Employer;
+use App\Models\Existing;
+use App\Models\Favorite;
 use App\Models\Field;
 use App\Models\Job;
 use App\Models\Language;
@@ -16,6 +18,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class JobRepository implements JobInterface
@@ -28,8 +31,25 @@ class JobRepository implements JobInterface
     public function allJobs()
     {
         $jobs = Job::where('status', 'Opened')->paginate(6);
+        $countries = Country::all();
 
-        return view('employer.job.index', compact('jobs'));
+        $user = null;
+        $favorites = null;
+        if (Auth::user()->user_type == 'Employer'){
+            $user = Employer::where('user_id', Auth::user()->id)->first();
+            $existings = Existing::where('employer_id', $user->id)->get();
+            foreach ( $existings as $existing ) {
+                $favorites = Favorite::where('existing_id', $existing->id)->count();
+            }
+        }else{
+            $user = Employee::where('user_id', Auth::user()->id)->first();
+            $existings = Existing::where('employer_id', $user->id)->get();
+            foreach ( $existings as $existing ) {
+                $favorites = Favorite::where('existing_id', $existing->id)->count();
+            }
+        }
+
+        return view('employer.job.index', compact('jobs', 'countries', 'existings', 'favorites'));
     }
 
     /**
@@ -152,28 +172,7 @@ class JobRepository implements JobInterface
         return view('employer.job.index', compact('step', 'countries', 'languages', 'fields'));
     }
 
-    /**
-     * @param $slug
-     * @return Application|Factory|View
-     */
-    public function show($slug)
-    {
-        $job = Job::where('slug', $slug)->first();
 
-        $employee = Employee::where('user_id', Auth::user()->id)->first();
-
-        $users = [];
-
-        if ($job->employee_applicants) {
-            foreach ( $job->employee_applicants as $applicant) {
-                $user = Employee::where('id', $applicant)->first();
-                $users[] = $user;
-            }
-        }
-
-
-        return view('employer.job.show', compact('job', 'employee', 'users'));
-    }
 
     /**
      * @param Request $request
@@ -202,29 +201,13 @@ class JobRepository implements JobInterface
      */
     public function search(Request $request)
     {
-        $searchList = $request->search;
+        $salary = $request->salary;
+        $country = null;
 
-        foreach ( $searchList as $key => $value ) {
-            for ($i = 0; $i < count($searchList); $i++) {
-                $results = [];
-            }
-//
-//            if ($key == 'salary'){
-//                $jobs = Job::where('salary', '>=', $value)->get();
-//                array_push($results, $jobs);
-//            };
-
-//            if ($key == 'years_of_experience') {
-//                $jobs = Job::where('years_of_experience', '=', $value)->where('salary', '>=', $value)->get();
-//                array_push($results, $jobs);
-//            }
-
-
-        }
+        $job = Job::where('salary', '>=', $salary)->get();
         return response()->json([
-            'items' => $results,
+            'salary' => $job
         ]);
-
     }
 
 
@@ -245,5 +228,56 @@ class JobRepository implements JobInterface
         $string = preg_replace("/[\s_]/", $separator, $string);
 
         return $string;
+    }
+
+    /**
+     * Show All Jobs For Auth Employer
+     * @return Application|Factory|View
+     */
+    public function myJobs()
+    {
+        $employer = Employer::where('user_id', Auth::user()->id)->first();
+
+        $jobs = Job::where('employer_id', $employer->id)->whereNull('deleted_at')->get();
+
+        return view('employer.job.my_job', compact('jobs'));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteJob($id)
+    {
+        $job = Job::findOrFail($id);
+
+        $job->delete();
+
+        toastr()->success('تم حذف الوظيفة بنجاح');
+
+        return redirect()->back();
+    }
+
+    /**
+     * @param $slug
+     * @return Application|Factory|View
+     */
+    public function show($slug)
+    {
+        $job = Job::where('slug', $slug)->first();
+
+        $employee = Employee::where('user_id', Auth::user()->id)->first();
+
+        $users = [];
+
+        if ($job->employee_applicants) {
+            foreach ( $job->employee_applicants as $applicant) {
+                $user = Employee::where('id', $applicant)->first();
+                $users[] = $user;
+            }
+        }
+
+
+        return view('employer.job.show', compact('job', 'employee', 'users'));
     }
 }

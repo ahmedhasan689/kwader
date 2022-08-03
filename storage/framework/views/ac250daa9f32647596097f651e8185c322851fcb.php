@@ -59,17 +59,24 @@
 
 
                         <div class="slidecontainer">
-                            <input type="range" min="100" max="5000" step="100" name="salary" class="slider" id="myRange">
+                            <input type="range" min="100" max="5000" step="100" name="salary" class="slider" id="myRange" onchange="filter()">
                             <div class="d-flex " style="justify-content:space-between;">
                                 <span>100.00$</span>
                                 <span id="demo"></span>
                             </div>
-
                         </div>
                         <hr>
                         <div class="country">
                             <h5>الدولة</h5>
-                            <input type="text" placeholder="غير محدد">
+                            <select class="form-select" aria-label="Default select example" id="country_search_jobs" name="country" onchange="filter()">
+                                <option>أختر من القائمة</option>
+                                <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($country->id); ?>">
+                                        <?php echo e($country->country_name); ?>
+
+                                    </option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
                         </div>
                         <hr>
                         <div class="years">
@@ -184,6 +191,7 @@
                 </div>
                 <div class="col-9 left d-flex mt-5 gap-2" id="all_jobs" style="">
                     <?php $__currentLoopData = $jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                         <div class="card">
                         <div class="title">
                             <img src="<?php echo e(asset('Front_Assets/img/ss.png')); ?>" alt="">
@@ -195,10 +203,10 @@
                                 </a>
                             </h5>
 
-                            <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
+                            <i data-bs-toggle="modal" value="<?php echo e($job->id); ?>" data-id="<?php echo e($job->id); ?>" onclick="divId(this)" data-bs-target="#favModal-<?php echo e($job->id); ?>" class="fa-regular fa-heart" style="margin-right: 45px;"></i>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            <div class="modal fade newListModal" id="favModal-<?php echo e($job->id); ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
                                  aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -206,39 +214,41 @@
                                         <div class="modal-body">
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
-                                            <h5 class="modal-title mb-2 text-center" id="exampleModalLabel">أضف هذا
-                                                الاعلان الى
-                                                مفضلتي
+                                            <h5 class="modal-title mb-2 text-center" id="exampleModalLabel">
+                                                أضف هذا الاعلان الى مفضلتي
                                             </h5>
 
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="listName" class="form-label">انقر على قائمة لإضافة
-                                                        الإعلان</label>
-                                                    <input type="text" value="اسم القائمة" class="form-control"
-                                                           id="listName" aria-describedby="listName" readonly>
+                                            <label for="listName" class="form-label">
+                                                انقر على قائمة لإضافة
+                                                الإعلان
+                                            </label>
+                                            <form action="<?php echo e(route('employer.existing.modalStore')); ?>" method="POST">
+                                                <?php echo csrf_field(); ?>
+                                                <div class="mb-3 existing_list">
+                                                    <?php $__currentLoopData = $existings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $existing): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <input type="hidden" class="new_job_id" name="new_job_id" value="<?php echo e($job->id); ?>">
+                                                        <button type="submit" style="background-color: #E7EAF6; border-color: #898EA3; display:block; padding-right: 18px; width: 100%" name="existing_id" value="<?php echo e($existing->id); ?>" class="form-control">
+                                                            <?php echo e($existing->existing_name); ?>
 
+                                                        </button>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
-                                                <div class="mb-3">
-
-                                                    <input type="text" value="اسم القائمة" class="form-control"
-                                                           id="listName" aria-describedby="listName" readonly>
-
-                                                </div>
-                                                <div class="mb-3" id="ans">
-
-                                                    <!-- <input type="text" value="اسم القائمة" class="form-control"
-                                                                            id="listName" aria-describedby="listName" readonly> -->
-
-                                                </div>
-
-                                                <button type="button" class="btnAdd btn-primary"
-                                                        onclick="hideButton(this)"><span>+</span>انشاء
-                                                    قائمة
-                                                    جديدة</button>
-                                                <div class="mb-3" id="div2">
-
-
+                                                <button id="newList_btn" name="newList_btn" type="button" class="btnAdd btn-primary">
+                                                    <span>+</span>
+                                                    انشاء قائمة جديدة
+                                                </button>
+                                            </form>
+                                            <form action="<?php echo e(route('employer.existing.newList')); ?>" method="POST">
+                                                <?php echo csrf_field(); ?>
+                                                <div class="mb-3 div2" id="div2" style="margin-top: 10px; display: none">
+                                                    <label class="mb-2">
+                                                        ادخل اسم القائمة الجديدة
+                                                    </label>
+                                                    <input type="hidden" name="type" id="newlistType" value="job">
+                                                    <input type="text" class="form-control" placeholder="اسم القائمة" id="newlistName" name="list_name" style="width: 75%; display: inline; background-color: #fff">
+                                                    <button type="submit" class="btn btn-success newListSubmit" style="width: 15%; margin-top: -7px;height: 40px;background-color: #00B398;color: #fff;">
+                                                        سجل
+                                                    </button>
                                                 </div>
                                             </form>
 
@@ -327,13 +337,18 @@
 
 
             slider.oninput = function () {
-                output.innerHTML = this.value + ".00$";;
+                output.innerHTML = this.value + ".00$";
             }
             slider.addEventListener("mousemove", function () {
                 var x = slider.value;
                 var color = 'red' + x + '%';
                 slider.style.background = color;
             })
+
+
+            function divId(element) {
+                 job_id = $(element).attr('data-id');
+            }
         </script>
     <?php $__env->stopSection(); ?>
 <?php $__env->stopSection(); ?>

@@ -2,18 +2,18 @@
 
 use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\Contract\ContractController;
+use App\Http\Controllers\Employee\EmployeeSettingsController;
 use App\Http\Controllers\Employer\CompanyController;
 use App\Http\Controllers\Employer\ContactController;
 use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Employer\EmployerFavoriteController;
 use App\Http\Controllers\Employer\EmployerSettingsController;
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Financial\PaypalController;
 use App\Http\Controllers\Financial\StripeController;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Pages\PagesController;
-use App\Http\Controllers\Social_Media\FacebookController;
-use App\Http\Controllers\Social_Media\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,11 +76,10 @@ Route::namespace('/Pages')
             Route::get('/brief', [PagesController::class, 'whom'])->name('whom');
             Route::get('/subscriptions', [PagesController::class, 'subscriptions'])->name('subscriptions');
             Route::get('/privacy', [PagesController::class, 'privacy'])->name('privacy');
+            Route::get('/contact_us', [PagesController::class, 'contactUs'])->name('contactUs');
         });
 
     });
-
-
 // End Home Pages Controller
 
 // Register Choice Account Type
@@ -137,20 +136,46 @@ Route::namespace('/Employer')
                 'prefix' => 'job',
                 'as' => 'job.',
             ], function() {
+                Route::get('/my_jobs', [JobController::class, 'myJobs'])->name('myJobs');
                 Route::get('/', [JobController::class, 'index'])->name('index')->withoutMiddleware(['employer']);
                 Route::get('/create/{step}', [JobController::class, 'create'])->name('create');
                 Route::post('/store/{step}', [JobController::class, 'store'])->name('store');
                 Route::get('/{slug}', [JobController::class, 'show'])->name('show')->withoutMiddleware(['employer']);
                 Route::put('/{id}', [JobController::class, 'update'])->name('update')->withoutMiddleware(['employer']);
+                Route::delete('/{id}', [JobController::class, 'destroy'])->name('delete');
             });
             // End Job Route
+
+            // Start Settings Route
             Route::group([
                 'prefix' => 'settings',
                 'as' => 'employer.settings.',
             ], function() {
                 Route::get('/{id}', [EmployerSettingsController::class, 'index'])->name('index');
+                Route::put('/setNames', [EmployerSettingsController::class, 'setNames'])->name('setNames');
+                Route::put('/setAvatar', [EmployerSettingsController::class, 'setAvatar'])->name('setAvatar');
+                Route::put('/setInfo', [EmployerSettingsController::class, 'setInfo'])->name('setInfo');
+                Route::put('/setEmail', [EmployerSettingsController::class, 'setEmail'])->name('setEmail');
+                Route::put('/resetPassword', [EmployerSettingsController::class, 'resetPassword'])->name('resetPassword');
+                Route::put('/setPhoneNumber', [EmployerSettingsController::class, 'setPhoneNumber'])->name('setPhoneNumber');
+                Route::delete('/deleteAccount', [EmployerSettingsController::class, 'deleteAccount'])->name('deleteAccount');
+                Route::post('/notificationSystem', [EmployerSettingsController::class, 'notificationSystem'])->name('notificationSystem');
             });
             // End Job Route
+
+            // Start Employer Favorite Route
+            Route::group([
+                'prefix' => 'existing',
+                'as' => 'employer.existing.',
+            ], function() {
+                Route::get('/{id}', [EmployerFavoriteController::class, 'index'])->name('index');
+                Route::post('/', [EmployerFavoriteController::class, 'store'])->name('store');
+                Route::get('/show/{id}', [EmployerFavoriteController::class, 'show'])->name('show');
+                Route::post('/favorite', [EmployerFavoriteController::class, 'favoriteStore'])->name('favoriteStore');
+                Route::post('/modalStore', [EmployerFavoriteController::class, 'modalStore'])->name('modalStore');
+                Route::post('/newList', [EmployerFavoriteController::class, 'newList'])->name('newList');
+            });
+            // End Employer Favorite Route
 
             // For Search In Job-Index Page
             Route::post('/search', [JobController::class, 'search'])->name('search');
@@ -204,6 +229,22 @@ Route::namespace('/Employee')
             Route::put('/changeAvatar/{id}', [EmployeeController::class, 'changeAvatar'])->name('changeAvatar');
         });
         // End Employee Dashboard Route
+
+        // Start Employee Settings Route
+        Route::group([
+            'prefix' => 'settings',
+            'as' => 'employee.settings.',
+        ], function() {
+            Route::get('/{id}', [EmployeeSettingsController::class, 'index'])->name('index');
+            Route::put('/setNames', [EmployeeSettingsController::class, 'setNames'])->name('setNames');
+            Route::put('/setAvatar', [EmployeeSettingsController::class, 'setAvatar'])->name('setAvatar');
+            Route::put('/setInfo', [EmployeeSettingsController::class, 'setInfo'])->name('setInfo');
+            Route::put('/setEmail', [EmployeeSettingsController::class, 'setEmail'])->name('setEmail');
+            Route::put('/resetPassword', [EmployeeSettingsController::class, 'resetPassword'])->name('resetPassword');
+            Route::put('/setPhoneNumber', [EmployeeSettingsController::class, 'setPhoneNumber'])->name('setPhoneNumber');
+            Route::delete('/deleteAccount', [EmployeeSettingsController::class, 'deleteAccount'])->name('deleteAccount');
+        });
+        // End Employee Settings Route
     });
 
 Route::namespace('/Financial')

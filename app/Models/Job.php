@@ -59,4 +59,12 @@ class Job extends Model
     {
         return $this->belongsTo(Field::class);
     }
+
+    /**
+     * Get All The Favorites for the Job.
+     */
+    public function favorites()
+    {
+        return $this->morphToMany(Favorite::class, 'favoriteable');
+    }
 }

@@ -64,6 +64,6 @@ class Employer extends Authenticatable
             return $this->avatar;
         }
 
-        return asset('user_avatar' . '/' . $this->avatar);
+        return asset('/storage/user_avatar' . '/' . $this->avatar);
     }
 }

@@ -8233,14 +8233,14 @@ Displayable.prototype = {
      * 图形绘制方法
      * @param {CanvasRenderingContext2D} ctx
      */
-    // Interface
+    // Interfaces
     brush: function (ctx, prevEl) {},
 
     /**
      * 获取最小包围盒
      * @return {module:zrender/core/BoundingRect}
      */
-    // Interface
+    // Interfaces
     getBoundingRect: function () {},
 
     /**

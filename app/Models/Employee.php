@@ -73,6 +73,14 @@ class Employee extends Model
         return $this->belongsTo(Nationality::class);
     }
 
+    /**
+     * Get All The Favorites for the Employee.
+     */
+    public function favorites()
+    {
+        return $this->morphToMany(Favorite::class, 'favoriteable');
+    }
+
     // Accessors For avatar
     public function getImageAttribute()
     {

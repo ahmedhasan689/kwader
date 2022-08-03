@@ -10,7 +10,7 @@
                     <div class="cardRight1 text-center">
 
                         <div>
-                            <img class="personalPhoto" src="{{ asset('Front_Assets/img/Group 1940.png') }}" alt="">
+                            <img class="personalPhoto" src="{{ $employer->image }}" alt="">
 
                             <label for="file-input">
                                 <img class="camera" src="{{ asset('Front_Assets/img/photo-camera (1).png') }}" alt="">

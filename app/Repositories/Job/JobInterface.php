@@ -30,4 +30,9 @@ interface JobInterface
     // Make Arabic Slug
     public function slug($string, $separator = '-');
 
+    // Show All Jobs For Auth Employer
+    public function myJobs();
+
+    // Delete Job
+    public function deleteJob($id);
 }

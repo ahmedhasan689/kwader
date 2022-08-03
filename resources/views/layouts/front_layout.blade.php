@@ -53,20 +53,27 @@
                     <div
                         class="social-icon d-flex align-items-center justify-content-center justify-content-sm-start mt-3 gap-4">
                         <a href="#" style="text-decoration: none;">
-                                <span>
-                                    <i class="fa-brands fa-twitter"></i>
-                                </span>
+                            <span>
+                                <i class="fa-brands fa-twitter"></i>
+                            </span>
                         </a>
                         <a href="#" style="text-decoration: none;">
-                                <span>
-                                    <i class="fa-brands fa-linkedin-in"></i>
-                                </span>
+                            <span>
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </span>
                         </a>
                         <a href="#" style="text-decoration: none;">
-                                <span>
-                                    <i class="fa-brands fa-facebook-f"></i>
-                                </span>
+                            <span>
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </span>
                         </a>
+                    </div>
+                    <div class="mt-3">
+                        <nav class="nav flex-column align-items-center align-items-sm-start" style="margin-top: 35px;">
+                            <a class="nav-link" href="{{ route('page.contactUs') }}">
+                                تواصل معنا
+                            </a>
+                        </nav>
                     </div>
                 </div>
             </div>

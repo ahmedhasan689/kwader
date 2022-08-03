@@ -4,6 +4,15 @@
 
 @section('content')
     <div class="search searchStaff">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="container">
             <div class="row">
                 <div class="col-3 right">
@@ -138,124 +147,135 @@
                     @foreach( $employees as $employee )
 
                         <div class="card" style="height: 360px">
-                        <div class="image">
-                            <img src="{{ $employee->image }}" alt="">
-                        </div>
-                        <div class="title">
+                            <div class="image">
+                                <img src="{{ $employee->image }}" alt="">
+                            </div>
+                            <div class="title">
 
-                         <div class="avail">
-                             @if( $employee->availability == 'Available' )
-                                 <span class="available">
+                                <div class="avail">
+                                    @if( $employee->availability == 'Available' )
+                                        <span class="available">
                                     متاح
                                 </span>
-                                <span class="dot" style="background-color: #080;"></span>
-                             @elseif( $employee->availability == 'Unavailable' )
-                                 <span class="available" style="width: 84px;font-size: 15px; left: 202px">
+                                        <span class="dot" style="background-color: #080;"></span>
+                                    @elseif( $employee->availability == 'Unavailable' )
+                                        <span class="available" style="width: 84px;font-size: 15px; left: 202px">
                                     غير متاح
                                 </span>
-                                 <span class="dot" style="background-color: red;"></span>
-                             @endif
-                         </div>
+                                        <span class="dot" style="background-color: red;"></span>
+                                    @endif
+                                </div>
 
-                            <i data-bs-toggle="modal" data-bs-target="#favModal" class="fa-regular fa-heart"></i>
+                                <i data-bs-toggle="modal" data-bs-target="#favModal-{{ $employee->id }}"
+                                   class="fa-regular fa-heart"></i>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
+                                <!-- Modal -->
+                                <div class="modal fade" id="favModal-{{ $employee->id }}" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
 
-                                        <div class="modal-body">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            <h5 class="modal-title mb-2" id="exampleModalLabel">
-                                                أضف هذا الاعلان الى مفضلتي
-                                            </h5>
+                                            <div class="modal-body">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                <h5 class="modal-title mb-2" id="exampleModalLabel">
+                                                    أضف هذا الكادر الى مفضلتي
+                                                </h5>
 
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="listName" class="form-label">انقر على قائمة لإضافة
-                                                        الإعلان</label>
-                                                    <input type="text" value="اسم القائمة" class="form-control"
-                                                           id="listName" aria-describedby="listName" readonly>
+                                                <label for="listName" class="form-label">
+                                                    انقر على قائمة لإضافة الكادر
+                                                </label>
+                                                <form action="{{ route('employer.existing.favoriteStore') }}"
+                                                      method="POST">
+                                                    @csrf
 
-                                                </div>
-                                                <div class="mb-3">
+                                                    <div class="mb-3">
 
-                                                    <input type="text" value="اسم القائمة" class="form-control"
-                                                           id="listName" aria-describedby="listName" readonly>
-
-                                                </div>
-                                                <div class="mb-3" id="ans">
-
-                                                    <!-- <input type="text" value="اسم القائمة" class="form-control"
-                                                                            id="listName" aria-describedby="listName" readonly> -->
-
-                                                </div>
-
-                                                <button type="button" class="btnAdd btn-primary"
-                                                        onclick="hideButton(this)"><span>+</span>انشاء
-                                                    قائمة
-                                                    جديدة</button>
-                                                <div class="mb-3" id="div2">
+                                                        <br>
+                                                        @foreach( $existings as $existing )
+                                                            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                                                            {{--                                                        <input type="hidden" name="existing_id" value="{{ $existing->id }}">--}}
+                                                            <button type="submit" style="background-color: #E7EAF6; border-color: #898EA3; display:block; padding-right: 18px; width: 100%" name="existing_id" value="{{ $existing->id }}" class="form-control">
+                                                                {{ $existing->existing_name }}
+                                                            </button>
+                                                        @endforeach
+                                                    </div>
 
 
-                                                </div>
-                                            </form>
+                                                    <button type="button" class="btnAdd btn-primary"
+                                                            onclick="hideButton(this)"><span>+</span>انشاء
+                                                        قائمة
+                                                        جديدة
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('employer.existing.newList') }}" method="POST">
+                                                    @csrf
+                                                    <div class="mb-3 div2" id="div2" style="margin-top: 10px; display: none">
+                                                        <label class="mb-2">
+                                                            ادخل اسم القائمة الجديدة
+                                                        </label>
+                                                        <input type="hidden" name="type" id="newlistType" value="kawader">
+                                                        <input type="text" class="form-control" placeholder="اسم القائمة" id="newlistName" name="list_name" style="width: 75%; display: inline; background-color: #fff">
+                                                        <button type="submit" class="btn btn-success newListSubmit" style="width: 15%; margin-top: -7px;height: 40px;background-color: #00B398;color: #fff;">
+                                                            سجل
+                                                        </button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+
 
                                         </div>
-
-
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="name" style="width: 180px; top: 130px; left: 124px;">
-                            <a href="{{ route('employee.dashboard.show', ['id' => $employee->id]) }}" style="cursor: pointer; text-decoration: none">
-                                <h4 style="font-size: 20px">{{ $employee->user->first_name . ' ' . $employee->user->last_name }}</h4>
-                            </a>
-                            <img src="{{ asset('flags') . '/' . $employee->country->code . '.png' }}" width="25" height="15">
-                            <span style="font-size: 12px">
-                                {{ $employee->country->country_name }}
-                            </span>
-                        </div>
-                        <div class="foo">
-                            <div class="d-flex price">
-                                <h5>
-                                    {{ $employee->salary }}
-                                </h5> <span>/شهر</span>
+                            <div class="name" style="width: 180px; top: 130px; left: 124px;">
+                                <a href="{{ route('employee.dashboard.show', ['id' => $employee->id]) }}"
+                                   style="cursor: pointer; text-decoration: none">
+                                    <h4 style="font-size: 20px">{{ $employee->user->first_name . ' ' . $employee->user->last_name }}</h4>
+                                </a>
+                                <img src="{{ asset('flags') . '/' . $employee->country->code . '.png' }}" width="25"
+                                     height="15">
+                                <span style="font-size: 12px">
+                                    {{ $employee->country->country_name }}
+                                </span>
                             </div>
-                        </div>
+                            <div class="foo">
+                                <div class="d-flex price">
+                                    <h5>
+                                        {{ $employee->salary }}
+                                    </h5> <span>/شهر</span>
+                                </div>
+                            </div>
 
 
+                            <h5>
+                                {{ $employee->job_title }}
+                            </h5>
+                            <div class="group mt-2">
+                                @if ($employee->skills)
+                                    @php
+                                        $array_one = array_slice( $employee->skills, 0, 4 );
+                                        $full_array = $employee->skills;
+                                        $remaining_array = array_diff($full_array, $array_one);
+                                    @endphp
 
-                        <h5>
-                           {{ $employee->job_title }}
-                        </h5>
-                        <div class="group mt-2">
-                            @if ($employee->skills)
-                                @php
-                                    $array_one = array_slice( $employee->skills, 0, 4 );
-                                    $full_array = $employee->skills;
-                                    $remaining_array = array_diff($full_array, $array_one);
-                                @endphp
-
-                                @foreach($array_one as $skill)
-                                    <span title="{{ $skill }}">
+                                    @foreach($array_one as $skill)
+                                        <span title="{{ $skill }}">
                                         {{ Str::limit($skill, 5) }}
                                     </span>
-                                @endforeach
-                                <span title="{{ implode(', ',  $remaining_array) }}">+ {{ count($remaining_array) }}</span>
-                            @endif
+                                    @endforeach
+                                    <span
+                                        title="{{ implode(', ',  $remaining_array) }}">+ {{ count($remaining_array) }}</span>
+                                @endif
+
+                            </div>
+
 
                         </div>
-
-
-                    </div>
                     @endforeach
-
 
 
                 </div>
